@@ -23,7 +23,8 @@ object Dependencies {
         const val BuildTimeTracker = "0.11.0"
         const val DependencyVersion = "0.20.0"
         const val Detekt = "1.0.0.RC6-3"
-        const val Kotlin = "1.2.70"
+        const val Kotlin = "1.3.0-rc-190"
+        const val KotlinCoroutines = "1.0.0-RC1"
         const val RxJava = "2.2.2"
         const val RxAndroid = "2.1.0"
         const val AboutPage = "1.2.4"
@@ -32,7 +33,7 @@ object Dependencies {
         const val Leakcanary = "1.5.4"
         const val Timber = "4.6.0"
         const val Stetho = "1.5.0"
-        const val ArchX = "0.1"
+        const val ArchX = "0.2"
 
 
         const val JUnit = "4.12"
@@ -73,7 +74,9 @@ object Dependencies {
         @JvmField
         val Kotlin = arrayOf(
                 "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.Kotlin}",
-                "org.jetbrains.kotlin:kotlin-reflect:${Versions.Kotlin}"
+                "org.jetbrains.kotlin:kotlin-reflect:${Versions.Kotlin}",
+                "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KotlinCoroutines}",
+                "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.KotlinCoroutines}"
         )
         @JvmField
         val Rx = arrayOf(

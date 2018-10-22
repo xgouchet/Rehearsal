@@ -68,6 +68,18 @@ class FountainEventParserTest(private val inputPath: String,
             )
 
             list.testData(
+                    "/unit/title_page_multiline.fountain",
+                    MetadataEvent("Title", "_**BRICK & STEEL**_\n" +
+                            "_**FULL RETIRED**_"),
+                    MetadataEvent("Credit", "Written by"),
+                    MetadataEvent("Author", "Stu Maschwitz"),
+                    MetadataEvent("Draft date", "1/27/2012"),
+                    MetadataEvent("Contact", "Next Level Productions\n" +
+                            "1588 Mission Dr.\n" +
+                            "Solvang, CA 93463")
+            )
+
+            list.testData(
                     "/unit/scenes_with_dot.fountain",
                     SceneHeaderEvent(type = "INT.", description = "TARDIS - UNKNOWN"),
                     SceneHeaderEvent(type = "EXT.", description = "WESTMINSTER ABBEY - NIGHT"),

@@ -48,6 +48,9 @@ android {
 }
 
 dependencies {
+
+    compile project(":fountain-parser")
+
     implementation Dependencies.Libraries.Kotlin
     implementation Dependencies.Libraries.MultiDex
 

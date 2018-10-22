@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import fr.xgouchet.archx.data.ArchXDataSource
 import fr.xgouchet.rehearsal.core.room.AppDatabase
-import fr.xgouchet.rehearsal.core.room.ScriptModel
+import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 
 class HomeDataSource(context: Context)
     : ArchXDataSource<List<ScriptModel>> {

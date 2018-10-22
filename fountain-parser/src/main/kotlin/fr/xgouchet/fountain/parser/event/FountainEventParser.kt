@@ -61,8 +61,12 @@ class FountainEventParser {
                     if (block is MetadataEvent) {
                         sendLineEvent(previousLine, listener)
                         result = block
-                    } else {
-                        throw IllegalStateException("Unknown line in metadata block")
+                    } else if (currentLine.startsWith("   ") || currentLine.startsWith("\t")) {
+                        val previous = if (previousLine.value.isBlank()) "" else previousLine.value.trim() + "\n"
+                        result = MetadataEvent(
+                                key = previousLine.key,
+                                value = previous + currentLine.trim()
+                        )
                     }
                 }
                 is ActionEvent -> {
