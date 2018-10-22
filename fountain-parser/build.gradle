@@ -1,0 +1,19 @@
+import fr.xgouchet.gradle.Dependencies
+
+plugins {
+    id "org.jetbrains.kotlin.jvm"
+    id 'com.github.ben-manes.versions'
+    id "io.gitlab.arturbosch.detekt"
+}
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'jacoco'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile Dependencies.Libraries.Kotlin
+
+    testCompile Dependencies.Libraries.Testing
+}

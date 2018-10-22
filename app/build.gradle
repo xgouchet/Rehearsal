@@ -1,0 +1,72 @@
+import fr.xgouchet.gradle.AndroidBuild
+import fr.xgouchet.gradle.Dependencies
+
+plugins {
+    id 'com.github.ben-manes.versions'
+    id "io.gitlab.arturbosch.detekt"
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.oss.licenses.plugin'
+
+android {
+
+    compileSdkVersion AndroidBuild.TargetSdk
+    buildToolsVersion AndroidBuild.BuildTools
+
+    defaultConfig {
+
+        minSdkVersion AndroidBuild.MinSdk
+        targetSdkVersion AndroidBuild.TargetSdk
+
+        applicationId "fr.xgouchet.rehearsal"
+        versionCode 1
+        versionName "0.1"
+
+        multiDexEnabled true
+    }
+
+    /** The build types */
+    buildTypes {
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+        }
+        release {
+            minifyEnabled false
+        }
+    }
+
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+}
+
+dependencies {
+    implementation Dependencies.Libraries.Kotlin
+    implementation Dependencies.Libraries.MultiDex
+
+    implementation Dependencies.Libraries.AndroidSupport
+    implementation Dependencies.Libraries.MaterialComponents
+    implementation Dependencies.Libraries.AndroidArchComponents
+    implementation Dependencies.Libraries.AndroidConstraintLayout
+//    implementation Dependencies.Libraries.Navigation
+    implementation Dependencies.Libraries.Rx
+
+    implementation Dependencies.Libraries.ArchX
+
+//    implementation Dependencies.Libraries.OssLicences
+    implementation Dependencies.Libraries.AboutPage
+    implementation Dependencies.Libraries.Timber
+
+    kapt Dependencies.Processors.AnrdoidXArch
+}
+
+configurations {
+    compile.exclude group: 'com.android.support'
+}
