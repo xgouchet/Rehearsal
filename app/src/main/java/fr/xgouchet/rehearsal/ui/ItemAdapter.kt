@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import fr.xgouchet.archx.ui.ArchXAdapter
 
-class ItemAdapter : ArchXAdapter<Item.ViewModel, Item.ViewHolder<*>>() {
+class ItemAdapter(private val listener: ((Any) -> Unit)?)
+    : ArchXAdapter<Item.ViewModel, Item.ViewHolder<*>>() {
+
 
     override fun getItemViewType(position: Int): Int {
         return (getItem(position)?.type ?: Item.Type.EMPTY).ordinal
@@ -15,9 +17,9 @@ class ItemAdapter : ArchXAdapter<Item.ViewModel, Item.ViewHolder<*>>() {
 
         return when (viewType) {
 
-            Item.Type.HEADER.ordinal -> ItemHeader.instantiateViewHolder(inflater, parent)
-            Item.Type.SCRIPT.ordinal -> ItemScript.instantiateViewHolder(inflater, parent)
-            Item.Type.EMPTY.ordinal -> ItemEmpty.instantiateViewHolder(inflater, parent)
+            Item.Type.HEADER.ordinal -> ItemHeader.instantiateViewHolder(inflater, parent, listener)
+            Item.Type.SCRIPT.ordinal -> ItemScript.instantiateViewHolder(inflater, parent, listener)
+            Item.Type.EMPTY.ordinal -> ItemEmpty.instantiateViewHolder(inflater, parent,listener)
 
             else -> TODO()
         }

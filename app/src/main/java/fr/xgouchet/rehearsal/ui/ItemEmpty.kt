@@ -18,8 +18,10 @@ class ItemEmpty {
 
     // region VH
 
-    class ViewHolder(itemView: View)
-        : Item.ViewHolder<ViewModel>(itemView) {
+    class ViewHolder(
+            itemView: View,
+            listener: ((Any) -> Unit)?
+    ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val titleView: TextView = itemView.findViewById(R.id.title)
         private val bodyView: TextView = itemView.findViewById(R.id.body)
@@ -37,10 +39,11 @@ class ItemEmpty {
     companion object {
         @JvmStatic
         fun instantiateViewHolder(inflater: LayoutInflater,
-                                  parent: ViewGroup)
+                                  parent: ViewGroup,
+                                  listener: ((Any) -> Unit)?)
                 : ViewHolder {
             val view = inflater.inflate(R.layout.item_empty, parent, false)
-            return ViewHolder(view)
+            return ViewHolder(view, listener)
         }
     }
 }

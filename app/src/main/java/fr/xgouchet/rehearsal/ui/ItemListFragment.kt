@@ -2,13 +2,15 @@ package fr.xgouchet.rehearsal.ui
 
 import fr.xgouchet.archx.list.ArchXListFragment
 
-open class ItemListFragment
+abstract class ItemListFragment
     : ArchXListFragment<Item.ViewModel, ItemAdapter>() {
 
     // region ArchXListFragment
 
     override fun createAdapter(): ItemAdapter {
-        return ItemAdapter()
+        return ItemAdapter {
+            onItemSelected(it)
+        }
     }
 
     override fun showData(viewModel: List<Item.ViewModel>) {
@@ -16,4 +18,7 @@ open class ItemListFragment
     }
 
     // endregion
+
+    protected abstract fun onItemSelected(item: Any)
+
 }

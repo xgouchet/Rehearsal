@@ -8,7 +8,9 @@ import fr.xgouchet.rehearsal.ui.Item
 
 interface HomeContract {
 
-    interface Presenter : ArchXPresenter<List<Item.ViewModel>>
+    interface Presenter : ArchXPresenter<List<Item.ViewModel>> {
+        fun onItemSelected(item: Any)
+    }
 
     interface View : ArchXView<List<Item.ViewModel>>
 

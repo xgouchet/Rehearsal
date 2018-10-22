@@ -18,10 +18,18 @@ class ItemHeader {
 
     // region VH
 
-    class ViewHolder(itemView: View)
-        : Item.ViewHolder<ViewModel>(itemView) {
+    class ViewHolder(
+            itemView: View,
+            listener: ((Any) -> Unit)?
+    ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val titleView: TextView = itemView.findViewById(R.id.title)
+
+        init {
+            if (listener != null) {
+                itemView.setOnClickListener { listener(boundItem) }
+            }
+        }
 
         override fun onBind(item: ViewModel) {
 
@@ -35,10 +43,11 @@ class ItemHeader {
     companion object {
         @JvmStatic
         fun instantiateViewHolder(inflater: LayoutInflater,
-                                  parent: ViewGroup)
+                                  parent: ViewGroup,
+                                  listener: ((Any) -> Unit)?)
                 : ViewHolder {
             val view = inflater.inflate(R.layout.item_header, parent, false)
-            return ViewHolder(view)
+            return ViewHolder(view, listener)
         }
     }
 }

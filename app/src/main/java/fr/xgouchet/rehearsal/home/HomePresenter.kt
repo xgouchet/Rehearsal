@@ -11,4 +11,10 @@ class HomePresenter(owner: LifecycleOwner,
                     dataSource: ArchXDataSource<List<ScriptModel>>,
                     transformer: ArchXViewModelTransformer<List<ScriptModel>, List<Item.ViewModel>>)
     : ArchXDataPresenter<List<ScriptModel>, HomeContract.View, List<Item.ViewModel>>(owner, dataSource, transformer),
-        HomeContract.Presenter
+        HomeContract.Presenter {
+
+
+    override fun onItemSelected(item: Any) {
+
+    }
+}

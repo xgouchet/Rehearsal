@@ -6,7 +6,8 @@
         android:orientation="vertical"
         android:layout_margin="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="26dp"
                 android:layout_margin="8dp"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@color/primary_text"
                 android:singleLine="true"
                 android:ellipsize="end"
@@ -40,13 +41,14 @@
                 android:layout_marginStart="24dp"
                 android:textSize="14sp"
                 android:textColor="@color/secondary_text"
+                android:textStyle="italic"
                 android:singleLine="true"
                 android:ellipsize="end"
                 app:layout_constraintTop_toBottomOf="@+id/title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:text="@tools:sample/full_names"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="@tools:sample/full_names"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

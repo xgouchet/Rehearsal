@@ -14,10 +14,6 @@ class HomeViewModelTransformer
         return listOf(ItemEmpty.ViewModel("Welcome in Rehearsal", "You can import a script using the + button below."))
     }
 
-    override fun headers(appModel: List<ScriptModel>): Collection<Item.ViewModel> {
-        return listOf(ItemHeader.ViewModel("Scripts"))
-    }
-
     override fun items(item: ScriptModel): Collection<Item.ViewModel> {
         return listOf(ItemScript.ViewModel(item.title))
     }
