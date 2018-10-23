@@ -1,19 +1,21 @@
 package fr.xgouchet.rehearsal.ui
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import fr.xgouchet.rehearsal.R
 
-class ItemHeader {
+class ItemCharacter {
 
     // region VM
 
     class ViewModel(
-            val title: String = "",
+            val characterName: String = "",
+            val characterExtension: String? = null,
             data: Any? = null
-    ) : Item.ViewModel(Item.Type.HEADER, data)
+    ) : Item.ViewModel(Item.Type.CHARACTER, data)
 
     // endregion
 
@@ -24,7 +26,8 @@ class ItemHeader {
             listener: ((Any) -> Unit)?
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
-        private val titleView: TextView = itemView.findViewById(R.id.title)
+        private val nameView: TextView = itemView.findViewById(R.id.character_name)
+        private val extensionView: TextView = itemView.findViewById(R.id.character_extension)
 
         init {
             if (listener != null) {
@@ -32,9 +35,16 @@ class ItemHeader {
             }
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onBind(item: ViewModel) {
 
-            titleView.text = item.title
+            nameView.text = item.characterName
+            if (item.characterExtension.isNullOrBlank()) {
+                extensionView.visibility = View.GONE
+            } else {
+                extensionView.visibility = View.VISIBLE
+                extensionView.text = item.characterExtension
+            }
         }
 
     }
@@ -47,7 +57,7 @@ class ItemHeader {
                                   parent: ViewGroup,
                                   listener: ((Any) -> Unit)?)
                 : ViewHolder {
-            val view = inflater.inflate(R.layout.item_header, parent, false)
+            val view = inflater.inflate(R.layout.item_character, parent, false)
             return ViewHolder(view, listener)
         }
     }

@@ -8,11 +8,14 @@ import android.widget.TextView
 import fr.xgouchet.rehearsal.R
 
 class ItemScript {
+
     // region VM
 
     class ViewModel(
-            val title: String
-    ) : Item.ViewModel(Item.Type.SCRIPT)
+            val title: String = "",
+            val author: String = "",
+            data: Any? = null
+    ) : Item.ViewModel(Item.Type.SCRIPT, data)
 
     // endregion
 
@@ -36,7 +39,7 @@ class ItemScript {
         override fun onBind(item: ViewModel) {
 
             titleView.text = item.title
-            authorView.text = "Unknown"
+            authorView.text = item.author
         }
 
     }

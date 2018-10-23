@@ -1,19 +1,21 @@
 package fr.xgouchet.rehearsal.ui
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import fr.xgouchet.rehearsal.R
 
-class ItemHeader {
+class ItemScene {
 
     // region VM
 
     class ViewModel(
             val title: String = "",
+            val numbering: String = "",
             data: Any? = null
-    ) : Item.ViewModel(Item.Type.HEADER, data)
+    ) : Item.ViewModel(Item.Type.SCENE, data)
 
     // endregion
 
@@ -25,6 +27,7 @@ class ItemHeader {
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val titleView: TextView = itemView.findViewById(R.id.title)
+        private val numberingView: TextView = itemView.findViewById(R.id.number)
 
         init {
             if (listener != null) {
@@ -32,9 +35,11 @@ class ItemHeader {
             }
         }
 
+        @SuppressLint("SetTextI18n")
         override fun onBind(item: ViewModel) {
 
             titleView.text = item.title
+            numberingView.text = item.numbering
         }
 
     }
@@ -47,7 +52,7 @@ class ItemHeader {
                                   parent: ViewGroup,
                                   listener: ((Any) -> Unit)?)
                 : ViewHolder {
-            val view = inflater.inflate(R.layout.item_header, parent, false)
+            val view = inflater.inflate(R.layout.item_scene, parent, false)
             return ViewHolder(view, listener)
         }
     }

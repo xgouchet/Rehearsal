@@ -6,7 +6,9 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
+import androidx.room.Transaction
 import fr.xgouchet.rehearsal.core.room.model.CueModel
+import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 
 @Dao
 interface CueDAO {
@@ -17,6 +19,10 @@ interface CueDAO {
 
     @Query("SELECT * FROM cue WHERE sceneId = :sceneId ORDER BY position ASC ")
     fun getAllFromScene(sceneId: Int): LiveData<List<CueModel>>
+
+    @Transaction
+    @Query("SELECT * FROM cue INNER JOIN character ON cue.characterId = character.id WHERE sceneId = :sceneId ORDER BY position ASC")
+    fun getUsers(sceneId: Int): LiveData<List<CueWithCharacter>>
 
     @Insert(onConflict = REPLACE)
     fun insert(cue: CueModel): Long

@@ -21,7 +21,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".importscript.ImportScriptActivity"/>
+        <activity android:name=".script.ScriptActivity"/>
+
+        <activity android:name=".scene.SceneActivity"/>
 
     </application>
 

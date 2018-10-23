@@ -9,5 +9,8 @@
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
 
+    <color name="accent_primary_text">#b71c1c</color>
+    <color name="accent_secondary_text">#b71c1c</color>
+
     <color name="divider_color">#B6B6B6</color>
 </resources>

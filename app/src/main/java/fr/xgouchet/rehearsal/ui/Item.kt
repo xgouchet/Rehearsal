@@ -5,7 +5,8 @@ import fr.xgouchet.archx.ui.ArchXViewHolder
 
 class Item {
 
-    open class ViewModel(val type: Type)
+    open class ViewModel(val type: Type,
+                         val data: Any? = null)
 
     abstract class ViewHolder<VM : ViewModel>(itemView: View)
         : ArchXViewHolder<ViewModel>(itemView) {
@@ -28,8 +29,9 @@ class Item {
         HEADER,
         SCRIPT,
         SCENE,
-        CHARACTER_NAME,
+        CHARACTER,
         DIALOG,
-        ACTION
+        ACTION,
+        DIVIDER
     }
 }

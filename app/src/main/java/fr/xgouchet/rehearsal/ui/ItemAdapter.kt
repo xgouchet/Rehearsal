@@ -19,7 +19,12 @@ class ItemAdapter(private val listener: ((Any) -> Unit)?)
 
             Item.Type.HEADER.ordinal -> ItemHeader.instantiateViewHolder(inflater, parent, listener)
             Item.Type.SCRIPT.ordinal -> ItemScript.instantiateViewHolder(inflater, parent, listener)
-            Item.Type.EMPTY.ordinal -> ItemEmpty.instantiateViewHolder(inflater, parent,listener)
+            Item.Type.SCENE.ordinal -> ItemScene.instantiateViewHolder(inflater, parent, listener)
+            Item.Type.CHARACTER.ordinal -> ItemCharacter.instantiateViewHolder(inflater, parent, listener)
+            Item.Type.DIALOG.ordinal -> ItemDialog.instantiateViewHolder(inflater, parent, listener)
+            Item.Type.ACTION.ordinal -> ItemAction.instantiateViewHolder(inflater, parent, listener)
+            Item.Type.EMPTY.ordinal -> ItemEmpty.instantiateViewHolder(inflater, parent, listener)
+            Item.Type.DIVIDER.ordinal -> ItemDivider.instantiateViewHolder(inflater, parent)
 
             else -> TODO()
         }

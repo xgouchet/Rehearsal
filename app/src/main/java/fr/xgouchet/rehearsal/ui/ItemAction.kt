@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import fr.xgouchet.rehearsal.R
 
-class ItemHeader {
+class ItemAction {
 
     // region VM
 
     class ViewModel(
-            val title: String = "",
+            val direction: String = "",
             data: Any? = null
-    ) : Item.ViewModel(Item.Type.HEADER, data)
+    ) : Item.ViewModel(Item.Type.ACTION, data)
 
     // endregion
 
@@ -24,7 +24,7 @@ class ItemHeader {
             listener: ((Any) -> Unit)?
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
-        private val titleView: TextView = itemView.findViewById(R.id.title)
+        private val directionView: TextView = itemView.findViewById(R.id.direction)
 
         init {
             if (listener != null) {
@@ -33,8 +33,7 @@ class ItemHeader {
         }
 
         override fun onBind(item: ViewModel) {
-
-            titleView.text = item.title
+            directionView.text = item.direction
         }
 
     }
@@ -47,7 +46,7 @@ class ItemHeader {
                                   parent: ViewGroup,
                                   listener: ((Any) -> Unit)?)
                 : ViewHolder {
-            val view = inflater.inflate(R.layout.item_header, parent, false)
+            val view = inflater.inflate(R.layout.item_action, parent, false)
             return ViewHolder(view, listener)
         }
     }

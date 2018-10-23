@@ -8,13 +8,17 @@ import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 import fr.xgouchet.rehearsal.ui.Item
 
 class HomePresenter(owner: LifecycleOwner,
-                    dataSource: ArchXDataSource<List<ScriptModel>>,
-                    transformer: ArchXViewModelTransformer<List<ScriptModel>, List<Item.ViewModel>>)
+                    dataSource: HomeContract.DataSource,
+                    transformer: HomeContract.Transformer)
     : ArchXDataPresenter<List<ScriptModel>, HomeContract.View, List<Item.ViewModel>>(owner, dataSource, transformer),
         HomeContract.Presenter {
 
 
     override fun onItemSelected(item: Any) {
+        val script = (item as? Item.ViewModel)?.data as? ScriptModel
 
+        if (script != null){
+            view?.navigateToScript(script)
+        }
     }
 }

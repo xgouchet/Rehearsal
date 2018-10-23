@@ -15,6 +15,7 @@ abstract class PrincipledViewModelTransformer<AM, VM>
             result.addAll(empty())
         } else {
             result.addAll(headers(appModel))
+
             appModel.forEach {
                 result.addAll(items(it))
             }

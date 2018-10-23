@@ -1,24 +1,23 @@
-package fr.xgouchet.rehearsal.home
+package fr.xgouchet.rehearsal.script
 
 import fr.xgouchet.archx.ArchXPresenter
 import fr.xgouchet.archx.ArchXView
 import fr.xgouchet.archx.ArchXViewModelTransformer
 import fr.xgouchet.archx.data.ArchXDataSource
-import fr.xgouchet.rehearsal.core.room.model.ScriptModel
+import fr.xgouchet.rehearsal.core.room.model.SceneModel
 import fr.xgouchet.rehearsal.ui.Item
 
-interface HomeContract {
+interface ScriptContract {
 
     interface Presenter : ArchXPresenter<List<Item.ViewModel>> {
         fun onItemSelected(item: Any)
     }
 
     interface View : ArchXView<List<Item.ViewModel>> {
-        fun navigateToScript(script: ScriptModel)
+        fun navigateToScene(scene: SceneModel)
     }
 
-    interface DataSource : ArchXDataSource<List<ScriptModel>>
+    interface DataSource : ArchXDataSource<List<SceneModel>>
 
-    interface Transformer : ArchXViewModelTransformer<List<ScriptModel>, List<Item.ViewModel>>
-
+    interface Transformer : ArchXViewModelTransformer<List<SceneModel>, List<Item.ViewModel>>
 }

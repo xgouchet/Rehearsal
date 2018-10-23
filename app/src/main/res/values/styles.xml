@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="BaseTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="BaseTheme" parent="Theme.MaterialComponents.Light.Bridge">
 
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
@@ -9,7 +9,7 @@
         <item name="cornerRadius">32dp</item>
 
 
-        <item name="fontFamily">@font/typewritter</item>
+        <item name="fontFamily">@font/sans_serif</item>
     </style>
 
     <!-- Actual app theme-->

@@ -7,12 +7,14 @@ import android.widget.TextView
 import fr.xgouchet.rehearsal.R
 
 class ItemEmpty {
+
     // region VM
 
     class ViewModel(
-            val title: String,
-            val body: String
-    ) : Item.ViewModel(Item.Type.EMPTY)
+            val title: String = "",
+            val body: String = "",
+            data : Any? = null
+    ) : Item.ViewModel(Item.Type.EMPTY, data)
 
     // endregion
 

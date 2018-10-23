@@ -72,7 +72,7 @@ class ImportFountainDocument(
                 scriptId = scriptId,
                 position = position,
                 description = scene.header.description,
-                numbering = scene.header.description
+                numbering = scene.header.numbering
         )
         val sceneId = appDatabase.sceneDao().insert(sceneModel).toInt()
         var cuePosition = 0
