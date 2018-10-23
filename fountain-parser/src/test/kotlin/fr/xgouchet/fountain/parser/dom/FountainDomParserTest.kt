@@ -370,7 +370,7 @@ class FountainDomParserTest(private val inputPath: String,
                     Script.Builder().apply {
                         addPart(Transition.Builder("a weird transition that make every one cry"))
                         addPart(Scene.Builder().apply {
-                            header.type ="."
+                            header.type = "."
                             header.description = "This is a Scene !"
 
                             addCue(CharacterCue.Builder().apply {
@@ -390,3 +390,10 @@ class FountainDomParserTest(private val inputPath: String,
     }
 
 }
+
+/*
+TODO Dual Dialog
+TODO Lyrics ~
+TODO Centered Text > <
+TODO Sections and Synopses # / =
+ */

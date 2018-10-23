@@ -26,7 +26,6 @@ class Item {
 
     enum class Type {
         EMPTY,
-        HEADER,
         SCRIPT,
         SCENE,
         CHARACTER,

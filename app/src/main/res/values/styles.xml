@@ -1,15 +1,12 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="BaseTheme" parent="Theme.MaterialComponents.Light.Bridge">
+    <style name="BaseTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
 
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
 
         <item name="cornerRadius">32dp</item>
-
-
-        <item name="fontFamily">@font/sans_serif</item>
     </style>
 
     <!-- Actual app theme-->

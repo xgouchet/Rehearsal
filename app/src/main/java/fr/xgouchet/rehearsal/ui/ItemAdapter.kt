@@ -17,7 +17,6 @@ class ItemAdapter(private val listener: ((Any) -> Unit)?)
 
         return when (viewType) {
 
-            Item.Type.HEADER.ordinal -> ItemHeader.instantiateViewHolder(inflater, parent, listener)
             Item.Type.SCRIPT.ordinal -> ItemScript.instantiateViewHolder(inflater, parent, listener)
             Item.Type.SCENE.ordinal -> ItemScene.instantiateViewHolder(inflater, parent, listener)
             Item.Type.CHARACTER.ordinal -> ItemCharacter.instantiateViewHolder(inflater, parent, listener)

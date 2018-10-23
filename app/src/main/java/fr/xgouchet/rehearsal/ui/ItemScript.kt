@@ -38,8 +38,8 @@ class ItemScript {
         @SuppressLint("SetTextI18n")
         override fun onBind(item: ViewModel) {
 
-            titleView.text = item.title
-            authorView.text = item.author
+            titleView.text = MarkdownConverter.parse(item.title)
+            authorView.text = MarkdownConverter.parse(item.author)
         }
 
     }

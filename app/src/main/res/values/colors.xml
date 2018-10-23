@@ -1,16 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#9E9E9E</color>
-    <color name="primary_dark">#616161</color>
-    <color name="primary_light">#F5F5F5</color>
+    <color name="primary">#212121</color>
+    <color name="primary_dark">#000000</color>
+    <color name="primary_light">#484848</color>
 
-    <color name="accent">#F44336</color>
+    <color name="accent">#d50000</color>
 
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
 
-    <color name="accent_primary_text">#b71c1c</color>
-    <color name="accent_secondary_text">#b71c1c</color>
-
     <color name="divider_color">#B6B6B6</color>
+
+
+    <color name="character_fg_0">#b71c1c</color>
+    <color name="character_fg_1">#311b92</color>
+    <color name="character_fg_2">#01579b</color>
+    <color name="character_fg_3">#1b5e20</color>
+    <color name="character_fg_4">#f57f17</color>
+    <color name="character_fg_5">#bf360c</color>
+    <color name="character_fg_6">#4a148c</color>
+    <color name="character_fg_7">#0d47a1</color>
+    <color name="character_fg_8">#004d40</color>
+    <color name="character_fg_9">#827717</color>
+    <color name="character_fg_10">#e65100</color>
+    <color name="character_fg_11">#880e4f</color>
+    <color name="character_fg_12">#1a237e</color>
+    <color name="character_fg_13">#006064</color>
+    <color name="character_fg_14">#33691e</color>
+    <color name="character_fg_15">#ff6f00</color>
+
+    <color name="character_bg_0">#ffcdd2</color>
+    <color name="character_bg_1">#d1c4e9</color>
+    <color name="character_bg_2">#b3e5fc</color>
+    <color name="character_bg_3">#c8e6c9</color>
+    <color name="character_bg_4">#fff9c4</color>
+    <color name="character_bg_5">#ffccbc</color>
+    <color name="character_bg_6">#e1bee7</color>
+    <color name="character_bg_7">#bbdefb</color>
+    <color name="character_bg_8">#b2dfdb</color>
+    <color name="character_bg_9">#f0f4c3</color>
+    <color name="character_bg_10">#ffe0b2</color>
+    <color name="character_bg_11">#f8bbd0</color>
+    <color name="character_bg_12">#c5cae9</color>
+    <color name="character_bg_13">#b2ebf2</color>
+    <color name="character_bg_14">#dcedc8</color>
+    <color name="character_bg_15">#ffecb3</color>
+
 </resources>

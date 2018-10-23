@@ -10,7 +10,7 @@
         android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="8dp"
+        app:cardElevation="4dp"
         android:foreground="?android:attr/selectableItemBackground">
 
 
@@ -29,6 +29,7 @@
                 android:textColor="@color/primary_text"
                 android:singleLine="true"
                 android:ellipsize="end"
+                android:fontFamily="@font/daisy_wheel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -45,9 +46,9 @@
                 android:layout_marginStart="24dp"
                 android:textSize="14sp"
                 android:textColor="@color/secondary_text"
-                android:textStyle="italic"
                 android:singleLine="true"
                 android:ellipsize="end"
+                android:fontFamily="@font/daisy_wheel"
                 app:layout_constraintTop_toBottomOf="@+id/title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

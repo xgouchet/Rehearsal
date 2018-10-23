@@ -69,9 +69,17 @@ class FountainEventParser {
                         )
                     }
                 }
+
                 is ActionEvent -> {
                     result = ActionEvent(previousLine.content + "\n" + currentLine)
                 }
+
+                is LyricsEvent -> {
+                    if (block is LyricsEvent) {
+                        result = LyricsEvent(previousLine.content + "\n" + block.content.trim())
+                    }
+                }
+
             }
         }
 
@@ -113,12 +121,18 @@ class FountainEventParser {
     companion object {
 
 
+        private val pageBreaks = Regex("^(===|---)$")
+
         private val transitionPURegex = Regex("^>\\s*([^<>]*)\\s*$")
         private val sceneHeaderPURegex = Regex("^\\.\\s*([^#]*)(#(.*)#)?\\s*$")
         private val characterCuePURegex = Regex("^@\\s*(.*)\\s*(\\((.*)\\))?\\s*$")
         private val actionPURegex = Regex("^!\\s*(.*)\\s*$")
+        private val sectionPURegex = Regex("^(#+)\\s*(.*)\\s*$")
+        private val synopsisPURegex = Regex("^=\\s*(.*)\\s*$")
+        private val lyricsPURegex = Regex("^~\\s*(.*)\\s*$")
 
         private val powerUserBlockTransform = mapOf(
+                pageBreaks to { _: MatchResult -> PageBreakEvent },
                 transitionPURegex to { match: MatchResult ->
                     TransitionEvent(match.groupValues[1].trim())
                 },
@@ -137,6 +151,22 @@ class FountainEventParser {
                 },
                 actionPURegex to { match: MatchResult ->
                     ActionEvent(match.groupValues[1].trim())
+                },
+                sectionPURegex to { match: MatchResult ->
+                    SectionEvent(
+                            level = match.groupValues[1].length,
+                            title = match.groupValues[2].trim()
+                    )
+                },
+                synopsisPURegex to { match: MatchResult ->
+                    SynopsisEvent(
+                            content = match.groupValues[1].trim()
+                    )
+                },
+                lyricsPURegex to { match: MatchResult ->
+                    LyricsEvent(
+                            content = match.groupValues[1].trim()
+                    )
                 }
         )
 
@@ -144,12 +174,10 @@ class FountainEventParser {
         private val transitionRegex = Regex("^\\s*(([^a-z]*TO:)|FADE TO BLACK\\.|FADE OUT\\.|CUT TO BLACK\\.)\\s*$")
         private val metadataRegex = Regex("^([\\w\\s]+):(.*)$")
         private val sceneHeaderRegex = Regex("^\\s*(INT/EXT |INT\\./EXT\\.|INT |EXT |EST |I/E |INT\\.|EXT\\.|EST\\.)([^#]*)(#(.*)#)?\\s*$")
-        private val characterCueRegex = Regex("^\\s*([A-Z0-9_\\- ]+)\\s*(\\((.*)\\))?\\s*$")
+        private val characterCueRegex = Regex("^\\s*([A-Z0-9_\\- ]+)\\s*(\\((.*)\\))?\\s*(\\^)?\\s*$")
         private val parenthetical = Regex("^\\s*\\((.*)\\)\\s*$")
-        private val pageBreaks = Regex("^(===|---)$")
 
         private val newBlockTransform = mapOf(
-                pageBreaks to { _: MatchResult -> PageBreakEvent },
                 transitionRegex to { match: MatchResult ->
                     TransitionEvent(match.value.trim())
                 },
@@ -169,7 +197,8 @@ class FountainEventParser {
                 characterCueRegex to { match: MatchResult ->
                     CharacterCueEvent(
                             name = match.groupValues[1].trim(),
-                            extension = match.groupValues[3].trim()
+                            extension = match.groupValues[3].trim(),
+                            dual = match.groupValues[4].isNotBlank()
                     )
                 },
                 parenthetical to { match: MatchResult ->
@@ -178,15 +207,3 @@ class FountainEventParser {
         )
     }
 }
-
-
-/**
-TODO Emphasis
- *italics*
- **bold**
- ***bold italics***
-_underline_
-
-
-
- **/

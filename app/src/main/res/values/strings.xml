@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
 
-    <string name="pieces_title_screenTitle">Pieces</string>
-    <string name="scenes_title_screenTitle">Scenes</string>
-    <string name="lines_title_screenTitle">Lines</string>
 
+    <string name="menu_cast">Cast</string>
 </resources>

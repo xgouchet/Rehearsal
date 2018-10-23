@@ -6,12 +6,18 @@ import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 import fr.xgouchet.rehearsal.ui.Item
 
 class ScenePresenter(owner: LifecycleOwner,
-                     dataSource: SceneContract.DataSource,
+                     cueDataSource: SceneContract.CueDataSource,
+//                     private val characterDataSource: SceneContract.CharacterDataSource,
                      transformer: SceneContract.Transformer)
-    : ArchXDataPresenter<List<CueWithCharacter>, SceneContract.View, List<Item.ViewModel>>(owner, dataSource, transformer),
+    : ArchXDataPresenter<List<CueWithCharacter>, SceneContract.View, List<Item.ViewModel>>(owner, cueDataSource, transformer),
         SceneContract.Presenter {
 
     override fun onItemSelected(item: Any) {
-       //  TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
+
+    override fun onCastActionSelected() {
+        // TODO load characters, open prompt
+    }
+
 }

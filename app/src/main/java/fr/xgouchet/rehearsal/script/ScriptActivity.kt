@@ -6,6 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import fr.xgouchet.archx.ArchXActivity
 import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 import fr.xgouchet.rehearsal.ui.Item
+import fr.xgouchet.rehearsal.ui.MarkdownConverter
 
 class ScriptActivity
     : ArchXActivity<ScriptContract.Presenter, ScriptContract.View, List<Item.ViewModel>>() {
@@ -24,7 +25,7 @@ class ScriptActivity
             finish()
         }
 
-        title = scriptTitle
+        title = MarkdownConverter.parse(scriptTitle)
     }
 
     override fun getPresenterKey(): String = "$SCREEN_NAME/$scriptId"

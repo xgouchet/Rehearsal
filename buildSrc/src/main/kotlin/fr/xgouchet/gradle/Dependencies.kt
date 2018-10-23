@@ -41,6 +41,8 @@ object Dependencies {
         const val Mockito = "2.19.0"
         const val MockitoKotlin = "1.6.0"
         const val AssertJ = "3.11.0"
+
+
     }
 
     object Libraries {
@@ -83,6 +85,8 @@ object Dependencies {
                 "io.reactivex.rxjava2:rxjava:${Versions.RxJava}",
                 "io.reactivex.rxjava2:rxandroid:${Versions.RxAndroid}"
         )
+
+        const val Markdown = "org.jetbrains:markdown:0.1.28"
 
         const val OssLicences = "com.google.android.gms:play-services-oss-licenses:${Versions.OssLicensesLibrary}"
         const val AboutPage = "com.github.medyo:android-about-page:${Versions.AboutPage}"

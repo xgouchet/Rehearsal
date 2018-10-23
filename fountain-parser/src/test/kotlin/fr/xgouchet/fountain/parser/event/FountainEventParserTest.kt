@@ -119,6 +119,15 @@ class FountainEventParserTest(private val inputPath: String,
             )
 
             list.testData(
+                    "/unit/dialogs_dual.fountain",
+                    SceneHeaderEvent(type = "INT.", description = "WHATEVER"),
+                    CharacterCueEvent(name = "STEEL"),
+                    DialogEvent("Screw retirement."),
+                    CharacterCueEvent(name = "BRICK", dual = true),
+                    DialogEvent("Screw retirement.")
+            )
+
+            list.testData(
                     "/unit/dialogs_multiline.fountain",
                     SceneHeaderEvent(type = "INT.", description = "WHATEVER"),
                     CharacterCueEvent(name = "SCOTT"),
@@ -231,6 +240,25 @@ class FountainEventParserTest(private val inputPath: String,
                     ActionEvent("THIS IS NOT A CHARACTER")
             )
 
+            list.testData(
+                    "/unit/sections_synopsis.fountain",
+                    SectionEvent(level = 1, title = "ACT I"),
+                    SynopsisEvent(content = "Meet the players and set up the world. Two hit men with very different lives."),
+                    TransitionEvent(description = "HERE WE GO:"),
+                    SectionEvent(level = 2, title = "Scott's SF Apartment"),
+                    SceneHeaderEvent(type = "INT.", description = "SAN FRANCISCO APARTMENT, DAY"),
+                    SectionEvent(level = 3, title = "Meet Scott"),
+                    SynopsisEvent(content = "And his friend Baxter.")
+            )
+
+            list.testData(
+                    "/unit/lyrics.fountain",
+                    SceneHeaderEvent(type = "INT.", description = "WHATEVER"),
+                    LyricsEvent("Willy Wonka! Willy Wonka! The amazing chocolatier!\n" +
+                            "Willy Wonka! Willy Wonka! Everybody give a cheer!")
+            )
+
+
             return list
         }
 
@@ -247,26 +275,27 @@ class FountainEventParserTest(private val inputPath: String,
 
 /*
 ✓ Scene Heading
-✓  Scene Heading POWER USER .
+✓ Scene Heading POWER USER .
 ✓ Scene Heading Numbering
 ✓ Action
 ✓ Action POWER USER !
 ✓ Character
 ✓ Character @
-✓ Dialogue
+✓ Dialog
+✓ Dual Dialog
 ✓ Parenthetical
-TODO Dual Dialogue
-TODO Lyrics ~
+✓ Dual Dialogue
 ✓ Transition
 ✓ Transition POWER USER >
-TODO Centered Text > <
 ✓ Title Page
 ✓ Page Breaks
 ✓ Punctuation
 ✓ Line Breaks
 ✓ Indenting
+✓ Lyrics ~
+TODO Centered Text > <
+✓ Sections and Synopses # / =
 TODO Notes [[ … ]]
 TODO Boneyard /★ … ★/
-TODO Sections and Synopses # / =
-TODO Emphasis
+✗ Emphasis
 */

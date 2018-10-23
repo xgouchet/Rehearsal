@@ -10,6 +10,8 @@ import fr.xgouchet.fountain.parser.event.MetadataEvent
 import fr.xgouchet.fountain.parser.event.PageBreakEvent
 import fr.xgouchet.fountain.parser.event.ParentheticalEvent
 import fr.xgouchet.fountain.parser.event.SceneHeaderEvent
+import fr.xgouchet.fountain.parser.event.SectionEvent
+import fr.xgouchet.fountain.parser.event.SynopsisEvent
 import fr.xgouchet.fountain.parser.event.TransitionEvent
 import java.io.InputStream
 
@@ -43,6 +45,10 @@ class FountainDomParser {
                 is ActionEvent -> addAction(lineEvent)
                 is PageBreakEvent -> addPageBreak()
                 is TransitionEvent -> addTransition(lineEvent)
+                is SectionEvent,
+                is SynopsisEvent -> {
+                    // Ignored
+                }
             }
         }
 
@@ -83,7 +89,7 @@ class FountainDomParser {
         }
 
 
-        private fun addTransition(event  : TransitionEvent) {
+        private fun addTransition(event: TransitionEvent) {
             currentScene = null
 
             scriptBuilder.addPart(Transition.Builder(event.description))

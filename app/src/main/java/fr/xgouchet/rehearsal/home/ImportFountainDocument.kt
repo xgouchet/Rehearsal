@@ -1,6 +1,7 @@
 package fr.xgouchet.rehearsal.home
 
 import android.content.Context
+import android.graphics.Color
 import android.net.Uri
 import fr.xgouchet.fountain.parser.dom.ActionCue
 import fr.xgouchet.fountain.parser.dom.CharacterCue

@@ -63,7 +63,7 @@ dependencies {
 
     implementation Dependencies.Libraries.ArchX
 
-//    implementation Dependencies.Libraries.OssLicences
+    api Dependencies.Libraries.Markdown
     implementation Dependencies.Libraries.AboutPage
     implementation Dependencies.Libraries.Timber
 

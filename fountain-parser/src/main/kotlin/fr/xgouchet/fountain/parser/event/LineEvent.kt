@@ -16,13 +16,15 @@ data class SceneHeaderEvent(
         val description: String,
         val numbering: String = ""
 ) : LineEvent()
+
 data class TransitionEvent(
         val description: String
 ) : LineEvent()
 
 data class CharacterCueEvent(
         val name: String,
-        val extension: String = ""
+        val extension: String = "",
+        val dual: Boolean = false
 ) : LineEvent()
 
 data class DialogEvent(
@@ -39,3 +41,16 @@ data class ActionEvent(
 ) : LineEvent()
 
 object PageBreakEvent : LineEvent()
+
+data class SectionEvent(
+        val title : String,
+        val level : Int
+) : LineEvent()
+
+data class SynopsisEvent(
+        val content : String
+) : LineEvent()
+
+data class LyricsEvent(
+        val content : String
+) : LineEvent()

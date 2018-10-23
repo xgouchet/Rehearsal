@@ -21,7 +21,7 @@ interface CueDAO {
     fun getAllFromScene(sceneId: Int): LiveData<List<CueModel>>
 
     @Transaction
-    @Query("SELECT * FROM cue INNER JOIN character ON cue.characterId = character.id WHERE sceneId = :sceneId ORDER BY position ASC")
+    @Query("SELECT * FROM cue LEFT JOIN character ON cue.characterId = character.id WHERE sceneId = :sceneId ORDER BY position ASC")
     fun getUsers(sceneId: Int): LiveData<List<CueWithCharacter>>
 
     @Insert(onConflict = REPLACE)

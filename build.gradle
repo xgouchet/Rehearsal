@@ -25,6 +25,7 @@ allprojects {
         maven { url Dependencies.Repositories.Jitpack }
         maven { url Dependencies.Repositories.Gradle }
         maven { url Dependencies.Repositories.Google }
+        maven { url "https://dl.bintray.com/jetbrains/markdown" }
     }
 }
 
