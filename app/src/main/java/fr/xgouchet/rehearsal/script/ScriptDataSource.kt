@@ -5,9 +5,10 @@ import androidx.lifecycle.LiveData
 import fr.xgouchet.rehearsal.core.room.AppDatabase
 import fr.xgouchet.rehearsal.core.room.model.SceneModel
 
-class ScriptDataSource(context: Context,
-                       scriptId: Int)
-    : ScriptContract.DataSource {
+class ScriptDataSource(
+        context: Context,
+        scriptId: Int
+) : ScriptContract.DataSource {
 
     private val appDatabase: AppDatabase = AppDatabase.getInstance(context)
     private val sceneList: LiveData<List<SceneModel>> = appDatabase.sceneDao().getAllFromScript(scriptId)

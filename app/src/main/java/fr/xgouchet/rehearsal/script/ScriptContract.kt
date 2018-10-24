@@ -11,10 +11,12 @@ interface ScriptContract {
 
     interface Presenter : ArchXPresenter<List<Item.ViewModel>> {
         fun onItemSelected(item: Any)
+        fun onCastActionSelected()
     }
 
     interface View : ArchXView<List<Item.ViewModel>> {
         fun navigateToScene(scene: SceneModel)
+        fun navigateToCastSettings(scriptId: Int)
     }
 
     interface DataSource : ArchXDataSource<List<SceneModel>>

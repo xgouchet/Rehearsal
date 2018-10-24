@@ -16,8 +16,8 @@ abstract class PrincipledViewModelTransformer<AM, VM>
         } else {
             result.addAll(headers(appModel))
 
-            appModel.forEach {
-                result.addAll(items(it))
+            appModel.forEachIndexed { index, item ->
+                result.addAll(transformItem(index, item))
             }
             result.addAll(footers(appModel))
         }
@@ -33,7 +33,7 @@ abstract class PrincipledViewModelTransformer<AM, VM>
 
     open fun headers(appModel: List<AM>): Collection<VM> = emptyList()
 
-    open fun items(item: AM): Collection<VM> = emptyList()
+    open fun transformItem(index: Int, item: AM): Collection<VM> = emptyList()
 
     open fun footers(appModel: List<AM>): Collection<VM> = emptyList()
 

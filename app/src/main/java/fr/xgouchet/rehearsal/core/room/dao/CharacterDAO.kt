@@ -1,11 +1,13 @@
 package fr.xgouchet.rehearsal.core.room.dao
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
+import androidx.room.Update
 import fr.xgouchet.rehearsal.core.room.model.CharacterModel
 
 @Dao
@@ -22,7 +24,10 @@ interface CharacterDAO {
     fun getAllFromScript(scriptId: Int): LiveData<List<CharacterModel>>
 
     @Insert(onConflict = REPLACE)
-    fun insert(character: CharacterModel): Long
+    fun insertOrReplace(character: CharacterModel): Long
+
+    @Update
+    fun update(character: CharacterModel): Int
 
     @Delete
     fun delete(character: CharacterModel)

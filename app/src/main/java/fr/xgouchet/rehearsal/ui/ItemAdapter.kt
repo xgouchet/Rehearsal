@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import fr.xgouchet.archx.ui.ArchXAdapter
 
-class ItemAdapter(private val listener: ((Any) -> Unit)?)
+class ItemAdapter(private val listener: ItemListener?)
     : ArchXAdapter<Item.ViewModel, Item.ViewHolder<*>>() {
 
 
@@ -22,8 +22,11 @@ class ItemAdapter(private val listener: ((Any) -> Unit)?)
             Item.Type.CHARACTER.ordinal -> ItemCharacter.instantiateViewHolder(inflater, parent, listener)
             Item.Type.DIALOG.ordinal -> ItemDialog.instantiateViewHolder(inflater, parent, listener)
             Item.Type.ACTION.ordinal -> ItemAction.instantiateViewHolder(inflater, parent, listener)
-            Item.Type.EMPTY.ordinal -> ItemEmpty.instantiateViewHolder(inflater, parent, listener)
+
+            Item.Type.EMPTY.ordinal -> ItemEmpty.instantiateViewHolder(inflater, parent)
             Item.Type.DIVIDER.ordinal -> ItemDivider.instantiateViewHolder(inflater, parent)
+
+            Item.Type.SWITCH.ordinal -> ItemSwitch.instantiateViewHolder(inflater, parent, listener)
 
             else -> TODO()
         }

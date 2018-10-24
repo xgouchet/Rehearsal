@@ -23,7 +23,7 @@ class ItemScript {
 
     class ViewHolder(
             itemView: View,
-            listener: ((Any) -> Unit)?
+            listener: ItemListener?
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val titleView: TextView = itemView.findViewById(R.id.title)
@@ -31,7 +31,7 @@ class ItemScript {
 
         init {
             if (listener != null) {
-                itemView.setOnClickListener { listener(boundItem) }
+                itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
             }
         }
 
@@ -50,7 +50,7 @@ class ItemScript {
         @JvmStatic
         fun instantiateViewHolder(inflater: LayoutInflater,
                                   parent: ViewGroup,
-                                  listener: ((Any) -> Unit)?)
+                                  listener: ItemListener?)
                 : ViewHolder {
             val view = inflater.inflate(R.layout.item_script, parent, false)
             return ViewHolder(view, listener)

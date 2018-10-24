@@ -6,18 +6,13 @@ import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 import fr.xgouchet.rehearsal.ui.Item
 
 class ScenePresenter(owner: LifecycleOwner,
-                     cueDataSource: SceneContract.CueDataSource,
-//                     private val characterDataSource: SceneContract.CharacterDataSource,
+                     cueDataSource: SceneContract.DataSource,
                      transformer: SceneContract.Transformer)
     : ArchXDataPresenter<List<CueWithCharacter>, SceneContract.View, List<Item.ViewModel>>(owner, cueDataSource, transformer),
         SceneContract.Presenter {
 
     override fun onItemSelected(item: Any) {
 
-    }
-
-    override fun onCastActionSelected() {
-        // TODO load characters, open prompt
     }
 
 }

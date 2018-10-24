@@ -8,13 +8,21 @@ class HomeFragment
     : ItemListFragment(),
         HomeContract.View {
 
-    override fun onItemSelected(item: Any) {
+    // region ItemListFragment
+
+    override fun onItemAction(item: Any, action: String, value: String?) {
         (presenter as? HomeContract.Presenter)?.onItemSelected(item)
     }
+
+    // endregion
+
+    // region HomeContract.View
 
     override fun navigateToScript(script: ScriptModel) {
         val currentActivity = activity ?: return
         val intent = ScriptActivity.createIntent(currentActivity, script)
         startActivity(intent)
     }
+
+    //endregion
 }

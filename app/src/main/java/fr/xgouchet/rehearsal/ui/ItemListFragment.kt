@@ -8,8 +8,8 @@ abstract class ItemListFragment
     // region ArchXListFragment
 
     override fun createAdapter(): ItemAdapter {
-        return ItemAdapter {
-            onItemSelected(it)
+        return ItemAdapter { o, a, v ->
+            onItemAction(o, a, v)
         }
     }
 
@@ -19,6 +19,6 @@ abstract class ItemListFragment
 
     // endregion
 
-    protected abstract fun onItemSelected(item: Any)
+    protected abstract fun onItemAction(item: Any, action: String, value: String?)
 
 }

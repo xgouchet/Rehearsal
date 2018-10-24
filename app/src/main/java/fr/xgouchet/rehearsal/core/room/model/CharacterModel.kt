@@ -14,5 +14,6 @@ import androidx.room.PrimaryKey
 data class CharacterModel(
         @PrimaryKey(autoGenerate = true) var id: Int = 0,
         @ColumnInfo(index = true) var scriptId: Int,
-        var name: String
+        var name: String,
+        var isSelected: Boolean = false
 )

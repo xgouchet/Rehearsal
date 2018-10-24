@@ -1,22 +1,26 @@
-package fr.xgouchet.rehearsal.scene
+package fr.xgouchet.rehearsal.cast
 
 import fr.xgouchet.archx.ArchXPresenter
 import fr.xgouchet.archx.ArchXView
 import fr.xgouchet.archx.ArchXViewModelTransformer
 import fr.xgouchet.archx.data.ArchXDataSource
 import fr.xgouchet.rehearsal.core.room.model.CharacterModel
-import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 import fr.xgouchet.rehearsal.ui.Item
 
-interface SceneContract {
+interface CastContract {
 
     interface Presenter : ArchXPresenter<List<Item.ViewModel>> {
-        fun onItemSelected(item: Any)
+        fun onItemValueChanged(item: Any, value: String?)
     }
 
     interface View : ArchXView<List<Item.ViewModel>>
 
-    interface DataSource : ArchXDataSource<List<CueWithCharacter>>
+    interface DataSource : ArchXDataSource<List<CharacterModel>>
 
-    interface Transformer : ArchXViewModelTransformer<List<CueWithCharacter>, List<Item.ViewModel>>
+    interface DataSink {
+        fun update(model: CharacterModel)
+    }
+
+    interface Transformer : ArchXViewModelTransformer<List<CharacterModel>, List<Item.ViewModel>>
+
 }

@@ -21,14 +21,14 @@ class ItemAction {
 
     class ViewHolder(
             itemView: View,
-            listener: ((Any) -> Unit)?
+            listener: ItemListener?
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val directionView: TextView = itemView.findViewById(R.id.direction)
 
         init {
             if (listener != null) {
-                itemView.setOnClickListener { listener(boundItem) }
+                itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
             }
         }
 
@@ -44,7 +44,7 @@ class ItemAction {
         @JvmStatic
         fun instantiateViewHolder(inflater: LayoutInflater,
                                   parent: ViewGroup,
-                                  listener: ((Any) -> Unit)?)
+                                  listener: ItemListener?)
                 : ViewHolder {
             val view = inflater.inflate(R.layout.item_action, parent, false)
             return ViewHolder(view, listener)

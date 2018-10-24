@@ -19,7 +19,7 @@ class ScriptViewModelTransformer
         )
     }
 
-    override fun items(item: SceneModel): Collection<Item.ViewModel> {
+    override fun transformItem(index: Int, item: SceneModel): Collection<Item.ViewModel> {
         return listOf(
                 ItemScene.ViewModel(
                         title = item.description,

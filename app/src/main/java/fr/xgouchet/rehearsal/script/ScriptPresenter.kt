@@ -5,11 +5,16 @@ import fr.xgouchet.archx.data.ArchXDataPresenter
 import fr.xgouchet.rehearsal.core.room.model.SceneModel
 import fr.xgouchet.rehearsal.ui.Item
 
-class ScriptPresenter(owner: LifecycleOwner,
-                      dataSource: ScriptContract.DataSource,
-                      transformer: ScriptContract.Transformer)
-    : ArchXDataPresenter<List<SceneModel>, ScriptContract.View, List<Item.ViewModel>>(owner, dataSource, transformer),
+class ScriptPresenter(
+        private val scriptId: Int,
+        owner: LifecycleOwner,
+        dataSource: ScriptContract.DataSource,
+        transformer: ScriptContract.Transformer
+) : ArchXDataPresenter<List<SceneModel>, ScriptContract.View, List<Item.ViewModel>>(owner, dataSource, transformer),
         ScriptContract.Presenter {
+
+
+    // region ScriptContract.Presenter
 
     override fun onItemSelected(item: Any) {
         val scene = (item as? Item.ViewModel)?.data as? SceneModel
@@ -18,4 +23,11 @@ class ScriptPresenter(owner: LifecycleOwner,
             view?.navigateToScene(scene)
         }
     }
+
+    override fun onCastActionSelected() {
+        view?.navigateToCastSettings(scriptId)
+    }
+
+    // endregion
+
 }

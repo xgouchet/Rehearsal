@@ -1,6 +1,5 @@
 package fr.xgouchet.rehearsal.scene
 
-import fr.xgouchet.rehearsal.R
 import fr.xgouchet.rehearsal.core.room.model.CueModel
 import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 import fr.xgouchet.rehearsal.core.ui.PrincipledViewModelTransformer
@@ -26,7 +25,7 @@ class SceneViewModelTransformer
         )
     }
 
-    override fun items(item: CueWithCharacter): Collection<Item.ViewModel> {
+    override fun transformItem(index: Int, item: CueWithCharacter): Collection<Item.ViewModel> {
         val list = mutableListOf<Item.ViewModel>()
 
         val character = item.character
@@ -38,11 +37,10 @@ class SceneViewModelTransformer
             }
 
             if (character != null) {
-                val colorIdx = character.id % characterColors.size
                 list.add(ItemCharacter.ViewModel(
                         characterName = character.name,
                         characterExtension = item.characterExtension,
-                        foreground = characterColors[colorIdx]
+                        colorIndex = character.id
                 ))
             }
         }
@@ -50,6 +48,7 @@ class SceneViewModelTransformer
         when (item.type) {
             CueModel.TYPE_DIALOG -> list.add(ItemDialog.ViewModel(
                     line = item.content,
+                    hidden = character?.isSelected ?: false,
                     data = item
             ))
 
@@ -64,25 +63,6 @@ class SceneViewModelTransformer
         return list
     }
 
-    companion object {
-        private val characterColors = listOf(
-                R.color.character_fg_0,
-                R.color.character_fg_1,
-                R.color.character_fg_2,
-                R.color.character_fg_3,
-                R.color.character_fg_4,
-                R.color.character_fg_5,
-                R.color.character_fg_6,
-                R.color.character_fg_7,
-                R.color.character_fg_8,
-                R.color.character_fg_9,
-                R.color.character_fg_10,
-                R.color.character_fg_11,
-                R.color.character_fg_12,
-                R.color.character_fg_13,
-                R.color.character_fg_14,
-                R.color.character_fg_15
-        )
-    }
+
 }
 

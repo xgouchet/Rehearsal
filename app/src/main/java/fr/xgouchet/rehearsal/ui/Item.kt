@@ -26,11 +26,14 @@ class Item {
 
     enum class Type {
         EMPTY,
+        DIVIDER,
+
         SCRIPT,
         SCENE,
         CHARACTER,
         DIALOG,
         ACTION,
-        DIVIDER
+
+        SWITCH
     }
 }

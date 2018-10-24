@@ -1,7 +1,6 @@
 package fr.xgouchet.rehearsal.home
 
 import android.content.Context
-import android.graphics.Color
 import android.net.Uri
 import fr.xgouchet.fountain.parser.dom.ActionCue
 import fr.xgouchet.fountain.parser.dom.CharacterCue
@@ -109,7 +108,7 @@ class ImportFountainDocument(
                                 cuePosition: Int) {
         val existingCharacterModel = appDatabase.characterDao().getByNameInScript(characterCue.characterName, scriptId)
 
-        val characterId = existingCharacterModel?.id ?: appDatabase.characterDao().insert(
+        val characterId = existingCharacterModel?.id ?: appDatabase.characterDao().insertOrReplace(
                 CharacterModel(
                         scriptId = scriptId,
                         name = characterCue.characterName

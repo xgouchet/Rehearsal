@@ -7,7 +7,7 @@ import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 
 class SceneDataSource(context: Context,
                       sceneId: Int)
-    : SceneContract.CueDataSource {
+    : SceneContract.DataSource {
 
     private val appDatabase: AppDatabase = AppDatabase.getInstance(context)
 

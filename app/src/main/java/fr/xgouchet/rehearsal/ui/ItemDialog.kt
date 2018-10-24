@@ -1,6 +1,5 @@
 package fr.xgouchet.rehearsal.ui
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ class ItemDialog {
 
     class ViewModel(
             val line: String = "",
+            val hidden: Boolean = false,
             data: Any? = null
     ) : Item.ViewModel(Item.Type.DIALOG, data)
 
@@ -22,19 +22,28 @@ class ItemDialog {
 
     class ViewHolder(
             itemView: View,
-            listener: ((Any) -> Unit)?
+            listener: ItemListener?
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val lineView: TextView = itemView.findViewById(R.id.line)
+        private val hidingView: View = itemView.findViewById(R.id.hiding)
 
         init {
             if (listener != null) {
-                itemView.setOnClickListener { listener(boundItem) }
+                itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
             }
         }
 
         override fun onBind(item: ViewModel) {
             lineView.text = item.line
+
+            if (item.hidden) {
+                hidingView.visibility = View.VISIBLE
+                lineView.visibility = View.INVISIBLE
+            } else {
+                hidingView.visibility = View.GONE
+                lineView.visibility = View.VISIBLE
+            }
         }
 
     }
@@ -45,7 +54,7 @@ class ItemDialog {
         @JvmStatic
         fun instantiateViewHolder(inflater: LayoutInflater,
                                   parent: ViewGroup,
-                                  listener: ((Any) -> Unit)?)
+                                  listener: ItemListener?)
                 : ViewHolder {
             val view = inflater.inflate(R.layout.item_dialog, parent, false)
             return ViewHolder(view, listener)

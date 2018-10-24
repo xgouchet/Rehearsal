@@ -39,7 +39,7 @@ class ScriptActivity
         val dataSource = ScriptDataSource(applicationContext, scriptId)
         val transformer = ScriptViewModelTransformer()
 
-        return ScriptPresenter(lifecycleOwner, dataSource, transformer)
+        return ScriptPresenter(scriptId, lifecycleOwner, dataSource, transformer)
     }
 
     // endregion
