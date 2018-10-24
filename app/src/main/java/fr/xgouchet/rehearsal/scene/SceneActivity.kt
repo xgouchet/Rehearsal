@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LifecycleOwner
 import fr.xgouchet.archx.ArchXActivity
+import fr.xgouchet.rehearsal.R
 import fr.xgouchet.rehearsal.core.room.model.SceneModel
 import fr.xgouchet.rehearsal.ui.Item
 
@@ -13,6 +14,8 @@ class SceneActivity
 
     private var sceneId: Int = 0
     private var sceneTitle: String = ""
+
+    private var linesVisible: Boolean = false
 
     // region ArchXActivity
 
@@ -40,6 +43,21 @@ class SceneActivity
 
         return ScenePresenter(lifecycleOwner, dataSource, transformer)
     }
+
+    // endregion
+
+    // region ArchXActivity / FAB
+
+    override fun getFabIcon(): Int? {
+        return R.drawable.ic_hide_lines
+    }
+
+    override fun onFabClicked() {
+
+        linesVisible = !linesVisible
+        presenter.
+    }
+
 
     // endregion
 
