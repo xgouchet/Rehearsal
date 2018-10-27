@@ -54,3 +54,7 @@ data class SynopsisEvent(
 data class LyricsEvent(
         val content : String
 ) : LineEvent()
+
+data class CharacterLyricsEvent(
+        val content : String
+) : LineEvent()

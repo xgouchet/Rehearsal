@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:animateLayoutChanges="true">
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/direction"
@@ -15,9 +15,11 @@
             android:textStyle="italic"
             android:textColor="@color/secondary_text"
             android:paddingTop="4dp"
-            android:paddingStart="24dp"
-            android:paddingEnd="24dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:paddingBottom="8dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:fontFamily="@font/sans_serif"
             tools:text="@tools:sample/lorem"/>
@@ -27,10 +29,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/tiling_stripes_action"
-            android:layout_marginTop="2dp"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/direction"
             app:layout_constraintEnd_toEndOf="@+id/direction"
             app:layout_constraintStart_toStartOf="@+id/direction"

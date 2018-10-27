@@ -2,6 +2,7 @@ package fr.xgouchet.fountain.parser.dom
 
 import fr.xgouchet.fountain.parser.event.ActionEvent
 import fr.xgouchet.fountain.parser.event.CharacterCueEvent
+import fr.xgouchet.fountain.parser.event.CharacterLyricsEvent
 import fr.xgouchet.fountain.parser.event.DialogEvent
 import fr.xgouchet.fountain.parser.event.FountainEventParser
 import fr.xgouchet.fountain.parser.event.FountainEventParserListener
@@ -43,6 +44,7 @@ class FountainDomParser {
                 is CharacterCueEvent -> startCharacterCue(lineEvent)
                 is DialogEvent -> addDialog(lineEvent)
                 is ParentheticalEvent -> addParenthetical(lineEvent)
+                is CharacterLyricsEvent -> addCharacterLyrics(lineEvent)
                 is ActionEvent -> addAction(lineEvent)
                 is PageBreakEvent -> addPageBreak()
                 is TransitionEvent -> addTransition(lineEvent)
@@ -56,6 +58,7 @@ class FountainDomParser {
                 }
             }
         }
+
 
         override fun scriptEnd() {}
 
@@ -113,6 +116,10 @@ class FountainDomParser {
 
         private fun addParenthetical(event: ParentheticalEvent) {
             currentCharacter?.addParenthetical(event.content)
+        }
+
+        private fun addCharacterLyrics(event: CharacterLyricsEvent) {
+            currentCharacter?.addLyrics(event.content)
         }
 
         private fun addAction(event: ActionEvent) {

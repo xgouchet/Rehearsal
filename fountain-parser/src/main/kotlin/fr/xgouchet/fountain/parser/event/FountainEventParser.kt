@@ -45,15 +45,35 @@ class FountainEventParser {
                 is CharacterCueEvent,
                 is ParentheticalEvent -> {
                     sendLineEvent(previousLine, listener)
-                    result = if (block is ParentheticalEvent) block else DialogEvent(currentLine.trim())
+                    result = when (block) {
+                        is ParentheticalEvent -> block
+                        is LyricsEvent -> CharacterLyricsEvent(block.content)
+                        else -> DialogEvent(currentLine.trim())
+                    }
                 }
 
                 is DialogEvent -> {
-                    if (block is ParentheticalEvent) {
-                        sendLineEvent(previousLine, listener)
-                        result = block
-                    } else {
-                        result = DialogEvent(previousLine.content + "\n" + currentLine.trim())
+                    result = when (block) {
+                        is ParentheticalEvent -> {
+                            sendLineEvent(previousLine, listener)
+                            block
+                        }
+                        is LyricsEvent -> CharacterLyricsEvent(block.content)
+                        else -> DialogEvent(previousLine.content + "\n" + currentLine.trim())
+                    }
+                }
+
+                is CharacterLyricsEvent -> {
+                    result = when (block) {
+                        is ParentheticalEvent -> {
+                            sendLineEvent(previousLine, listener)
+                            block
+                        }
+                        is LyricsEvent -> CharacterLyricsEvent(previousLine.content + "\n" + block.content)
+                        else -> {
+                            sendLineEvent(previousLine, listener)
+                            DialogEvent(currentLine.trim())
+                        }
                     }
                 }
 

@@ -29,6 +29,7 @@ class ItemLyrics {
 
         private val lyricsView: TextView = itemView.findViewById(R.id.lyrics)
         private val hidingView: View = itemView.findViewById(R.id.hiding)
+        private val borderView: View = itemView.findViewById(R.id.border)
 
         init {
             if (listener != null) {
@@ -39,8 +40,10 @@ class ItemLyrics {
         override fun onBind(item: ViewModel) {
             lyricsView.text = item.lyrics
 
+            val color = CharacterColor.get(hidingView.context, item.colorIndex)
+            borderView.setBackgroundColor(color)
+
             if (item.hidden) {
-                val color = CharacterColor.get(hidingView.context, item.colorIndex)
                 hidingView.backgroundTintList = ColorStateList.valueOf(color)
                 hidingView.visibility = View.VISIBLE
                 lyricsView.visibility = View.INVISIBLE

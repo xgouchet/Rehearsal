@@ -392,8 +392,32 @@ class FountainDomParserTest(private val inputPath: String,
                                     header.type = "INT."
                                     header.description = "WHATEVER"
 
-                                    addCue(LyricsCue.Builder("Willy Wonka! Willy Wonka! The amazing chocolatier!\n" +
-                                            "Willy Wonka! Willy Wonka! Everybody give a cheer!"))
+                                    addCue(ActionCue.Builder("We hear a radio playing music, Queen's _“Bohemian Rhapsody”_."))
+
+                                    addCue(LyricsCue.Builder(
+                                            "Mama, just killed a man\n" +
+                                                    "Put a gun against his head\n" +
+                                                    "Pulled my trigger, now he's dead\n" +
+                                                    "Mama, life had just begun\n" +
+                                                    "But now I've gone and thrown it all away"
+                                    ))
+
+                                    addCue(CharacterCue.Builder().apply {
+                                        characterName = "DAVID"
+
+                                        addParenthetical("Singing along")
+
+                                        addLyrics(
+                                                "Mama, ooo\n" +
+                                                        "Didn't mean to make you cry\n" +
+                                                        "If I'm not back again this time tomorrow\n" +
+                                                        "Carry on, carry on, as if nothing really matters"
+                                        )
+
+                                        addDialog("This song is stupid !")
+
+                                        addParenthetical("Turns the radio off")
+                                    })
                                 })
                             }.build()
                     )

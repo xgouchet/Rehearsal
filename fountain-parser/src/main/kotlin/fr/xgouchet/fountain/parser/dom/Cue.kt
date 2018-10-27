@@ -18,6 +18,8 @@ data class CharacterCue(
 
     data class Parenthetical(val direction: String) : Part()
 
+    data class Lyrics(val lyrics: String) : Part()
+
 
     data class Builder(
             var characterName: String = "",
@@ -31,6 +33,10 @@ data class CharacterCue(
 
         fun addParenthetical(direction: String) {
             parts.add(Parenthetical(direction))
+        }
+
+        fun addLyrics(lyrics: String) {
+            parts.add(Lyrics(lyrics))
         }
 
         override fun build(): Cue {

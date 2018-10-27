@@ -254,8 +254,21 @@ class FountainEventParserTest(private val inputPath: String,
             list.testData(
                     "/unit/lyrics.fountain",
                     SceneHeaderEvent(type = "INT.", description = "WHATEVER"),
-                    LyricsEvent("Willy Wonka! Willy Wonka! The amazing chocolatier!\n" +
-                            "Willy Wonka! Willy Wonka! Everybody give a cheer!")
+                    ActionEvent(content = "We hear a radio playing music, Queen's _“Bohemian Rhapsody”_."),
+                    LyricsEvent("Mama, just killed a man\n" +
+                            "Put a gun against his head\n" +
+                            "Pulled my trigger, now he's dead\n" +
+                            "Mama, life had just begun\n" +
+                            "But now I've gone and thrown it all away"),
+                    CharacterCueEvent(name = "DAVID"),
+                    ParentheticalEvent(content = "Singing along"),
+                    CharacterLyricsEvent(content = "Mama, ooo\n" +
+                            "Didn't mean to make you cry\n" +
+                            "If I'm not back again this time tomorrow\n" +
+                            "Carry on, carry on, as if nothing really matters"),
+                    DialogEvent("This song is stupid !"),
+                    ParentheticalEvent("Turns the radio off")
+
             )
 
 

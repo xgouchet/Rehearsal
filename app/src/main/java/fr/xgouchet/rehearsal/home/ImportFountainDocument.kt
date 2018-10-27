@@ -153,6 +153,7 @@ class ImportFountainDocument(
         val (type, content) = when (part) {
             is CharacterCue.Dialog -> CueModel.TYPE_DIALOG to part.line
             is CharacterCue.Parenthetical -> CueModel.TYPE_ACTION to part.direction
+            is CharacterCue.Lyrics -> CueModel.TYPE_LYRICS to part.lyrics
             else -> CueModel.TYPE_UNKNOWN to ""
         }
 
