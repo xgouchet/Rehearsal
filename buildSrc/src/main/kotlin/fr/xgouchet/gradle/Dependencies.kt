@@ -33,11 +33,11 @@ object Dependencies {
         const val Leakcanary = "1.5.4"
         const val Timber = "4.6.0"
         const val Stetho = "1.5.0"
-        const val ArchX = "0.2"
+        const val ArchX = "0.3"
 
 
         const val JUnit = "4.12"
-        const val Elmyr = "0.7.2"
+        const val Elmyr = "0.8"
         const val Mockito = "2.19.0"
         const val MockitoKotlin = "1.6.0"
         const val AssertJ = "3.11.0"

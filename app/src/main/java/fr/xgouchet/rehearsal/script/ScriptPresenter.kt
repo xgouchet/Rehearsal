@@ -9,8 +9,9 @@ class ScriptPresenter(
         private val scriptId: Int,
         owner: LifecycleOwner,
         dataSource: ScriptContract.DataSource,
+        dataSink: ScriptContract.DataSink,
         transformer: ScriptContract.Transformer
-) : ArchXDataPresenter<List<SceneModel>, ScriptContract.View, List<Item.ViewModel>>(owner, dataSource, transformer),
+) : ArchXDataPresenter<List<SceneModel>, ScriptContract.View, List<Item.ViewModel>>(owner, dataSource, dataSink, transformer),
         ScriptContract.Presenter {
 
 

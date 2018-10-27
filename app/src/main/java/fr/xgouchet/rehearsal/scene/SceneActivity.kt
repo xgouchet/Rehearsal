@@ -39,9 +39,10 @@ class SceneActivity
     override fun instantiatePresenter(): SceneContract.Presenter {
         val lifecycleOwner = this as LifecycleOwner
         val dataSource = SceneDataSource(applicationContext, sceneId)
+        val dataSink = SceneDataSink()
         val transformer = SceneViewModelTransformer()
 
-        return ScenePresenter(lifecycleOwner, dataSource, transformer)
+        return ScenePresenter(lifecycleOwner, dataSource, dataSink, transformer)
     }
 
     // endregion
@@ -49,13 +50,14 @@ class SceneActivity
     // region ArchXActivity / FAB
 
     override fun getFabIcon(): Int? {
-        return R.drawable.ic_hide_lines
+        return R.drawable.ic_show_lines
     }
 
     override fun onFabClicked() {
-
-        linesVisible = !linesVisible
-        presenter.
+        val visible = !linesVisible
+        linesVisible = visible
+        presenter.onLinesVisibilityChanged(visible)
+        fab.setImageResource(if (visible) R.drawable.ic_hide_lines else R.drawable.ic_show_lines)
     }
 
 

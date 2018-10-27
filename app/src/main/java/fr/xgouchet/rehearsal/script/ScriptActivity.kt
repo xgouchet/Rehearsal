@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LifecycleOwner
 import fr.xgouchet.archx.ArchXActivity
+import fr.xgouchet.rehearsal.core.NoOpDataSink
 import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.ui.MarkdownConverter
@@ -37,9 +38,10 @@ class ScriptActivity
     override fun instantiatePresenter(): ScriptContract.Presenter {
         val lifecycleOwner = this as LifecycleOwner
         val dataSource = ScriptDataSource(applicationContext, scriptId)
+        val dataSink = ScriptDataSink()
         val transformer = ScriptViewModelTransformer()
 
-        return ScriptPresenter(scriptId, lifecycleOwner, dataSource, transformer)
+        return ScriptPresenter(scriptId, lifecycleOwner, dataSource, dataSink, transformer)
     }
 
     // endregion

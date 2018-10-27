@@ -14,6 +14,7 @@ class SceneViewModelTransformer
     : PrincipledViewModelTransformer<CueWithCharacter, Item.ViewModel>(),
         SceneContract.Transformer {
 
+    private var userLinesVisible = false
     private var lastCue: CueWithCharacter? = null
 
     override fun empty(): Collection<Item.ViewModel> {
@@ -25,11 +26,17 @@ class SceneViewModelTransformer
         )
     }
 
+    override fun headers(appModel: List<CueWithCharacter>): Collection<Item.ViewModel> {
+        lastCue = null
+        return super.headers(appModel)
+    }
+
     override fun transformItem(index: Int, item: CueWithCharacter): Collection<Item.ViewModel> {
         val list = mutableListOf<Item.ViewModel>()
 
         val character = item.character
         val lastCharacter = lastCue?.character
+        val colorIndex = character?.id ?: 0
 
         if (character != lastCharacter) {
             if (lastCue != null) {
@@ -40,22 +47,29 @@ class SceneViewModelTransformer
                 list.add(ItemCharacter.ViewModel(
                         characterName = character.name,
                         characterExtension = item.characterExtension,
-                        colorIndex = character.id
+                        colorIndex = colorIndex
                 ))
             }
         }
 
+        val hideCue = if (userLinesVisible) false else character?.isSelected ?: false
         when (item.type) {
             CueModel.TYPE_DIALOG -> list.add(ItemDialog.ViewModel(
                     line = item.content,
-                    hidden = character?.isSelected ?: false,
+                    hidden = hideCue,
+                    colorIndex = colorIndex,
                     data = item
             ))
 
-            CueModel.TYPE_ACTION -> list.add(ItemAction.ViewModel(
-                    direction = item.content,
-                    data = item
-            ))
+            CueModel.TYPE_ACTION -> {
+
+                list.add(ItemAction.ViewModel(
+                        direction = item.content,
+                        hidden = hideCue,
+                        colorIndex = colorIndex,
+                        data = item
+                ))
+            }
         }
 
         lastCue = item
@@ -64,5 +78,8 @@ class SceneViewModelTransformer
     }
 
 
+    override fun setUserLinesVisible(visible: Boolean) {
+        userLinesVisible = visible
+    }
 }
 

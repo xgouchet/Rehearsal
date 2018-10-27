@@ -33,7 +33,7 @@ class CastActivity
         val dataSink = CastDataSink(applicationContext)
         val transformer = CastViewModelTransformer()
 
-        return CastPresenter( dataSink, lifecycleOwner, dataSource,transformer)
+        return CastPresenter(lifecycleOwner, dataSource, dataSink, transformer)
     }
 
     // endregion

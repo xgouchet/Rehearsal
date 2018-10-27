@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import fr.xgouchet.rehearsal.R
 
 class ItemCharacter {
@@ -42,9 +41,7 @@ class ItemCharacter {
 
             nameView.text = item.characterName
 
-            val colorIdx = item.colorIndex % characterColors.size
-            val colorRes = characterColors[colorIdx]
-            val color = ContextCompat.getColor(nameView.context, colorRes)
+            val color = CharacterColor.get(nameView.context, item.colorIndex)
             nameView.setTextColor(color)
 
             if (item.characterExtension.isNullOrBlank()) {
@@ -69,23 +66,5 @@ class ItemCharacter {
             return ViewHolder(view, listener)
         }
 
-        private val characterColors = listOf(
-                R.color.character_fg_0,
-                R.color.character_fg_1,
-                R.color.character_fg_2,
-                R.color.character_fg_3,
-                R.color.character_fg_4,
-                R.color.character_fg_5,
-                R.color.character_fg_6,
-                R.color.character_fg_7,
-                R.color.character_fg_8,
-                R.color.character_fg_9,
-                R.color.character_fg_10,
-                R.color.character_fg_11,
-                R.color.character_fg_12,
-                R.color.character_fg_13,
-                R.color.character_fg_14,
-                R.color.character_fg_15
-        )
     }
 }

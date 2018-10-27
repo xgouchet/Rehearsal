@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.AppCompatTextView
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/direction"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:textStyle="italic"
-        android:textColor="@color/secondary_text"
-        android:paddingTop="4dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="8dp"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:fontFamily="@font/sans_serif"
-        tools:text="@tools:sample/lorem"/>
+        >
 
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/direction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:textColor="@color/secondary_text"
+            android:paddingTop="4dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="8dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:fontFamily="@font/sans_serif"
+            tools:text="@tools:sample/lorem"/>
+
+    <View
+            android:id="@+id/hiding"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/tiling_stripes_action"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/direction"
+            app:layout_constraintEnd_toEndOf="@+id/direction"
+            app:layout_constraintStart_toStartOf="@+id/direction"
+            app:layout_constraintTop_toTopOf="@+id/direction"
+            tools:backgroundTint="@color/character_fg_2"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

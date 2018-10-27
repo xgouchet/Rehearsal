@@ -1,5 +1,6 @@
 package fr.xgouchet.rehearsal.ui
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ class ItemDialog {
     class ViewModel(
             val line: String = "",
             val hidden: Boolean = false,
+            val colorIndex: Int = 0,
             data: Any? = null
     ) : Item.ViewModel(Item.Type.DIALOG, data)
 
@@ -38,6 +40,8 @@ class ItemDialog {
             lineView.text = item.line
 
             if (item.hidden) {
+                val color = CharacterColor.get(hidingView.context, item.colorIndex)
+                hidingView.backgroundTintList = ColorStateList.valueOf(color)
                 hidingView.visibility = View.VISIBLE
                 lineView.visibility = View.INVISIBLE
             } else {
