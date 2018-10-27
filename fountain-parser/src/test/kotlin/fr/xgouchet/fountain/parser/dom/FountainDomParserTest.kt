@@ -384,6 +384,39 @@ class FountainDomParserTest(private val inputPath: String,
                     }.build()
             ))
 
+            list.add(
+                    arrayOf(
+                            "/unit/lyrics.fountain",
+                            Script.Builder().apply {
+                                addPart(Scene.Builder().apply {
+                                    header.type = "INT."
+                                    header.description = "WHATEVER"
+
+                                    addCue(LyricsCue.Builder("Willy Wonka! Willy Wonka! The amazing chocolatier!\n" +
+                                            "Willy Wonka! Willy Wonka! Everybody give a cheer!"))
+                                })
+                            }.build()
+                    )
+            )
+
+
+            // For now, sections and synopsis are not handled in DOM
+            // This can be problematic, but as they can happen anywhere in the middle of scenes or outside of them,
+            // I'm not sure where to store them in the hierarchy
+            // TODO (maybe?) create an automatic opening scene and only have sections / synopsis as a scene "cue" element…
+            list.add(
+                    arrayOf(
+                            "/unit/sections_synopsis.fountain",
+                            Script.Builder().apply {
+                                addPart(Transition.Builder("HERE WE GO:"))
+                                addPart(Scene.Builder().apply {
+                                    header.type = "INT."
+                                    header.description = "SAN FRANCISCO APARTMENT, DAY"
+                                })
+                            }.build()
+                    )
+            )
+
             return list
         }
 
@@ -393,7 +426,6 @@ class FountainDomParserTest(private val inputPath: String,
 
 /*
 TODO Dual Dialog
-TODO Lyrics ~
 TODO Centered Text > <
 TODO Sections and Synopses # / =
  */

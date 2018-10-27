@@ -6,6 +6,7 @@ import fr.xgouchet.fountain.parser.event.DialogEvent
 import fr.xgouchet.fountain.parser.event.FountainEventParser
 import fr.xgouchet.fountain.parser.event.FountainEventParserListener
 import fr.xgouchet.fountain.parser.event.LineEvent
+import fr.xgouchet.fountain.parser.event.LyricsEvent
 import fr.xgouchet.fountain.parser.event.MetadataEvent
 import fr.xgouchet.fountain.parser.event.PageBreakEvent
 import fr.xgouchet.fountain.parser.event.ParentheticalEvent
@@ -45,9 +46,13 @@ class FountainDomParser {
                 is ActionEvent -> addAction(lineEvent)
                 is PageBreakEvent -> addPageBreak()
                 is TransitionEvent -> addTransition(lineEvent)
+                is LyricsEvent -> addLyrics(lineEvent)
                 is SectionEvent,
                 is SynopsisEvent -> {
-                    // Ignored
+                    // Ignored for now…
+                }
+                else -> {
+                    System.err.println("unhandled event : $lineEvent")
                 }
             }
         }
@@ -120,6 +125,10 @@ class FountainDomParser {
 
         private fun addPageBreak() {
             currentScene?.addCue(PageBreakCue.Builder)
+        }
+
+        private fun addLyrics(event: LyricsEvent) {
+            currentScene?.addCue(LyricsCue.Builder(event.content))
         }
 
         // endregion

@@ -25,5 +25,6 @@ data class CueModel(
         const val TYPE_UNKNOWN = 0
         const val TYPE_DIALOG = 1
         const val TYPE_ACTION = 2
+        const val TYPE_LYRICS = 3
     }
 }

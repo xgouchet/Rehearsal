@@ -22,6 +22,7 @@ class ItemAdapter(private val listener: ItemListener?)
             Item.Type.CHARACTER.ordinal -> ItemCharacter.instantiateViewHolder(inflater, parent, listener)
             Item.Type.DIALOG.ordinal -> ItemDialog.instantiateViewHolder(inflater, parent, listener)
             Item.Type.ACTION.ordinal -> ItemAction.instantiateViewHolder(inflater, parent, listener)
+            Item.Type.LYRICS.ordinal -> ItemLyrics.instantiateViewHolder(inflater, parent, listener)
 
             Item.Type.EMPTY.ordinal -> ItemEmpty.instantiateViewHolder(inflater, parent)
             Item.Type.DIVIDER.ordinal -> ItemDivider.instantiateViewHolder(inflater, parent)

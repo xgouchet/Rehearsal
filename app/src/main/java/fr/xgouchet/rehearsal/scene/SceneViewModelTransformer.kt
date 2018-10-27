@@ -9,6 +9,7 @@ import fr.xgouchet.rehearsal.ui.ItemCharacter
 import fr.xgouchet.rehearsal.ui.ItemDialog
 import fr.xgouchet.rehearsal.ui.ItemDivider
 import fr.xgouchet.rehearsal.ui.ItemEmpty
+import fr.xgouchet.rehearsal.ui.ItemLyrics
 
 class SceneViewModelTransformer
     : PrincipledViewModelTransformer<CueWithCharacter, Item.ViewModel>(),
@@ -36,7 +37,7 @@ class SceneViewModelTransformer
 
         val character = item.character
         val lastCharacter = lastCue?.character
-        val colorIndex = character?.id ?: 0
+        val colorIndex = character?.id ?: -1
 
         if (character != lastCharacter) {
             if (lastCue != null) {
@@ -53,24 +54,30 @@ class SceneViewModelTransformer
         }
 
         val hideCue = if (userLinesVisible) false else character?.isSelected ?: false
-        when (item.type) {
-            CueModel.TYPE_DIALOG -> list.add(ItemDialog.ViewModel(
+        val cueItem = when (item.type) {
+            CueModel.TYPE_DIALOG -> ItemDialog.ViewModel(
                     line = item.content,
                     hidden = hideCue,
                     colorIndex = colorIndex,
                     data = item
-            ))
+            )
 
-            CueModel.TYPE_ACTION -> {
+            CueModel.TYPE_ACTION -> ItemAction.ViewModel(
+                    direction = item.content,
+                    hidden = hideCue,
+                    colorIndex = colorIndex,
+                    data = item
+            )
 
-                list.add(ItemAction.ViewModel(
-                        direction = item.content,
-                        hidden = hideCue,
-                        colorIndex = colorIndex,
-                        data = item
-                ))
-            }
+            CueModel.TYPE_LYRICS -> ItemLyrics.ViewModel(
+                    lyrics = item.content,
+                    hidden = hideCue,
+                    colorIndex = colorIndex,
+                    data = item
+            )
+            else -> null
         }
+        cueItem?.let { list.add(it) }
 
         lastCue = item
 

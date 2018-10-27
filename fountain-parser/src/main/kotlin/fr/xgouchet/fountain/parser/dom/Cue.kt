@@ -59,6 +59,20 @@ data class ActionCue(
     }
 }
 
+data class LyricsCue(
+        val lyrics: String
+) : Cue() {
+
+    data class Builder(
+            var lyrics: String = ""
+    ) : Cue.Builder {
+        override fun build(): Cue {
+            return LyricsCue(lyrics)
+        }
+
+    }
+}
+
 object PageBreakCue : Cue() {
 
     object Builder : Cue.Builder {

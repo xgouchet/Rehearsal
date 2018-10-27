@@ -33,6 +33,7 @@ class Item {
         CHARACTER,
         DIALOG,
         ACTION,
+        LYRICS,
 
         SWITCH
     }

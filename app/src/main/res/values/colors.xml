@@ -12,6 +12,7 @@
     <color name="divider_color">#B6B6B6</color>
 
 
+    <color name="character_fg_unknown">#666666</color>
     <color name="character_fg_0">#b71c1c</color>
     <color name="character_fg_1">#311b92</color>
     <color name="character_fg_2">#01579b</color>

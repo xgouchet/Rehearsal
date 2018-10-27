@@ -10,10 +10,12 @@ object CharacterColor {
     @ColorInt
     fun get(context: Context, colorIndex: Int): Int {
         val colorIdx = colorIndex % characterColors.size
-        val colorRes = characterColors[colorIdx]
+        val colorRes = if (colorIndex >= 0) characterColors[colorIdx] else unknown
         return ContextCompat.getColor(context, colorRes)
     }
 
+
+    private const val unknown = R.color.character_fg_unknown
 
     private val characterColors = listOf(
             R.color.character_fg_0,

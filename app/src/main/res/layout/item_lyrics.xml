@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/lyrics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/primary_text"
+            android:paddingTop="4dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:fontFamily="@font/serif"
+            tools:text="@tools:sample/lorem"/>
+
+    <View
+            android:id="@+id/hiding"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/tiling_stripes_lyrics"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintBottom_toBottomOf="@+id/lyrics"
+            app:layout_constraintEnd_toEndOf="@+id/lyrics"
+            app:layout_constraintStart_toStartOf="@+id/lyrics"
+            app:layout_constraintTop_toTopOf="@+id/lyrics"
+            tools:visibility="visible"
+            tools:backgroundTint="@color/character_fg_2"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import android.net.Uri
 import fr.xgouchet.fountain.parser.dom.ActionCue
 import fr.xgouchet.fountain.parser.dom.CharacterCue
 import fr.xgouchet.fountain.parser.dom.FountainDomParser
+import fr.xgouchet.fountain.parser.dom.LyricsCue
 import fr.xgouchet.fountain.parser.dom.Scene
 import fr.xgouchet.fountain.parser.dom.Script
 import fr.xgouchet.rehearsal.core.room.AppDatabase
@@ -84,22 +85,15 @@ class ImportFountainDocument(
                 }
                 is ActionCue -> {
                     addActionCue(it, sceneId, cuePosition)
+                    cuePosition++
+                }
+                is LyricsCue -> {
+                    addLyricsCue(it, sceneId, cuePosition)
+                    cuePosition++
                 }
             }
 
         }
-    }
-
-    private fun addActionCue(actionCue: ActionCue, sceneId: Int, cuePosition: Int) {
-        val cueModel = CueModel(
-                sceneId = sceneId,
-                characterId = null,
-                type = CueModel.TYPE_ACTION,
-                characterExtension = null,
-                position = cuePosition,
-                content = actionCue.direction
-        )
-        appDatabase.cueDao().insert(cueModel)
     }
 
     private fun addCharacterCue(characterCue: CharacterCue,
@@ -120,6 +114,34 @@ class ImportFountainDocument(
             addCharacterCuePart(it, characterCue.characterExtension, sceneId, characterId, cuePosition + partPosition)
             partPosition++
         }
+    }
+
+    private fun addActionCue(actionCue: ActionCue,
+                             sceneId: Int,
+                             cuePosition: Int) {
+        val cueModel = CueModel(
+                sceneId = sceneId,
+                characterId = null,
+                type = CueModel.TYPE_ACTION,
+                characterExtension = null,
+                position = cuePosition,
+                content = actionCue.direction
+        )
+        appDatabase.cueDao().insert(cueModel)
+    }
+
+    private fun addLyricsCue(lyricsCue: LyricsCue,
+                             sceneId: Int,
+                             cuePosition: Int) {
+        val cueModel = CueModel(
+                sceneId = sceneId,
+                characterId = null,
+                type = CueModel.TYPE_LYRICS,
+                characterExtension = null,
+                position = cuePosition,
+                content = lyricsCue.lyrics
+        )
+        appDatabase.cueDao().insert(cueModel)
     }
 
     private fun addCharacterCuePart(part: CharacterCue.Part,
