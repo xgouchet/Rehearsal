@@ -72,11 +72,7 @@ class FountainDomParser {
         // region Listener.Internal
 
         private fun addMetadata(event: MetadataEvent) {
-            if (event.key.equals("title", true)) {
-                scriptBuilder.titlePage.title = event.value
-            } else {
-                scriptBuilder.titlePage.addMetadata(event.key, event.value)
-            }
+            scriptBuilder.titlePage.addMetadata(event.key, event.value)
         }
 
         private fun startScene(event: SceneHeaderEvent) {

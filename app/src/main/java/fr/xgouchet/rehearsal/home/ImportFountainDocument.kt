@@ -51,7 +51,8 @@ class ImportFountainDocument(
     private fun saveScript(script: Script) {
 
         val scriptModel = ScriptModel(
-                title = script.titlePage.title
+                title = script.titlePage.title,
+                author = script.titlePage.author
         )
 
         val scriptId = appDatabase.scriptDao().insert(scriptModel).toInt()

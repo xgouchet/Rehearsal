@@ -47,7 +47,7 @@ class FountainDomParserTest(private val inputPath: String,
                     "/unit/title_page.fountain",
                     Script.Builder().apply {
                         titlePage = TitlePage.Builder().apply {
-                            title = "**THE LAST BIRTHDAY CARD**"
+                            addMetadata("Title", "**THE LAST BIRTHDAY CARD**")
                             addMetadata("Credit", "Written by")
                             addMetadata("Author", "Stu Maschwitz")
                             addMetadata("Draft date", "7/8/1998")

@@ -20,6 +20,10 @@ class HomeViewModelTransformer
     }
 
     override fun transformItem(index: Int, item: ScriptModel): Collection<Item.ViewModel> {
-        return listOf(ItemScript.ViewModel(title = item.title, data = item))
+        return listOf(ItemScript.ViewModel(
+                title = item.title,
+                author = item.author,
+                data = item
+        ))
     }
 }
