@@ -3,6 +3,7 @@ package fr.xgouchet.rehearsal.script
 import androidx.lifecycle.LifecycleOwner
 import fr.xgouchet.archx.data.ArchXDataPresenter
 import fr.xgouchet.rehearsal.core.room.model.SceneModel
+import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 import fr.xgouchet.rehearsal.ui.Item
 
 class ScriptPresenter(
@@ -10,6 +11,7 @@ class ScriptPresenter(
         owner: LifecycleOwner,
         dataSource: ScriptContract.DataSource,
         dataSink: ScriptContract.DataSink,
+        private val scriptDataSink: ScriptContract.ScriptDataSink,
         transformer: ScriptContract.Transformer
 ) : ArchXDataPresenter<List<SceneModel>, ScriptContract.View, List<Item.ViewModel>>(owner, dataSource, dataSink, transformer),
         ScriptContract.Presenter {
@@ -27,6 +29,11 @@ class ScriptPresenter(
 
     override fun onCastActionSelected() {
         view?.navigateToCastSettings(scriptId)
+    }
+
+    override fun onDeleteActionSelected() {
+        scriptDataSink.deleteData(ScriptModel(id = scriptId, title = "", author = ""))
+        view?.navigateBack()
     }
 
     // endregion

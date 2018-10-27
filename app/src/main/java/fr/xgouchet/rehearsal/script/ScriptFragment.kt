@@ -1,5 +1,6 @@
 package fr.xgouchet.rehearsal.script
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -31,8 +32,26 @@ class ScriptFragment
                 (presenter as? ScriptContract.Presenter)?.onCastActionSelected()
                 true
             }
+            R.id.action_delete -> {
+                confirmDelete()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun confirmDelete() {
+        val currentActivity = activity ?: return
+
+        AlertDialog.Builder(currentActivity)
+                .setTitle(R.string.script_title_confirmDelete)
+                .setMessage(R.string.script_text_deleteWarningPrompt)
+                .setNeutralButton(android.R.string.cancel) { a, _ -> a.dismiss() }
+                .setNegativeButton(android.R.string.ok) { _, _ ->
+                    (presenter as? ScriptContract.Presenter)?.onDeleteActionSelected()
+                }
+                .create()
+                .show()
     }
 
     // endregion
@@ -57,6 +76,10 @@ class ScriptFragment
         val currentActivity = activity ?: return
         val intent = CastActivity.createIntent(currentActivity, scriptId)
         startActivity(intent)
+    }
+
+    override fun navigateBack() {
+        activity?.finish()
     }
 
     // endregion
