@@ -19,6 +19,6 @@ abstract class ItemListFragment
 
     // endregion
 
-    protected abstract fun onItemAction(item: Any, action: String, value: String?)
+    protected abstract fun onItemAction(item: Item.ViewModel, action: String, value: String?)
 
 }

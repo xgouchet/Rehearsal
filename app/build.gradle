@@ -58,10 +58,10 @@ dependencies {
     implementation Dependencies.Libraries.MaterialComponents
     implementation Dependencies.Libraries.AndroidArchComponents
     implementation Dependencies.Libraries.AndroidConstraintLayout
-//    implementation Dependencies.Libraries.Navigation
     implementation Dependencies.Libraries.Rx
 
     implementation Dependencies.Libraries.ArchX
+    implementation Dependencies.Libraries.Spectrum
 
     api Dependencies.Libraries.Markdown
     implementation Dependencies.Libraries.AboutPage

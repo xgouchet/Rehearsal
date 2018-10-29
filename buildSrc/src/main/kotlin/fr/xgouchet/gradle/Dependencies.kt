@@ -34,6 +34,7 @@ object Dependencies {
         const val Timber = "4.6.0"
         const val Stetho = "1.5.0"
         const val ArchX = "0.4"
+        const val Spectrum = "1.0.0"
 
 
         const val JUnit = "4.12"
@@ -41,7 +42,6 @@ object Dependencies {
         const val Mockito = "2.19.0"
         const val MockitoKotlin = "1.6.0"
         const val AssertJ = "3.11.0"
-
 
     }
 
@@ -91,6 +91,7 @@ object Dependencies {
         const val OssLicences = "com.google.android.gms:play-services-oss-licenses:${Versions.OssLicensesLibrary}"
         const val AboutPage = "com.github.medyo:android-about-page:${Versions.AboutPage}"
         const val ArchX = "com.github.xgouchet:ArchX:${Versions.ArchX}"
+        const val Spectrum = "com.takisoft.preferencex:preferencex-colorpicker:${Versions.Spectrum}"
 
         const val Timber = "com.jakewharton.timber:timber:${Versions.Timber}"
 

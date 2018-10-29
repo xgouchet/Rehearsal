@@ -29,6 +29,7 @@
                 android:name=".cast.CastActivity"
                 android:label="@string/cast_title"/>
 
+        <service android:name=".voice.VoiceService"/>
     </application>
 
 </manifest>

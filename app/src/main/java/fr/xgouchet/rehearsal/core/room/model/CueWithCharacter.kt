@@ -9,4 +9,6 @@ class CueWithCharacter {
     var type: Int = CueModel.TYPE_UNKNOWN
     var characterExtension: String? = null
     var content: String = ""
+    var sceneId : Int = 0
+    var position : Int = 0
 }

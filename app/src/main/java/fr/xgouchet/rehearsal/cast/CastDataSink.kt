@@ -20,7 +20,6 @@ class CastDataSink(context: Context)
     override fun updateData(data: List<CharacterModel>) {
         val disposable = Observable.fromIterable(data)
                 .subscribeOn(Schedulers.io())
-                .delay(250, TimeUnit.MILLISECONDS)
                 .map { appDatabase.characterDao().update(it) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

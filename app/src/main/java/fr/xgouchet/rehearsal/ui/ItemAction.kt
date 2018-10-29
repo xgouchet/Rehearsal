@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import fr.xgouchet.rehearsal.R
 
 class ItemAction {
@@ -16,7 +17,7 @@ class ItemAction {
             id: Long,
             val direction: String = "",
             val hidden: Boolean = false,
-            val colorIndex: Int = 0,
+            @ColorInt val color: Int = -1,
             val highlight: Boolean = false,
             data: Any? = null
     ) : Item.ViewModel(Item.Type.ACTION, id, data)
@@ -43,10 +44,8 @@ class ItemAction {
         override fun onBind(item: ViewModel) {
             directionView.text = item.direction
 
-            val color = CharacterColor.get(hidingView.context, item.colorIndex)
-
             if (item.hidden) {
-                hidingView.backgroundTintList = ColorStateList.valueOf(color)
+                hidingView.backgroundTintList = ColorStateList.valueOf(item.color)
                 hidingView.visibility = View.VISIBLE
                 directionView.visibility = View.INVISIBLE
             } else {
@@ -55,7 +54,7 @@ class ItemAction {
             }
 
             if (item.highlight) {
-                highlightView.imageTintList = ColorStateList.valueOf(color)
+                highlightView.imageTintList = ColorStateList.valueOf(item.color)
                 highlightView.visibility = View.VISIBLE
             } else {
                 highlightView.visibility = View.GONE

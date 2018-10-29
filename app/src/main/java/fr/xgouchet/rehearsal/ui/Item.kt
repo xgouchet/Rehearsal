@@ -36,6 +36,7 @@ class Item {
         ACTION,
         LYRICS,
 
-        SWITCH
+        SWITCH,
+        COLOR
     }
 }

@@ -9,6 +9,7 @@ import fr.xgouchet.rehearsal.R
 import fr.xgouchet.rehearsal.cast.CastActivity
 import fr.xgouchet.rehearsal.core.room.model.SceneModel
 import fr.xgouchet.rehearsal.scene.SceneActivity
+import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.ui.ItemListFragment
 
 class ScriptFragment
@@ -58,7 +59,7 @@ class ScriptFragment
 
     // region ItemListFragment
 
-    override fun onItemAction(item: Any, action: String, value: String?) {
+    override fun onItemAction(item: Item.ViewModel, action: String, value: String?) {
         (presenter as? ScriptContract.Presenter)?.onItemSelected(item)
     }
 

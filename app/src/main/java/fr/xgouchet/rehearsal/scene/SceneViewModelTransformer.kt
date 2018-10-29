@@ -3,6 +3,7 @@ package fr.xgouchet.rehearsal.scene
 import fr.xgouchet.rehearsal.core.room.model.CueModel
 import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 import fr.xgouchet.rehearsal.core.ui.PrincipledViewModelTransformer
+import fr.xgouchet.rehearsal.ui.CharacterColor
 import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.ui.ItemAction
 import fr.xgouchet.rehearsal.ui.ItemCharacter
@@ -41,7 +42,7 @@ class SceneViewModelTransformer
 
         val character = item.character
         val lastCharacter = lastCue?.character
-        val colorIndex = character?.characterId ?: -1
+        val color = CharacterColor.get(character)
 
         if (character != lastCharacter) {
             if (lastCue != null) {
@@ -53,7 +54,7 @@ class SceneViewModelTransformer
                         id = StableId.getStableId(index, 1, Item.Type.CHARACTER.ordinal),
                         characterName = character.name,
                         characterExtension = item.characterExtension,
-                        colorIndex = colorIndex,
+                       color = color,
                         data = item
                 ))
             }
@@ -66,7 +67,7 @@ class SceneViewModelTransformer
                     id = StableId.getStableId(index, 2, Item.Type.DIALOG.ordinal),
                     line = item.content,
                     hidden = hideCue,
-                    colorIndex = colorIndex,
+                    color = color,
                     highlight = highlightCue,
                     data = item
             )
@@ -75,7 +76,7 @@ class SceneViewModelTransformer
                     id = StableId.getStableId(index, 2, Item.Type.ACTION.ordinal),
                     direction = item.content,
                     hidden = hideCue,
-                    colorIndex = colorIndex,
+                    color = color,
                     highlight = highlightCue,
                     data = item
             )
@@ -84,7 +85,7 @@ class SceneViewModelTransformer
                     id = StableId.getStableId(index, 2, Item.Type.LYRICS.ordinal),
                     lyrics = item.content,
                     hidden = hideCue,
-                    colorIndex = colorIndex,
+                    color = color,
                     highlight = highlightCue,
                     data = item
             )

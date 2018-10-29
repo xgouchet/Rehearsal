@@ -11,7 +11,7 @@ import fr.xgouchet.rehearsal.ui.Item
 interface SceneContract {
 
     interface Presenter : ArchXPresenter<List<Item.ViewModel>> {
-        fun onItemSelected(item: Any)
+        fun onItemSelected(item: Item.ViewModel)
         fun onLinesVisibilityChanged(linesVisible: Boolean)
     }
 

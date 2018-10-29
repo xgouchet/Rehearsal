@@ -19,8 +19,8 @@ class ScriptPresenter(
 
     // region ScriptContract.Presenter
 
-    override fun onItemSelected(item: Any) {
-        val scene = (item as? Item.ViewModel)?.data as? SceneModel
+    override fun onItemSelected(item:  Item.ViewModel) {
+        val scene = item.data as? SceneModel
 
         if (scene != null) {
             view?.navigateToScene(scene)

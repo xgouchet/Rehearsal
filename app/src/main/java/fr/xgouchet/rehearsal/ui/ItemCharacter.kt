@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import fr.xgouchet.rehearsal.R
 
 class ItemCharacter {
@@ -15,7 +16,7 @@ class ItemCharacter {
             id: Long,
             val characterName: String = "",
             val characterExtension: String? = null,
-            val colorIndex: Int = 0,
+            @ColorInt val color: Int = -1,
             data: Any? = null
     ) : Item.ViewModel(Item.Type.CHARACTER, id, data)
 
@@ -42,8 +43,7 @@ class ItemCharacter {
 
             nameView.text = item.characterName
 
-            val color = CharacterColor.get(nameView.context, item.colorIndex)
-            nameView.setTextColor(color)
+            nameView.setTextColor(item.color)
 
             if (item.characterExtension.isNullOrBlank()) {
                 extensionView.visibility = View.GONE

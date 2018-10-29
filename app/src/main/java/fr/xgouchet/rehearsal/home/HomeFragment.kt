@@ -2,6 +2,7 @@ package fr.xgouchet.rehearsal.home
 
 import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 import fr.xgouchet.rehearsal.script.ScriptActivity
+import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.ui.ItemListFragment
 
 class HomeFragment
@@ -10,7 +11,7 @@ class HomeFragment
 
     // region ItemListFragment
 
-    override fun onItemAction(item: Any, action: String, value: String?) {
+    override fun onItemAction(item: Item.ViewModel, action: String, value: String?) {
         (presenter as? HomeContract.Presenter)?.onItemSelected(item)
     }
 

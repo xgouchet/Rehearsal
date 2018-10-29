@@ -13,8 +13,8 @@ class HomePresenter(owner: LifecycleOwner,
         HomeContract.Presenter {
 
 
-    override fun onItemSelected(item: Any) {
-        val script = (item as? Item.ViewModel)?.data as? ScriptModel
+    override fun onItemSelected(item: Item.ViewModel) {
+        val script = item.data as? ScriptModel
 
         if (script != null) {
             view?.navigateToScript(script)

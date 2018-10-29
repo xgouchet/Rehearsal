@@ -6,7 +6,8 @@
     <string name="menu_delete">Delete</string>
 
     <string name="cast_title">Cast</string>
-    <string name="cast_action_myRole">My role</string>
+    <string name="cast_action_hideLines">Hide lines</string>
+    <string name="cast_action_pickColor">Pick color</string>
 
     <string name="script_title_confirmDelete">Delete script?</string>
     <string name="script_text_deleteWarningPrompt">Are you sure you want to delete this script. This action can\'t be undone.</string>

@@ -14,8 +14,8 @@ class ScenePresenter(owner: LifecycleOwner,
 
     private var rawData: List<CueWithCharacter> = emptyList()
 
-    override fun onItemSelected(item: Any) {
-        val selectedCue = (item as? Item.ViewModel)?.data as? CueWithCharacter
+    override fun onItemSelected(item: Item.ViewModel) {
+        val selectedCue = item.data as? CueWithCharacter
         if (selectedCue != null) {
             (transformer as? SceneContract.Transformer)?.setSelectedCue(selectedCue)
         }

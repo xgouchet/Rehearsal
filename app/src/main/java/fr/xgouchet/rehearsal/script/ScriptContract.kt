@@ -12,7 +12,7 @@ import fr.xgouchet.rehearsal.ui.Item
 interface ScriptContract {
 
     interface Presenter : ArchXPresenter<List<Item.ViewModel>> {
-        fun onItemSelected(item: Any)
+        fun onItemSelected(item:  Item.ViewModel)
         fun onCastActionSelected()
         fun onDeleteActionSelected()
     }
