@@ -13,7 +13,7 @@ import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 @Dao
 interface CueDAO {
 
-    @Query("SELECT * FROM cue WHERE id = :id")
+    @Query("SELECT * FROM cue WHERE cueId = :id")
     fun get(id: String): CueModel
 
 
@@ -21,7 +21,7 @@ interface CueDAO {
     fun getAllFromScene(sceneId: Int): LiveData<List<CueModel>>
 
     @Transaction
-    @Query("SELECT * FROM cue LEFT JOIN character ON cue.characterId = character.id WHERE sceneId = :sceneId ORDER BY position ASC")
+    @Query("SELECT * FROM cue LEFT JOIN character ON cue.characterId = character.characterId WHERE sceneId = :sceneId ORDER BY position ASC")
     fun getUsers(sceneId: Int): LiveData<List<CueWithCharacter>>
 
     @Insert(onConflict = REPLACE)

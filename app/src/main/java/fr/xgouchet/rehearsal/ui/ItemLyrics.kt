@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import fr.xgouchet.rehearsal.R
 
@@ -12,11 +13,13 @@ class ItemLyrics {
     // region VM
 
     class ViewModel(
+            id: Long,
             val lyrics: String = "",
             val hidden: Boolean = false,
             val colorIndex: Int = 0,
+            val highlight: Boolean = false,
             data: Any? = null
-    ) : Item.ViewModel(Item.Type.LYRICS, data)
+    ) : Item.ViewModel(Item.Type.LYRICS, id, data)
 
     // endregion
 
@@ -29,7 +32,7 @@ class ItemLyrics {
 
         private val lyricsView: TextView = itemView.findViewById(R.id.lyrics)
         private val hidingView: View = itemView.findViewById(R.id.hiding)
-        private val borderView: View = itemView.findViewById(R.id.border)
+        private val highlightView: ImageView = itemView.findViewById(R.id.highlight)
 
         init {
             if (listener != null) {
@@ -41,7 +44,6 @@ class ItemLyrics {
             lyricsView.text = item.lyrics
 
             val color = CharacterColor.get(hidingView.context, item.colorIndex)
-            borderView.setBackgroundColor(color)
 
             if (item.hidden) {
                 hidingView.backgroundTintList = ColorStateList.valueOf(color)
@@ -50,6 +52,13 @@ class ItemLyrics {
             } else {
                 hidingView.visibility = View.GONE
                 lyricsView.visibility = View.VISIBLE
+            }
+
+            if (item.highlight) {
+                highlightView.imageTintList = ColorStateList.valueOf(color)
+                highlightView.visibility = View.VISIBLE
+            } else {
+                highlightView.visibility = View.GONE
             }
         }
 

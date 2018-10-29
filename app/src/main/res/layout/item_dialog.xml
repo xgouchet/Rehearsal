@@ -5,8 +5,17 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
         android:animateLayoutChanges="true">
 
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/highlight"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_face"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/line"
@@ -18,7 +27,8 @@
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingBottom="8dp"
-            android:foreground="?android:attr/selectableItemBackground"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:fontFamily="@font/sans_serif"
             tools:text="@tools:sample/lorem"/>
 
@@ -35,6 +45,7 @@
             app:layout_constraintEnd_toEndOf="@+id/line"
             app:layout_constraintStart_toStartOf="@+id/line"
             app:layout_constraintTop_toTopOf="@+id/line"
-            tools:backgroundTint="@color/character_fg_2"/>
+            tools:backgroundTint="@color/character_fg_2"
+            tools:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

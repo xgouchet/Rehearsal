@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "script")
 data class ScriptModel(
-        @PrimaryKey(autoGenerate = true) var id: Int = 0,
+        @PrimaryKey(autoGenerate = true) var scriptId: Int = 0,
         var title: String,
         var author: String
         // TODO add other metadata

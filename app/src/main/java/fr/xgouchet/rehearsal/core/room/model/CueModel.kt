@@ -7,12 +7,12 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "cue",
         foreignKeys = [
-            ForeignKey(entity = SceneModel::class, parentColumns = arrayOf("id"), childColumns = arrayOf("sceneId"), onDelete = ForeignKey.CASCADE),
-            ForeignKey(entity = CharacterModel::class, parentColumns = arrayOf("id"), childColumns = arrayOf("characterId"), onDelete = ForeignKey.SET_NULL)
+            ForeignKey(entity = SceneModel::class, parentColumns = arrayOf("sceneId"), childColumns = arrayOf("sceneId"), onDelete = ForeignKey.CASCADE),
+            ForeignKey(entity = CharacterModel::class, parentColumns = arrayOf("characterId"), childColumns = arrayOf("characterId"), onDelete = ForeignKey.SET_NULL)
         ]
 )
 data class CueModel(
-        @PrimaryKey(autoGenerate = true) var id: Int = 0,
+        @PrimaryKey(autoGenerate = true) var cueId: Int = 0,
         @ColumnInfo(index = true) var sceneId: Int,
         @ColumnInfo(index = true) var characterId: Int? = null,
         var position: Int,

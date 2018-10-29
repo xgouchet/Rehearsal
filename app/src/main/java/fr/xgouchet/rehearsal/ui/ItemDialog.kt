@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import fr.xgouchet.rehearsal.R
 
@@ -12,11 +13,13 @@ class ItemDialog {
     // region VM
 
     class ViewModel(
+            id: Long,
             val line: String = "",
             val hidden: Boolean = false,
             val colorIndex: Int = 0,
+            val highlight: Boolean = false,
             data: Any? = null
-    ) : Item.ViewModel(Item.Type.DIALOG, data)
+    ) : Item.ViewModel(Item.Type.DIALOG, id, data)
 
     // endregion
 
@@ -29,6 +32,7 @@ class ItemDialog {
 
         private val lineView: TextView = itemView.findViewById(R.id.line)
         private val hidingView: View = itemView.findViewById(R.id.hiding)
+        private val highlightView: ImageView = itemView.findViewById(R.id.highlight)
 
         init {
             if (listener != null) {
@@ -39,14 +43,22 @@ class ItemDialog {
         override fun onBind(item: ViewModel) {
             lineView.text = item.line
 
+            val color = CharacterColor.get(hidingView.context, item.colorIndex)
+
             if (item.hidden) {
-                val color = CharacterColor.get(hidingView.context, item.colorIndex)
                 hidingView.backgroundTintList = ColorStateList.valueOf(color)
                 hidingView.visibility = View.VISIBLE
                 lineView.visibility = View.INVISIBLE
             } else {
                 hidingView.visibility = View.GONE
                 lineView.visibility = View.VISIBLE
+            }
+
+            if (item.highlight) {
+                highlightView.imageTintList = ColorStateList.valueOf(color)
+                highlightView.visibility = View.VISIBLE
+            } else {
+                highlightView.visibility = View.GONE
             }
         }
 

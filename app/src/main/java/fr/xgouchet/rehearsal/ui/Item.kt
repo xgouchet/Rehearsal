@@ -6,6 +6,7 @@ import fr.xgouchet.archx.ui.ArchXViewHolder
 class Item {
 
     open class ViewModel(val type: Type,
+                         val id: Long,
                          val data: Any? = null)
 
     abstract class ViewHolder<VM : ViewModel>(itemView: View)

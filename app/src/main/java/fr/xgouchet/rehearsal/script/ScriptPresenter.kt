@@ -32,7 +32,7 @@ class ScriptPresenter(
     }
 
     override fun onDeleteActionSelected() {
-        scriptDataSink.deleteData(ScriptModel(id = scriptId, title = "", author = ""))
+        scriptDataSink.deleteData(ScriptModel(scriptId = scriptId, title = "", author = ""))
         view?.navigateBack()
     }
 

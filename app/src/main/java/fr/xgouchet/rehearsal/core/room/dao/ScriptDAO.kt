@@ -11,7 +11,7 @@ import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 @Dao
 interface ScriptDAO {
 
-    @Query("SELECT * FROM script WHERE id = :id")
+    @Query("SELECT * FROM script WHERE scriptId = :id")
     fun get(id: Int): ScriptModel
 
 
@@ -24,7 +24,7 @@ interface ScriptDAO {
     @Delete
     fun delete(script: ScriptModel)
 
-    @Query("DELETE FROM script WHERE id = :id")
+    @Query("DELETE FROM script WHERE scriptId = :id")
     fun deleteById(id: Int)
 
     @Query("DELETE FROM script")

@@ -12,11 +12,12 @@ class ItemCharacter {
     // region VM
 
     class ViewModel(
+            id: Long,
             val characterName: String = "",
             val characterExtension: String? = null,
             val colorIndex: Int = 0,
             data: Any? = null
-    ) : Item.ViewModel(Item.Type.CHARACTER, data)
+    ) : Item.ViewModel(Item.Type.CHARACTER, id, data)
 
     // endregion
 

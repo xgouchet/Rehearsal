@@ -12,10 +12,14 @@ class ScenePresenter(owner: LifecycleOwner,
     : ArchXDataPresenter<List<CueWithCharacter>, SceneContract.View, List<Item.ViewModel>>(owner, dataSource, dataSink, transformer),
         SceneContract.Presenter {
 
-    private var rawData : List<CueWithCharacter> = emptyList()
+    private var rawData: List<CueWithCharacter> = emptyList()
 
     override fun onItemSelected(item: Any) {
-
+        val selectedCue = (item as? Item.ViewModel)?.data as? CueWithCharacter
+        if (selectedCue != null) {
+            (transformer as? SceneContract.Transformer)?.setSelectedCue(selectedCue)
+        }
+        onChanged(rawData)
     }
 
     override fun onChanged(t: List<CueWithCharacter>) {

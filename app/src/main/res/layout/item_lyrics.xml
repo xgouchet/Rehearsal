@@ -7,6 +7,13 @@
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true">
 
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/highlight"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="4dp"
+            android:src="@drawable/ic_face"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/lyrics"
@@ -25,19 +32,6 @@
             android:fontFamily="@font/serif"
             tools:text="@tools:sample/lorem"/>
 
-
-    <View
-            android:id="@+id/border"
-            android:layout_width="2dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:background="@color/character_fg_2"/>
-
     <View
             android:id="@+id/hiding"
             android:layout_width="0dp"
@@ -51,7 +45,7 @@
             app:layout_constraintEnd_toEndOf="@+id/lyrics"
             app:layout_constraintStart_toStartOf="@+id/lyrics"
             app:layout_constraintTop_toTopOf="@+id/lyrics"
-            tools:visibility="gone"
+            tools:visibility="visible"
             tools:backgroundTint="@color/character_fg_2"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

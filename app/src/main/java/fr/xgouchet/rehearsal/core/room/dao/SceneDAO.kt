@@ -11,7 +11,7 @@ import fr.xgouchet.rehearsal.core.room.model.SceneModel
 @Dao
 interface SceneDAO {
 
-    @Query("SELECT * FROM scene WHERE id = :id")
+    @Query("SELECT * FROM scene WHERE sceneId = :id")
     fun get(id: String): SceneModel
 
     @Query("SELECT * FROM scene WHERE scriptId = :scriptId ORDER BY position ASC")

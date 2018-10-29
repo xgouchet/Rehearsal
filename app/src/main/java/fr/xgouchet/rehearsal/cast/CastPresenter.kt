@@ -20,7 +20,7 @@ class CastPresenter(
 
         val character = (item as? Item.ViewModel)?.data as? CharacterModel ?: return
 
-        val updatedCharacter = character.copy(isSelected = value?.toBoolean() ?: false)
+        val updatedCharacter = character.copy(isHidden = value?.toBoolean() ?: false)
 
         dataSink.updateData(listOf(updatedCharacter))
     }

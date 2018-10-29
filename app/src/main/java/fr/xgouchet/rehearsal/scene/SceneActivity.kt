@@ -73,7 +73,7 @@ class SceneActivity
         fun createIntent(context: Context, sceneModel: SceneModel): Intent {
             val intent = Intent(context, SceneActivity::class.java)
 
-            intent.putExtra(EXTRA_SCENE_ID, sceneModel.id)
+            intent.putExtra(EXTRA_SCENE_ID, sceneModel.sceneId)
             intent.putExtra(EXTRA_SCENE_TITLE, sceneModel.description)
 
             return intent

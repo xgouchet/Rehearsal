@@ -20,7 +20,7 @@ class ScriptDataSink(context: Context)
     override fun deleteData(data: ScriptModel) {
         val disposable = Single.just(data)
                 .subscribeOn(Schedulers.io())
-                .map { appDatabase.scriptDao().deleteById(it.id) }
+                .map { appDatabase.scriptDao().deleteById(it.scriptId) }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         {

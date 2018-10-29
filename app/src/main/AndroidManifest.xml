@@ -25,7 +25,9 @@
 
         <activity android:name=".scene.SceneActivity"/>
 
-        <activity android:name=".cast.CastActivity" android:label="@string/cast_title"/>
+        <activity
+                android:name=".cast.CastActivity"
+                android:label="@string/cast_title"/>
 
     </application>
 

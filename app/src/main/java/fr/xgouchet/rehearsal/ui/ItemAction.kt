@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import fr.xgouchet.rehearsal.R
 
@@ -12,11 +13,13 @@ class ItemAction {
     // region VM
 
     class ViewModel(
+            id: Long,
             val direction: String = "",
             val hidden: Boolean = false,
             val colorIndex: Int = 0,
+            val highlight: Boolean = false,
             data: Any? = null
-    ) : Item.ViewModel(Item.Type.ACTION, data)
+    ) : Item.ViewModel(Item.Type.ACTION, id, data)
 
     // endregion
 
@@ -29,6 +32,7 @@ class ItemAction {
 
         private val directionView: TextView = itemView.findViewById(R.id.direction)
         private val hidingView: View = itemView.findViewById(R.id.hiding)
+        private val highlightView: ImageView = itemView.findViewById(R.id.highlight)
 
         init {
             if (listener != null) {
@@ -39,14 +43,22 @@ class ItemAction {
         override fun onBind(item: ViewModel) {
             directionView.text = item.direction
 
+            val color = CharacterColor.get(hidingView.context, item.colorIndex)
+
             if (item.hidden) {
-                val color = CharacterColor.get(hidingView.context, item.colorIndex)
                 hidingView.backgroundTintList = ColorStateList.valueOf(color)
                 hidingView.visibility = View.VISIBLE
                 directionView.visibility = View.INVISIBLE
             } else {
                 hidingView.visibility = View.GONE
                 directionView.visibility = View.VISIBLE
+            }
+
+            if (item.highlight) {
+                highlightView.imageTintList = ColorStateList.valueOf(color)
+                highlightView.visibility = View.VISIBLE
+            } else {
+                highlightView.visibility = View.GONE
             }
         }
 

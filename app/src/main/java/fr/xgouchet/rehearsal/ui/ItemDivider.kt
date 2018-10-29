@@ -9,7 +9,7 @@ class ItemDivider {
 
     // region VM
 
-    class ViewModel() : Item.ViewModel(Item.Type.DIVIDER, null)
+    class ViewModel(id: Long) : Item.ViewModel(Item.Type.DIVIDER, id, null)
 
     // endregion
 

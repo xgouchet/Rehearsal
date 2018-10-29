@@ -11,10 +11,11 @@ class ItemEmpty {
     // region VM
 
     class ViewModel(
+            id: Long,
             val title: String = "",
             val body: String = "",
             data: Any? = null
-    ) : Item.ViewModel(Item.Type.EMPTY, data)
+    ) : Item.ViewModel(Item.Type.EMPTY, id, data)
 
     // endregion
 

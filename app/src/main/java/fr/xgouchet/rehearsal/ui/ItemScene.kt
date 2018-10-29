@@ -12,10 +12,11 @@ class ItemScene {
     // region VM
 
     class ViewModel(
+            id: Long,
             val title: String = "",
             val numbering: String = "",
             data: Any? = null
-    ) : Item.ViewModel(Item.Type.SCENE, data)
+    ) : Item.ViewModel(Item.Type.SCENE, id, data)
 
     // endregion
 

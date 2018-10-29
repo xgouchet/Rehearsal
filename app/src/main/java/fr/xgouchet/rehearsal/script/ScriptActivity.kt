@@ -56,7 +56,7 @@ class ScriptActivity
         fun createIntent(context: Context, scriptModel: ScriptModel): Intent {
             val intent = Intent(context, ScriptActivity::class.java)
 
-            intent.putExtra(EXTRA_SCRIPT_ID, scriptModel.id)
+            intent.putExtra(EXTRA_SCRIPT_ID, scriptModel.scriptId)
             intent.putExtra(EXTRA_SCRIPT_TITLE, scriptModel.title)
 
             return intent

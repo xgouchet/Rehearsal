@@ -103,7 +103,7 @@ class ImportFountainDocument(
                                 cuePosition: Int) {
         val existingCharacterModel = appDatabase.characterDao().getByNameInScript(characterCue.characterName, scriptId)
 
-        val characterId = existingCharacterModel?.id ?: appDatabase.characterDao().insertOrReplace(
+        val characterId = existingCharacterModel?.characterId ?: appDatabase.characterDao().insertOrReplace(
                 CharacterModel(
                         scriptId = scriptId,
                         name = characterCue.characterName

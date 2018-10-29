@@ -12,10 +12,11 @@ class ItemScript {
     // region VM
 
     class ViewModel(
+            id: Long,
             val title: String = "",
             val author: String = "",
             data: Any? = null
-    ) : Item.ViewModel(Item.Type.SCRIPT, data)
+    ) : Item.ViewModel(Item.Type.SCRIPT, id, data)
 
     // endregion
 

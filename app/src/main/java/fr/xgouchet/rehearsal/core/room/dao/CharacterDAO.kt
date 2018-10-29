@@ -13,7 +13,7 @@ import fr.xgouchet.rehearsal.core.room.model.CharacterModel
 @Dao
 interface CharacterDAO {
 
-    @Query("SELECT * FROM character WHERE id = :id")
+    @Query("SELECT * FROM character WHERE characterId = :id")
     fun get(id: String): CharacterModel?
 
     @Query("SELECT * FROM character WHERE name = :name AND scriptId = :scriptId")

@@ -24,5 +24,6 @@ interface SceneContract {
     interface Transformer
         : ArchXViewModelTransformer<List<CueWithCharacter>, List<Item.ViewModel>> {
         fun setUserLinesVisible(visible : Boolean)
+        fun setSelectedCue(selectedCue: CueWithCharacter)
     }
 }
