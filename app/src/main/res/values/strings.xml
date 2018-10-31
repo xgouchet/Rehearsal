@@ -9,7 +9,9 @@
 
     <string name="cast_title">Cast</string>
     <string name="cast_action_hideLines">Hide lines</string>
-    <string name="cast_action_pickColor">Pick color</string>
+    <string name="cast_action_color">Color</string>
+    <string name="cast_action_voicePitch">Voice pitch</string>
+    <string name="cast_action_voiceRate">Voice speed</string>
 
     <string name="script_title_confirmDelete">Delete script?</string>
     <string name="script_text_deleteWarningPrompt">Are you sure you want to delete this script. This action can\'t be undone.</string>

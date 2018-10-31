@@ -13,7 +13,7 @@ class ItemDivider {
         : Item.ViewModel() {
         override fun getItemType() = Item.Type.DIVIDER
 
-        override fun getItemUniqueId() = id
+        override fun getItemStableId() = id
 
         override fun getItemData(): Any? = null
     }

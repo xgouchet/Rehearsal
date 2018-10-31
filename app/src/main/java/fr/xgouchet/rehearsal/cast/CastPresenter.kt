@@ -5,6 +5,7 @@ import androidx.lifecycle.LifecycleOwner
 import fr.xgouchet.archx.data.ArchXDataPresenter
 import fr.xgouchet.rehearsal.core.room.model.CharacterModel
 import fr.xgouchet.rehearsal.ui.Item
+import fr.xgouchet.rehearsal.ui.StableId
 
 class CastPresenter(
         owner: LifecycleOwner,
@@ -28,10 +29,19 @@ class CastPresenter(
     override fun onItemValueChanged(item: Item.ViewModel, value: String?) {
 
         val character = item.getItemData() as? CharacterModel ?: return
+        val subIndex = StableId.getSubIndex(item.getItemStableId())
 
-        val updatedCharacter = character.copy(isHidden = value?.toBoolean() ?: false)
+        val updatedCharacter = when (subIndex) {
+            CastViewModelTransformer.IDX_HIDE_LINES -> character.copy(isHidden = value?.toBoolean() ?: false)
+            CastViewModelTransformer.IDX_PITCH -> character.copy(ttsPitch = value?.toFloat() ?: 0.5f)
+            CastViewModelTransformer.IDX_RATE -> character.copy(ttsRate = value?.toFloat() ?: 0.5f)
+            else -> null
+        }
 
-        dataSink.updateData(listOf(updatedCharacter))
+
+        if (updatedCharacter != null) {
+            dataSink.updateData(listOf(updatedCharacter))
+        }
     }
 
     override fun onColorPicked(colorPickerRequest: Int, @ColorInt color: Int) {

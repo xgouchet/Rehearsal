@@ -23,7 +23,7 @@ class ItemAction {
     ) : Item.ViewModel() {
         override fun getItemType() = Item.Type.ACTION
 
-        override fun getItemUniqueId() = id
+        override fun getItemStableId() = id
 
         override fun getItemData(): Any? = data
     }

@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import fr.xgouchet.archx.ui.ArchXAdapter
 
 class ItemAdapter(private val listener: ItemListener?)
-    : ArchXAdapter<Item.ViewModel, Item.ViewHolder<*>, Long>(extractId = { it.getItemUniqueId() }) {
+    : ArchXAdapter<Item.ViewModel, Item.ViewHolder<*>, Long>(extractId = { it.getItemStableId() }) {
 
     init {
         setHasStableIds(true)
     }
 
     override fun getItemId(position: Int): Long {
-        return getItem(position)?.getItemUniqueId() ?: 0L
+        return getItem(position)?.getItemStableId() ?: 0L
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -36,6 +36,7 @@ class ItemAdapter(private val listener: ItemListener?)
 
             Item.Type.SWITCH.ordinal -> ItemSwitch.instantiateViewHolder(inflater, parent, listener)
             Item.Type.COLOR.ordinal -> ItemColorPicker.instantiateViewHolder(inflater, parent, listener)
+            Item.Type.SLIDER.ordinal -> ItemSlider.instantiateViewHolder(inflater, parent, listener)
 
             else -> TODO()
         }

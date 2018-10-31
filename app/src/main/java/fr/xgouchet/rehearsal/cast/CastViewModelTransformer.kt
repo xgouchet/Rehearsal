@@ -8,6 +8,7 @@ import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.ui.ItemCharacter
 import fr.xgouchet.rehearsal.ui.ItemColorPicker
 import fr.xgouchet.rehearsal.ui.ItemDivider
+import fr.xgouchet.rehearsal.ui.ItemSlider
 import fr.xgouchet.rehearsal.ui.ItemSwitch
 import fr.xgouchet.rehearsal.ui.StableId
 
@@ -36,7 +37,7 @@ class CastViewModelTransformer
 
         list.add(
                 ItemSwitch.ViewModel(
-                        id = StableId.getStableId(index, 2, Item.Type.SWITCH.ordinal),
+                        id = StableId.getStableId(index, IDX_HIDE_LINES, Item.Type.SWITCH.ordinal),
                         labelRes = R.string.cast_action_hideLines,
                         value = item.isHidden,
                         data = item
@@ -45,13 +46,42 @@ class CastViewModelTransformer
 
         list.add(
                 ItemColorPicker.ViewModel(
-                        id = StableId.getStableId(index, 3, Item.Type.COLOR.ordinal),
-                        labelRes = R.string.cast_action_pickColor,
+                        id = StableId.getStableId(index, IDX_COLOR, Item.Type.COLOR.ordinal),
+                        labelRes = R.string.cast_action_color,
                         color = color,
                         data = item
                 )
         )
 
+        list.add(
+                ItemSlider.ViewModel(
+                        id = StableId.getStableId(index, IDX_PITCH, Item.Type.COLOR.ordinal),
+                        labelRes = R.string.cast_action_voicePitch,
+                        value = item.ttsPitch,
+                        min = 0.5f,
+                        max = 2.0f,
+                        data = item
+                )
+        )
+
+        list.add(
+                ItemSlider.ViewModel(
+                        id = StableId.getStableId(index, IDX_RATE, Item.Type.COLOR.ordinal),
+                        labelRes = R.string.cast_action_voiceRate,
+                        value = item.ttsRate,
+                        min = 0.5f,
+                        max = 2.0f,
+                        data = item
+                )
+        )
+
         return list
+    }
+
+    companion object {
+        const val IDX_HIDE_LINES = 2
+        const val IDX_COLOR = 3
+        const val IDX_PITCH = 4
+        const val IDX_RATE = 5
     }
 }

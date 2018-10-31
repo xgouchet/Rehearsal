@@ -21,7 +21,7 @@ class ItemCharacter {
     ) : Item.ViewModel() {
         override fun getItemType() = Item.Type.CHARACTER
 
-        override fun getItemUniqueId() = id
+        override fun getItemStableId() = id
 
         override fun getItemData(): Any? = data
     }

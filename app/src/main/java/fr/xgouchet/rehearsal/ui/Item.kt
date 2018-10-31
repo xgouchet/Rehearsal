@@ -8,7 +8,7 @@ class Item {
     abstract class ViewModel {
         abstract fun getItemType(): Type
 
-        abstract fun getItemUniqueId(): Long
+        abstract fun getItemStableId(): Long
 
         abstract fun getItemData(): Any?
     }
@@ -41,6 +41,7 @@ class Item {
         LYRICS,
 
         SWITCH,
-        COLOR
+        COLOR,
+        SLIDER
     }
 }

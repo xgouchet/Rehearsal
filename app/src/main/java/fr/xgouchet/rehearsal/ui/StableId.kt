@@ -10,4 +10,9 @@ object StableId {
         val subIndexL = subIndex.toShort().toLong().shl(32)
         return typeL or subIndexL or index.toLong()
     }
+
+    fun getSubIndex(id: Long) : Int{
+
+        return id.shr(32).and(0x0FFFF).toInt()
+    }
 }

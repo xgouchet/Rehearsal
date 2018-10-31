@@ -21,7 +21,7 @@ class ItemSwitch {
     ) : Item.ViewModel() {
         override fun getItemType() = Item.Type.SWITCH
 
-        override fun getItemUniqueId() = id
+        override fun getItemStableId() = id
 
         override fun getItemData(): Any? = data
     }

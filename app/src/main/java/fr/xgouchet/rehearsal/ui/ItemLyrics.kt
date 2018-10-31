@@ -23,7 +23,7 @@ class ItemLyrics {
     ) : Item.ViewModel() {
         override fun getItemType() = Item.Type.LYRICS
 
-        override fun getItemUniqueId() = id
+        override fun getItemStableId() = id
 
         override fun getItemData(): Any? = data
     }

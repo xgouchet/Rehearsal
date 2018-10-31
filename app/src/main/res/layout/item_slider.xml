@@ -18,25 +18,41 @@
             android:maxLines="1"
             android:ellipsize="end"
             android:padding="4dp"
+            android:textSize="15sp"
             android:fontFamily="@font/sans_serif"
             android:textColor="@color/primary_text"
             android:gravity="start|center_vertical"
-            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/color"
+            app:layout_constraintEnd_toStartOf="@+id/slider"
             tools:text="@tools:sample/lorem"/>
 
-    <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/color"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_disc"
+    <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/slider"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:minWidth="128dp"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/hint"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/hint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:padding="4dp"
+            android:textSize="12sp"
+            android:fontFamily="@font/sans_serif"
+            android:textColor="@color/primary_text"
+            android:gravity="center_horizontal|center_vertical"
+            app:layout_constraintStart_toStartOf="@+id/slider"
+            app:layout_constraintTop_toBottomOf="@+id/slider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:tint="@color/character_fg_0"/>
+            tools:text="@tools:sample/date/ddmmyy"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
