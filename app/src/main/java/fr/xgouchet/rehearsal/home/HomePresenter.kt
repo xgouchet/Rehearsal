@@ -14,7 +14,7 @@ class HomePresenter(owner: LifecycleOwner,
 
 
     override fun onItemSelected(item: Item.ViewModel) {
-        val script = item.data as? ScriptModel
+        val script = item.getItemData() as? ScriptModel
 
         if (script != null) {
             view?.navigateToScript(script)

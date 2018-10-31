@@ -2,11 +2,13 @@ package fr.xgouchet.rehearsal.scene
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import androidx.lifecycle.LifecycleOwner
 import fr.xgouchet.archx.ArchXActivity
 import fr.xgouchet.rehearsal.R
 import fr.xgouchet.rehearsal.core.room.model.SceneModel
 import fr.xgouchet.rehearsal.ui.Item
+import fr.xgouchet.rehearsal.voice.app.VoiceController
 
 class SceneActivity
     : ArchXActivity<SceneContract.Presenter, SceneContract.View, List<Item.ViewModel>>() {
@@ -16,6 +18,17 @@ class SceneActivity
     private var sceneTitle: String = ""
 
     private var linesVisible: Boolean = false
+
+    private lateinit var voiceObserver: VoiceController
+
+    // region Activity
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        voiceObserver = VoiceController(this)
+        super.onCreate(savedInstanceState)
+    }
+
+    // endregion
 
     // region ArchXActivity
 
@@ -42,7 +55,8 @@ class SceneActivity
         val dataSink = SceneDataSink()
         val transformer = SceneViewModelTransformer()
 
-        return ScenePresenter(lifecycleOwner, dataSource, dataSink, transformer)
+
+        return ScenePresenter(sceneId, voiceObserver, lifecycleOwner, dataSource, dataSink, transformer)
     }
 
     // endregion
@@ -50,16 +64,16 @@ class SceneActivity
     // region ArchXActivity / FAB
 
     override fun getFabIcon(): Int? {
-        return R.drawable.ic_show_lines
+        return R.drawable.ic_play
     }
 
     override fun onFabClicked() {
-        val visible = !linesVisible
-        linesVisible = visible
-        presenter.onLinesVisibilityChanged(visible)
-        fab.setImageResource(if (visible) R.drawable.ic_hide_lines else R.drawable.ic_show_lines)
+        presenter.onPlayPauseSelected()
     }
 
+    fun showReading(reading: Boolean) {
+        fab.setImageResource(if (reading) R.drawable.ic_pause else R.drawable.ic_play)
+    }
 
     // endregion
 

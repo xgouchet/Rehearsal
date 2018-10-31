@@ -12,7 +12,7 @@ class SceneDataSource(context: Context,
     private val appDatabase: AppDatabase = AppDatabase.getInstance(context)
 
 
-    private val sceneList: LiveData<List<CueWithCharacter>> = appDatabase.cueDao().getUsers(sceneId)
+    private val sceneList: LiveData<List<CueWithCharacter>> = appDatabase.cueDao().getAllInScene(sceneId)
 
     override fun getData(): LiveData<List<CueWithCharacter>> {
         return sceneList

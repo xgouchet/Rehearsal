@@ -1,5 +1,6 @@
 package fr.xgouchet.fountain.parser.dom
 
+import fr.xgouchet.elmyr.Forger
 import org.assertj.core.api.Java6Assertions.assertThat
 import org.junit.Before
 import org.junit.Rule

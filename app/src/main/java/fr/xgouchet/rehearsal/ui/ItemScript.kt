@@ -12,11 +12,17 @@ class ItemScript {
     // region VM
 
     class ViewModel(
-            id: Long,
+            val id: Long,
             val title: String = "",
             val author: String = "",
-            data: Any? = null
-    ) : Item.ViewModel(Item.Type.SCRIPT, id, data)
+            val data: Any? = null
+    ) : Item.ViewModel() {
+        override fun getItemType() = Item.Type.SCRIPT
+
+        override fun getItemUniqueId() = id
+
+        override fun getItemData(): Any? = data
+    }
 
     // endregion
 

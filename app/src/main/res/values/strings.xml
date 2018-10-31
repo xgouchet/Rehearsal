@@ -4,6 +4,8 @@
 
     <string name="menu_cast">Cast</string>
     <string name="menu_delete">Delete</string>
+    <string name="menu_showLines">Show lines</string>
+    <string name="menu_hideLines">Hide lines</string>
 
     <string name="cast_title">Cast</string>
     <string name="cast_action_hideLines">Hide lines</string>

@@ -31,25 +31,6 @@
     <color name="character_fg_14">#2e7d32</color>
     <color name="character_fg_15">#ff8f00</color>
 
-    <!--
-    <color name="character_bg_0">#ffcdd2</color>
-    <color name="character_bg_1">#d1c4e9</color>
-    <color name="character_bg_2">#b3e5fc</color>
-    <color name="character_bg_3">#c8e6c9</color>
-    <color name="character_bg_4">#fff9c4</color>
-    <color name="character_bg_5">#ffccbc</color>
-    <color name="character_bg_6">#e1bee7</color>
-    <color name="character_bg_7">#bbdefb</color>
-    <color name="character_bg_8">#b2dfdb</color>
-    <color name="character_bg_9">#f0f4c3</color>
-    <color name="character_bg_10">#ffe0b2</color>
-    <color name="character_bg_11">#f8bbd0</color>
-    <color name="character_bg_12">#c5cae9</color>
-    <color name="character_bg_13">#b2ebf2</color>
-    <color name="character_bg_14">#dcedc8</color>
-    <color name="character_bg_15">#ffecb3</color>
-    -->
-
     <array name="character_color">
         <item>@color/character_fg_0</item>
         <item>@color/character_fg_5</item>

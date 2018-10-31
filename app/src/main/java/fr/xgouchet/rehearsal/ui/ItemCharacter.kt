@@ -12,13 +12,19 @@ class ItemCharacter {
 
     // region VM
 
-    class ViewModel(
-            id: Long,
+    data class ViewModel(
+            val id: Long,
             val characterName: String = "",
             val characterExtension: String? = null,
             @ColorInt val color: Int = -1,
-            data: Any? = null
-    ) : Item.ViewModel(Item.Type.CHARACTER, id, data)
+            val data: Any? = null
+    ) : Item.ViewModel() {
+        override fun getItemType() = Item.Type.CHARACTER
+
+        override fun getItemUniqueId() = id
+
+        override fun getItemData(): Any? = data
+    }
 
     // endregion
 

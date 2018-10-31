@@ -13,12 +13,18 @@ class ItemSwitch {
     // region VM
 
     class ViewModel(
-            id: Long,
+            val id: Long,
             val label: String = "",
             @StringRes val labelRes: Int = 0,
             val value: Boolean = false,
-            data: Any? = null
-    ) : Item.ViewModel(Item.Type.SWITCH, id, data)
+            val data: Any? = null
+    ) : Item.ViewModel() {
+        override fun getItemType() = Item.Type.SWITCH
+
+        override fun getItemUniqueId() = id
+
+        override fun getItemData(): Any? = data
+    }
 
     // endregion
 

@@ -16,5 +16,8 @@ data class CharacterModel(
         @ColumnInfo(index = true) var scriptId: Int,
         var name: String,
         var isHidden: Boolean = false,
-        var color: Int = -1
+        var color: Int = -1,
+        var ttsEngine: String? = null,
+        var ttsPitch: Float = 1.0f,
+        var ttsRate: Float = 1.0f
 )

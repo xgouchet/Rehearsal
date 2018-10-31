@@ -9,7 +9,15 @@ class ItemDivider {
 
     // region VM
 
-    class ViewModel(id: Long) : Item.ViewModel(Item.Type.DIVIDER, id, null)
+    data class ViewModel(val id: Long)
+        : Item.ViewModel() {
+        override fun getItemType() = Item.Type.DIVIDER
+
+        override fun getItemUniqueId() = id
+
+        override fun getItemData(): Any? = null
+    }
+
 
     // endregion
 

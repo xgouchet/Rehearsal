@@ -19,7 +19,7 @@ class CastPresenter(
     // region CastContract.Presenter
 
     override fun onItemSelected(item: Item.ViewModel) {
-        val character = item.data as? CharacterModel ?: return
+        val character = item.getItemData() as? CharacterModel ?: return
 
         colorPickerMap[character.characterId] = character
         view?.showColorPicker(character.characterId, character.color)
@@ -27,7 +27,7 @@ class CastPresenter(
 
     override fun onItemValueChanged(item: Item.ViewModel, value: String?) {
 
-        val character = item.data as? CharacterModel ?: return
+        val character = item.getItemData() as? CharacterModel ?: return
 
         val updatedCharacter = character.copy(isHidden = value?.toBoolean() ?: false)
 

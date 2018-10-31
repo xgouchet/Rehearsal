@@ -15,13 +15,20 @@ class ItemColorPicker {
 
     // region VM
 
-    class ViewModel(
-            id: Long,
+    data class ViewModel(
+            val id: Long,
             val label: String = "",
             @StringRes val labelRes: Int = 0,
             @ColorInt val color: Int = 0,
-            data: Any? = null
-    ) : Item.ViewModel(Item.Type.COLOR, id, data)
+            val data: Any? = null
+    ) : Item.ViewModel() {
+        override fun getItemType() = Item.Type.COLOR
+
+        override fun getItemUniqueId() = id
+
+        override fun getItemData(): Any? = data
+    }
+
 
     // endregion
 

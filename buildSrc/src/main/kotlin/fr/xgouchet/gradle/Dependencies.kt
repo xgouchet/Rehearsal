@@ -38,7 +38,7 @@ object Dependencies {
 
 
         const val JUnit = "4.12"
-        const val Elmyr = "0.8"
+        const val Elmyr = "0.8.1"
         const val Mockito = "2.19.0"
         const val MockitoKotlin = "1.6.0"
         const val AssertJ = "3.11.0"

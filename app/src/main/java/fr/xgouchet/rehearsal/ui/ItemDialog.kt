@@ -13,14 +13,21 @@ class ItemDialog {
 
     // region VM
 
-    class ViewModel(
-            id: Long,
+    data class ViewModel(
+            val id: Long,
             val line: String = "",
             val hidden: Boolean = false,
             @ColorInt val color: Int = -1,
             val highlight: Boolean = false,
-            data: Any? = null
-    ) : Item.ViewModel(Item.Type.DIALOG, id, data)
+            val data: Any? = null
+    ) : Item.ViewModel() {
+        override fun getItemType() = Item.Type.DIALOG
+
+        override fun getItemUniqueId() = id
+
+        override fun getItemData(): Any? = data
+    }
+
 
     // endregion
 

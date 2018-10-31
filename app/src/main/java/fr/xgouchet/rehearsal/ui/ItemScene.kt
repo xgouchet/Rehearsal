@@ -12,11 +12,17 @@ class ItemScene {
     // region VM
 
     class ViewModel(
-            id: Long,
+         val   id: Long,
             val title: String = "",
             val numbering: String = "",
-            data: Any? = null
-    ) : Item.ViewModel(Item.Type.SCENE, id, data)
+            val data: Any? = null
+    ) : Item.ViewModel() {
+        override fun getItemType() = Item.Type.SCENE
+
+        override fun getItemUniqueId() = id
+
+        override fun getItemData(): Any? = data
+    }
 
     // endregion
 

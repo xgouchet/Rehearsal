@@ -13,9 +13,13 @@ interface SceneContract {
     interface Presenter : ArchXPresenter<List<Item.ViewModel>> {
         fun onItemSelected(item: Item.ViewModel)
         fun onLinesVisibilityChanged(linesVisible: Boolean)
+        fun onPlayPauseSelected()
     }
 
-    interface View : ArchXView<List<Item.ViewModel>>
+    interface View : ArchXView<List<Item.ViewModel>> {
+        fun showLinesVisible(linesVisible: Boolean)
+        fun showReading(reading: Boolean)
+    }
 
     interface DataSource : ArchXDataSource<List<CueWithCharacter>>
 
@@ -24,6 +28,6 @@ interface SceneContract {
     interface Transformer
         : ArchXViewModelTransformer<List<CueWithCharacter>, List<Item.ViewModel>> {
         fun setUserLinesVisible(visible : Boolean)
-        fun setSelectedCue(selectedCue: CueWithCharacter)
+        fun setSelectedCue(cueId: Int)
     }
 }

@@ -13,14 +13,21 @@ class ItemLyrics {
 
     // region VM
 
-    class ViewModel(
-            id: Long,
+    data class ViewModel(
+            val id: Long,
             val lyrics: String = "",
             val hidden: Boolean = false,
             @ColorInt val color: Int = -1,
             val highlight: Boolean = false,
-            data: Any? = null
-    ) : Item.ViewModel(Item.Type.LYRICS, id, data)
+            val data: Any? = null
+    ) : Item.ViewModel() {
+        override fun getItemType() = Item.Type.LYRICS
+
+        override fun getItemUniqueId() = id
+
+        override fun getItemData(): Any? = data
+    }
+
 
     // endregion
 

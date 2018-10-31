@@ -20,7 +20,7 @@ class SceneViewModelTransformer
     private var userLinesVisible = false
 
     private var lastCue: CueWithCharacter? = null
-    private var activeCue: CueWithCharacter? = null
+    private var activeCueId: Int = -1
 
     override fun empty(): Collection<Item.ViewModel> {
         return listOf(
@@ -54,14 +54,14 @@ class SceneViewModelTransformer
                         id = StableId.getStableId(index, 1, Item.Type.CHARACTER.ordinal),
                         characterName = character.name,
                         characterExtension = item.characterExtension,
-                       color = color,
+                        color = color,
                         data = item
                 ))
             }
         }
 
         val hideCue = if (userLinesVisible) false else character?.isHidden ?: false
-        val highlightCue = item.cueId == (activeCue?.cueId ?: 0)
+        val highlightCue = item.cueId == activeCueId
         val cueItem = when (item.type) {
             CueModel.TYPE_DIALOG -> ItemDialog.ViewModel(
                     id = StableId.getStableId(index, 2, Item.Type.DIALOG.ordinal),
@@ -103,8 +103,8 @@ class SceneViewModelTransformer
         userLinesVisible = visible
     }
 
-    override fun setSelectedCue(selectedCue: CueWithCharacter) {
-        activeCue = selectedCue
+    override fun setSelectedCue(cueId: Int) {
+        activeCueId = cueId
     }
 }
 

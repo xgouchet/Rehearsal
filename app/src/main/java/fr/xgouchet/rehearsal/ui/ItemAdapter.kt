@@ -5,18 +5,18 @@ import android.view.ViewGroup
 import fr.xgouchet.archx.ui.ArchXAdapter
 
 class ItemAdapter(private val listener: ItemListener?)
-    : ArchXAdapter<Item.ViewModel, Item.ViewHolder<*>, Long>(extractId = { it.id }) {
+    : ArchXAdapter<Item.ViewModel, Item.ViewHolder<*>, Long>(extractId = { it.getItemUniqueId() }) {
 
     init {
         setHasStableIds(true)
     }
 
     override fun getItemId(position: Int): Long {
-        return getItem(position)?.id ?: 0L
+        return getItem(position)?.getItemUniqueId() ?: 0L
     }
 
     override fun getItemViewType(position: Int): Int {
-        return (getItem(position)?.type ?: Item.Type.EMPTY).ordinal
+        return (getItem(position)?.getItemType() ?: Item.Type.EMPTY).ordinal
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Item.ViewHolder<*> {

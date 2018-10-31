@@ -11,11 +11,17 @@ class ItemEmpty {
     // region VM
 
     class ViewModel(
-            id: Long,
+            val id: Long,
             val title: String = "",
             val body: String = "",
-            data: Any? = null
-    ) : Item.ViewModel(Item.Type.EMPTY, id, data)
+            val data: Any? = null
+    ) : Item.ViewModel() {
+        override fun getItemType() = Item.Type.EMPTY
+
+        override fun getItemUniqueId() = id
+
+        override fun getItemData(): Any? = data
+    }
 
     // endregion
 
