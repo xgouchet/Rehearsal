@@ -4,16 +4,16 @@ import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import fr.xgouchet.rehearsal.core.room.AppDatabase
-import fr.xgouchet.rehearsal.core.room.model.CharacterModel
 import fr.xgouchet.rehearsal.core.room.model.CueModel
 import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 import fr.xgouchet.rehearsal.voice.tts.TTSEngine
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 
 class VoiceSceneReader(
         context: Context,
@@ -72,8 +72,6 @@ class VoiceSceneReader(
     private fun onCuesRetrieved(cues: List<CueWithCharacter>, cueId: Int) {
         cueQueue = cues
 
-        prepareEngineForNextCue(cues.getOrNull(0))
-
         if (index < 0 || index >= cues.size) {
             val foundIndex = cues.indexOfFirst { it.cueId == cueId }
             if (foundIndex >= 0) {
@@ -90,12 +88,6 @@ class VoiceSceneReader(
 
     }
 
-    private fun prepareEngineForNextCue(cueWithCharacter: CueWithCharacter?) {
-        val character = cueWithCharacter?.character ?: return
-        val engine = getEngine(character.characterId, character.ttsEngine)
-        Timber.v("#voice prepared @engine:$engine for @character:$character")
-    }
-
     private fun readNextCue() {
         if (isStopped) {
             listener.stopped()
@@ -105,19 +97,19 @@ class VoiceSceneReader(
         val cue = cueQueue.getOrNull(index)
         currentCue = cue
 
-        prepareEngineForNextCue(cueQueue.getOrNull(index + 1))
-
         if (cue == null) {
-            listener.stopped()
             Timber.w("#voice no cue at @index:$index")
+            listener.stopped()
         } else {
             listener.readingCue(cue.cueId)
-            speakCue(cue)
+            GlobalScope.launch {
+                speakCue(cue)
+            }
         }
 
     }
 
-    private fun speakCue(cue: CueWithCharacter) {
+    private suspend fun speakCue(cue: CueWithCharacter) {
         when (cue.type) {
             CueModel.TYPE_ACTION -> {
                 Timber.d("#voice ignoring action : ${cue.content}")
@@ -137,51 +129,34 @@ class VoiceSceneReader(
         }
     }
 
-    private fun silentDialog(cue: CueWithCharacter) {
+    private suspend fun silentDialog(cue: CueWithCharacter) {
         val length = cue.content.length.toFloat()
 
         val factor = (SILENT_FACTOR_A / length) + SILENT_FACTOR_C
         val duration = (length * factor).toLong()
 
-        Timber.d("#voice #sleeping for @duration:$duration ms with cue @length:$length")
-        val disposable = Single.just(true)
-                .subscribeOn(Schedulers.computation())
-                .delay(duration, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        {
-                            index++
-                            readNextCue()
-                        },
-                        {}
-                )
+        withContext(Dispatchers.IO) {
+            Timber.d("#voice #sleeping for @duration:$duration ms with cue @length:$length")
+            delay(duration)
+        }
+
+        index++
+        readNextCue()
     }
 
-    private fun speakDialogCue(cue: CueWithCharacter) {
+    private suspend fun speakDialogCue(cue: CueWithCharacter) {
         Timber.i("#voice reading cue at @index:$index")
         val character = cue.character ?: return
 
         val characterId = character.characterId
         val engine = getEngine(characterId, character.ttsEngine)
 
-        if (!engine.isReady()) {
-            val disposable = Single.just(engine)
-                    .subscribeOn(Schedulers.computation())
-                    .delay(1, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            {
-                                speakWithEngine(it, character, cue)
-                            },
-                            {}
-                    )
-        } else {
-            speakWithEngine(engine, character, cue)
+        while (!engine.isReady()) {
+            withContext(Dispatchers.IO) {
+                delay(WAIT_FOR_ENGINE_STEP_MS)
+            }
         }
 
-    }
-
-    private fun speakWithEngine(engine: TTSEngine, character: CharacterModel, cue: CueWithCharacter) {
         val utteranceId = "${cue.cueId}/${System.currentTimeMillis()}"
         engine.setPitch(character.ttsPitch)
         engine.setRate(character.ttsRate)
@@ -212,6 +187,6 @@ class VoiceSceneReader(
         const val SILENT_FACTOR_C = 40
         const val SILENT_FACTOR_A = 550
 
-
+        const val WAIT_FOR_ENGINE_STEP_MS = 100L
     }
 }
