@@ -17,13 +17,26 @@ class CastPresenter(
 
     private val colorPickerMap: MutableMap<Int, CharacterModel> = mutableMapOf()
 
+    private val enginePickerMap: MutableMap<Int, CharacterModel> = mutableMapOf()
+
     // region CastContract.Presenter
 
     override fun onItemSelected(item: Item.ViewModel) {
         val character = item.getItemData() as? CharacterModel ?: return
+        val subIndex = StableId.getSubIndex(item.getItemStableId())
 
-        colorPickerMap[character.characterId] = character
-        view?.showColorPicker(character.characterId, character.color)
+        when (subIndex) {
+            CastViewModelTransformer.IDX_COLOR -> {
+                colorPickerMap[character.characterId] = character
+                view?.showColorPicker(character.characterId, character.color)
+            }
+            CastViewModelTransformer.IDX_ENGINE -> {
+                enginePickerMap[character.characterId] = character
+                view?.showEnginePicker(character.characterId, character.ttsEngine)
+            }
+        }
+
+
     }
 
     override fun onItemValueChanged(item: Item.ViewModel, value: String?) {
@@ -44,10 +57,18 @@ class CastPresenter(
         }
     }
 
-    override fun onColorPicked(colorPickerRequest: Int, @ColorInt color: Int) {
-        val character = colorPickerMap[colorPickerRequest] ?: return
+    override fun onColorPicked(requestId: Int, @ColorInt color: Int) {
+        val character = colorPickerMap[requestId] ?: return
 
         val updatedCharacter = character.copy(color = color)
+
+        dataSink.updateData(listOf(updatedCharacter))
+    }
+
+    override fun onEnginePicked(requestId: Int, engine: String) {
+        val character = enginePickerMap[requestId] ?: return
+
+        val updatedCharacter = character.copy(ttsEngine = engine)
 
         dataSink.updateData(listOf(updatedCharacter))
     }

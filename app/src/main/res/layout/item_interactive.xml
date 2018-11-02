@@ -24,18 +24,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/color"
+            app:layout_constraintEnd_toStartOf="@+id/value"
             tools:text="@tools:sample/lorem"/>
 
-    <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/color"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/value"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
             android:layout_margin="8dp"
-            android:src="@drawable/ic_disc"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:padding="4dp"
+            android:fontFamily="@font/sans_serif"
+            android:textColor="@color/secondary_text"
+            android:gravity="start|center_vertical"
+            android:textSize="13sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:tint="@color/character_fg_0"/>
+            tools:text="@tools:sample/cities"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

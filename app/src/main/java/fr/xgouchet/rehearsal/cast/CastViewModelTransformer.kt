@@ -8,6 +8,7 @@ import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.ui.ItemCharacter
 import fr.xgouchet.rehearsal.ui.ItemColorPicker
 import fr.xgouchet.rehearsal.ui.ItemDivider
+import fr.xgouchet.rehearsal.ui.ItemInteractive
 import fr.xgouchet.rehearsal.ui.ItemSlider
 import fr.xgouchet.rehearsal.ui.ItemSwitch
 import fr.xgouchet.rehearsal.ui.StableId
@@ -52,7 +53,14 @@ class CastViewModelTransformer
                         data = item
                 )
         )
-
+        list.add(
+                ItemInteractive.ViewModel(
+                        id = StableId.getStableId(index, IDX_ENGINE, Item.Type.INTERACTIVE.ordinal),
+                        labelRes = R.string.cast_action_voiceEngine,
+                        value = item.ttsEngine.orEmpty(),
+                        data = item
+                )
+        )
         list.add(
                 ItemSlider.ViewModel(
                         id = StableId.getStableId(index, IDX_PITCH, Item.Type.COLOR.ordinal),
@@ -81,7 +89,8 @@ class CastViewModelTransformer
     companion object {
         const val IDX_HIDE_LINES = 2
         const val IDX_COLOR = 3
-        const val IDX_PITCH = 4
-        const val IDX_RATE = 5
+        const val IDX_ENGINE = 4
+        const val IDX_PITCH = 5
+        const val IDX_RATE = 6
     }
 }

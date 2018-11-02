@@ -14,11 +14,13 @@ interface CastContract {
     interface Presenter : ArchXPresenter<List<Item.ViewModel>> {
         fun onItemValueChanged(item: Item.ViewModel, value: String?)
         fun onItemSelected(item: Item.ViewModel)
-        fun onColorPicked(colorPickerRequest: Int, @ColorInt color: Int)
+        fun onColorPicked(requestId: Int, @ColorInt color: Int)
+        fun onEnginePicked(requestId: Int, engine: String)
     }
 
     interface View : ArchXView<List<Item.ViewModel>> {
-        fun showColorPicker(requestId: Int, @ColorInt colorIndex: Int)
+        fun showColorPicker(requestId: Int, @ColorInt color: Int)
+        fun showEnginePicker(requestId: Int, engine: String?)
     }
 
     interface DataSource : ArchXDataSource<List<CharacterModel>>

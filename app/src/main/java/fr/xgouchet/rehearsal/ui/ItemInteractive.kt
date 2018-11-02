@@ -1,17 +1,14 @@
 package fr.xgouchet.rehearsal.ui
 
 import android.annotation.SuppressLint
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import fr.xgouchet.rehearsal.R
 
-class ItemColorPicker {
+class ItemInteractive {
 
     // region VM
 
@@ -19,10 +16,10 @@ class ItemColorPicker {
             val id: Long,
             val label: String = "",
             @StringRes val labelRes: Int = 0,
-            @ColorInt val color: Int = 0,
+            val value: String = "",
             val data: Any? = null
     ) : Item.ViewModel() {
-        override fun getItemType() = Item.Type.COLOR
+        override fun getItemType() = Item.Type.INTERACTIVE
 
         override fun getItemStableId() = id
 
@@ -40,7 +37,7 @@ class ItemColorPicker {
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val labelView: TextView = itemView.findViewById(R.id.label)
-        private val colorView: ImageView = itemView.findViewById(R.id.color)
+        private val valueView: TextView = itemView.findViewById(R.id.value)
 
         init {
             listener?.let { l ->
@@ -57,7 +54,7 @@ class ItemColorPicker {
                 labelView.setText(item.labelRes)
             }
 
-            colorView.imageTintList = ColorStateList.valueOf(item.color)
+            valueView.text = item.value
         }
 
     }
@@ -70,7 +67,7 @@ class ItemColorPicker {
                                   parent: ViewGroup,
                                   listener: ItemListener?)
                 : ViewHolder {
-            val view = inflater.inflate(R.layout.item_color, parent, false)
+            val view = inflater.inflate(R.layout.item_interactive, parent, false)
             return ViewHolder(view, listener)
         }
 

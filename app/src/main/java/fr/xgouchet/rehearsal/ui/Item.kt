@@ -42,6 +42,7 @@ class Item {
 
         SWITCH,
         COLOR,
-        SLIDER
+        SLIDER,
+        INTERACTIVE
     }
 }

@@ -7,6 +7,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import fr.xgouchet.rehearsal.voice.ipc.MessageProtocol
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class VoiceController(context: Context)
     : LifecycleObserver,
@@ -29,9 +34,16 @@ class VoiceController(context: Context)
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun disconnectListener() {
-        synchronized(mBinderLock) {
-            connection.unbind(appContext)
+        stop()
+        GlobalScope.launch {
+            withContext(Dispatchers.IO) {
+                delay(500)
+            }
+            synchronized(mBinderLock) {
+                connection.unbind(appContext)
+            }
         }
+
     }
 
     // endregion

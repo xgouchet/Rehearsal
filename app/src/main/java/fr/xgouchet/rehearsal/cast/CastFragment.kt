@@ -1,6 +1,11 @@
 package fr.xgouchet.rehearsal.cast
 
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.speech.tts.TextToSpeech
 import androidx.annotation.ColorInt
+import androidx.appcompat.app.AlertDialog
 import com.takisoft.colorpicker.ColorPickerDialog
 import com.takisoft.colorpicker.OnColorSelectedListener
 import fr.xgouchet.rehearsal.R
@@ -31,19 +36,53 @@ class CastFragment
 
     // region CastContract.View
 
-    override fun showColorPicker(requestId: Int, @ColorInt selectedColor: Int) {
+    override fun showColorPicker(requestId: Int, @ColorInt color: Int) {
 
         val currentActivity = activity ?: return
 
         colorPickerRequest = requestId
         val params = ColorPickerDialog.Params.Builder(currentActivity.applicationContext)
-                .setSelectedColor(selectedColor)
+                .setSelectedColor(color)
                 .setColors(resources.getIntArray(R.array.character_color))
                 .build()
 
 
         val dialog = ColorPickerDialog(currentActivity, this, params)
         dialog.show()
+    }
+
+    override fun showEnginePicker(requestId: Int, engine: String?) {
+        val currentContext = context ?: return
+
+        val servicePackageNames = listTTSServices(currentContext)
+
+        if (servicePackageNames.size > 1) {
+            showEngineDialog(requestId, currentContext, servicePackageNames)
+        }
+    }
+
+    private fun showEngineDialog(requestId: Int,
+                                 context: Context,
+                                 servicePackageNames: Array<String>) {
+        val builder = AlertDialog.Builder(context)
+                .setTitle("Choose an voice provider")
+                .setItems(servicePackageNames) { d, w ->
+                    val engine = servicePackageNames[w]
+                    (presenter as? CastContract.Presenter)?.onEnginePicked(requestId, engine)
+                    d.dismiss()
+                }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun listTTSServices(currentContext: Context): Array<String> {
+        val pm = currentContext.packageManager
+        val voiceIntent = Intent(TextToSpeech.Engine.INTENT_ACTION_TTS_SERVICE)
+        val services = pm.queryIntentServices(voiceIntent, PackageManager.GET_META_DATA)
+
+        return services.map { it.serviceInfo.packageName }
+                .toTypedArray()
     }
 
     // endregion

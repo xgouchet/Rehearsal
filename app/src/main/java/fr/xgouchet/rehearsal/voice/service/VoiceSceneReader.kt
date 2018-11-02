@@ -13,7 +13,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import java.util.Locale
 
 class VoiceSceneReader(
         context: Context,
@@ -160,9 +159,9 @@ class VoiceSceneReader(
         val utteranceId = "${cue.cueId}/${System.currentTimeMillis()}"
         engine.setPitch(character.ttsPitch)
         engine.setRate(character.ttsRate)
+        // TODO setLocale ?
         engine.speak(
                 message = cue.content,
-                locale = Locale.FRANCE,
                 utteranceId = utteranceId)
     }
 

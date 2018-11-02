@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import timber.log.Timber
-import java.util.Locale
 
 
 class AndroidTTSEngine(
@@ -77,8 +76,7 @@ class AndroidTTSEngine(
     }
 
     override fun speak(message: String,
-                       utteranceId: String,
-                       locale: Locale) {
+                       utteranceId: String) {
         if (!isInitialised) {
             Timber.w("#voice trying to speak but #engine not initialised")
             return
@@ -89,7 +87,7 @@ class AndroidTTSEngine(
             ensureListenerIsAttached()
         }
 
-        textToSpeech?.language = locale
+        // TODO textToSpeech?.language = locale
 
         speakMessage(message, utteranceId, AudioManager.STREAM_MUSIC)
     }

@@ -37,6 +37,7 @@ class ItemAdapter(private val listener: ItemListener?)
             Item.Type.SWITCH.ordinal -> ItemSwitch.instantiateViewHolder(inflater, parent, listener)
             Item.Type.COLOR.ordinal -> ItemColorPicker.instantiateViewHolder(inflater, parent, listener)
             Item.Type.SLIDER.ordinal -> ItemSlider.instantiateViewHolder(inflater, parent, listener)
+            Item.Type.INTERACTIVE.ordinal -> ItemInteractive.instantiateViewHolder(inflater, parent, listener)
 
             else -> TODO()
         }

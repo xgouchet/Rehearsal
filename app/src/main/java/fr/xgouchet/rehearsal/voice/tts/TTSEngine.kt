@@ -1,7 +1,5 @@
 package fr.xgouchet.rehearsal.voice.tts
 
-import java.util.Locale
-
 
 /**
  * Describes a TTS Provider, ie: an object capable of "speaking" text messages
@@ -46,9 +44,8 @@ interface TTSEngine {
      *
      * @param message     the message to speak
      * @param utteranceId an id, referenced in the [Listener] callbacks
-     * @param locale      the locale to use when reading the message
      */
-    fun speak(message: String, utteranceId: String, locale: Locale)
+    fun speak(message: String, utteranceId: String)
 
     /**
      * Interrupts the current message being spoken
