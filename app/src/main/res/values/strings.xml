@@ -14,6 +14,12 @@
     <string name="cast_action_voiceRate">Voice speed</string>
     <string name="cast_action_voiceEngine">Voice Engine</string>
 
+    <string name="channel_title_voice">Voice</string>
+    <string name="channel_text_voiceDescription">Scene playback voice controller</string>
+
+    <string name="notif_title_anonymous">Rehearsal</string>
+    <string name="notif_text_hiddenCue">Hidden cue</string>
+
     <string name="script_title_confirmDelete">Delete script?</string>
     <string name="script_text_deleteWarningPrompt">Are you sure you want to delete this script. This action can\'t be undone.</string>
 </resources>

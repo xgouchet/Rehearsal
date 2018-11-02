@@ -4,7 +4,6 @@ import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import fr.xgouchet.rehearsal.R
@@ -18,7 +17,6 @@ class ItemAction {
             val direction: String = "",
             val hidden: Boolean = false,
             @ColorInt val color: Int = -1,
-            val highlight: Boolean = false,
             val data: Any? = null
     ) : Item.ViewModel() {
         override fun getItemType() = Item.Type.ACTION
@@ -39,7 +37,6 @@ class ItemAction {
 
         private val directionView: TextView = itemView.findViewById(R.id.direction)
         private val hidingView: View = itemView.findViewById(R.id.hiding)
-        private val highlightView: ImageView = itemView.findViewById(R.id.highlight)
 
         init {
             if (listener != null) {
@@ -57,13 +54,6 @@ class ItemAction {
             } else {
                 hidingView.visibility = View.GONE
                 directionView.visibility = View.VISIBLE
-            }
-
-            if (item.highlight) {
-                highlightView.imageTintList = ColorStateList.valueOf(item.color)
-                highlightView.visibility = View.VISIBLE
-            } else {
-                highlightView.visibility = View.GONE
             }
         }
 

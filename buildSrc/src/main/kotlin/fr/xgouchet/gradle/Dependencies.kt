@@ -54,10 +54,11 @@ object Dependencies {
         const val AndroidAppCompat = "androidx.appcompat:appcompat:${Versions.AndroidX}"
         const val AndroidCardView = "androidx.cardview:cardview:${Versions.AndroidX}"
 
-        @JvmField val AndroidSupport = arrayOf(
+        @JvmField val AndroidX = arrayOf(
                 "androidx.annotation:annotation:${Versions.AndroidX}",
                 "androidx.appcompat:appcompat:${Versions.AndroidX}",
-                "androidx.core:core-ktx:${Versions.AndroidX}"
+                "androidx.core:core-ktx:${Versions.AndroidX}",
+                "androidx.media:media:${Versions.AndroidX}"
         )
         const val MaterialComponents = "com.google.android.material:material:${Versions.MaterialComponents}"
 

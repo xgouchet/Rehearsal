@@ -1,5 +1,6 @@
 package fr.xgouchet.rehearsal.voice.app
 
+import android.app.Service
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -33,7 +34,7 @@ class VoiceConnection(listener : VoiceServiceListener)
 
         val intent = Intent(context, VoiceService::class.java)
         context.startService(intent)
-        context.bindService(intent, this, 0)
+        context.bindService(intent, this, Service.BIND_AUTO_CREATE)
 
         // send initial messages
         sendMessage(Message.obtain(null, MessageProtocol.MSG_REGISTER_LISTENER))

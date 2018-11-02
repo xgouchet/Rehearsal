@@ -1,51 +1,100 @@
 package fr.xgouchet.rehearsal.voice.service
 
+import android.app.Service
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
 import android.os.Bundle
 import android.os.HandlerThread
 import android.os.IBinder
 import android.os.Message
 import android.os.Messenger
 import android.os.RemoteException
+import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.LifecycleService
+import androidx.media.MediaSessionManager
+import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 import fr.xgouchet.rehearsal.voice.ipc.MessageProtocol
 import fr.xgouchet.rehearsal.voice.tts.AndroidTTSEngine
 import timber.log.Timber
 
 class VoiceService
     : LifecycleService(),
-        SceneReader.Listener {
+        SceneReader.Listener, VoiceMediaSessionCallback.Delegate {
 
-    private lateinit var handlerThread: HandlerThread
     private val listeningMessengers: MutableList<Messenger> = mutableListOf()
+    private lateinit var handlerThread: HandlerThread
     private lateinit var inMessenger: Messenger
     private lateinit var messageHandler: VoiceServiceMessageHandler
 
     private lateinit var voiceSceneReader: VoiceSceneReader
+    private lateinit var voiceNotification: VoiceNotification
+    private var isPlaying : Boolean = false
+
+
+    private lateinit var mediaSession: MediaSessionCompat
+    private lateinit var mediaSessionMgr: MediaSessionManager
+    private lateinit var mediaSessionCallback: MediaSessionCompat.Callback
 
     // region Service
 
     override fun onCreate() {
         super.onCreate()
+        Timber.d("#service #created")
 
         handlerThread = HandlerThread("VoiceService")
         handlerThread.start()
 
         messageHandler = VoiceServiceMessageHandler(this)
+
         inMessenger = Messenger(messageHandler)
 
         voiceSceneReader = VoiceSceneReader(applicationContext, this, this) {
             AndroidTTSEngine(it, this@VoiceService)
         }
+        voiceNotification = VoiceNotification(this)
+
+        mediaSessionMgr = MediaSessionManager.getSessionManager(this)
+        mediaSessionCallback = VoiceMediaSessionCallback(this)
+
+        val eventReceiver = ComponentName(applicationContext, VoiceMediaButtonReceiver::class.java)
+        mediaSession = MediaSessionCompat(this, "Rehearsal", eventReceiver, null)
+        mediaSession.setCallback(mediaSessionCallback, messageHandler)
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
+    }
+
+    override fun onStart(intent: Intent, startId: Int) {
+        super.onStart(intent, startId)
+        Timber.d("#service #started #legay")
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+        Timber.d("#service #started @startId:$startId @flags:$flags @intent:$intent")
+
+        if (intent == null) {
+            Timber.w("#service was stopped and automatically restarted by the system. Stopping self now.")
+            stopSelf()
+        } else {
+            when (intent.action) {
+                Intent.ACTION_MEDIA_BUTTON -> mediaSessionCallback.onMediaButtonEvent(intent)
+                AudioManager.ACTION_AUDIO_BECOMING_NOISY -> onPause()
+            }
+        }
+
+        return Service.START_NOT_STICKY
     }
 
     override fun onBind(intent: Intent?): IBinder? {
         super.onBind(intent)
+        Timber.d("#service #bound")
         return inMessenger.binder
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        Timber.d("#service #destroyed")
         messageHandler.removeCallbacksAndMessages(null)
         handlerThread.quit()
     }
@@ -62,7 +111,6 @@ class VoiceService
         voiceSceneReader.playSceneFromCue(sceneId, cueId)
     }
 
-
     fun pauseScene() {
         voiceSceneReader.pauseScene()
     }
@@ -71,12 +119,15 @@ class VoiceService
 
     // region SceneReader.Listener
 
-    override fun readingCue(cueId: Int) {
+    override fun readingCue(cue: CueWithCharacter) {
+        isPlaying = true
+        voiceNotification.start(this, mediaSession.sessionToken, cue)
+
         sendMessage {
             val message = Message.obtain(null, MessageProtocol.MSG_READING_CUE)
 
             val bundle = Bundle(1)
-            bundle.putInt(MessageProtocol.EXTRA_CUE_ID, cueId)
+            bundle.putInt(MessageProtocol.EXTRA_CUE_ID, cue.cueId)
             message.data = bundle
 
             message
@@ -84,7 +135,26 @@ class VoiceService
     }
 
     override fun stopped() {
+        isPlaying = false
+        voiceNotification.stop(this, mediaSession.sessionToken)
+
         sendMessage { Message.obtain(null, MessageProtocol.MSG_STOPPED) }
+    }
+
+    // endregion
+
+    // region VoiceMediaSessionCallback.Delegate
+
+    override fun isCurrentlyPlaying(): Boolean {
+        return isPlaying
+    }
+
+    override fun onPause() {
+        pauseScene()
+    }
+
+    override fun onResume() {
+        voiceSceneReader.resume()
     }
 
     // endregion
@@ -113,4 +183,13 @@ class VoiceService
     }
 
     // endregion
+
+    companion object {
+        @JvmStatic
+        fun buildIntent(context: Context, intent: Intent): Intent {
+            val serviceIntent = Intent(intent)
+            serviceIntent.setClass(context, VoiceService::class.java)
+            return serviceIntent
+        }
+    }
 }

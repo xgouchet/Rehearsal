@@ -51,6 +51,13 @@ class VoiceSceneReader(
         stopSpeakingEngine()
         listener.stopped()
     }
+
+    override fun resume() {
+        if (!isStopped) return
+        isStopped = false
+        readCurrentCue()
+    }
+
     // endregion
 
     // region TTSEngine.Listener
@@ -60,7 +67,6 @@ class VoiceSceneReader(
     }
 
     override fun onDone(utteranceId: String) {
-        index++
         readNextCue()
     }
 
@@ -76,18 +82,23 @@ class VoiceSceneReader(
             if (foundIndex >= 0) {
                 Timber.d("#voice found cue with @id:$cueId at @index:$foundIndex : @cue:${cues[foundIndex]}")
                 index = foundIndex
-                readNextCue()
+                readCurrentCue()
             } else {
                 listener.stopped()
                 Timber.w("#voice couldn't find cue with @id:$cueId in ${cues.size}")
             }
         } else {
-            readNextCue()
+            readCurrentCue()
         }
 
     }
 
     private fun readNextCue() {
+        index++
+        readCurrentCue()
+    }
+
+    private fun readCurrentCue() {
         if (isStopped) {
             listener.stopped()
             return
@@ -100,7 +111,7 @@ class VoiceSceneReader(
             Timber.w("#voice no cue at @index:$index")
             listener.stopped()
         } else {
-            listener.readingCue(cue.cueId)
+            listener.readingCue(cue)
             GlobalScope.launch {
                 speakCue(cue)
             }
@@ -112,7 +123,6 @@ class VoiceSceneReader(
         when (cue.type) {
             CueModel.TYPE_ACTION -> {
                 Timber.d("#voice ignoring action : ${cue.content}")
-                index++
                 readNextCue()
             }
             CueModel.TYPE_DIALOG,
@@ -139,7 +149,6 @@ class VoiceSceneReader(
             delay(duration)
         }
 
-        index++
         readNextCue()
     }
 

@@ -54,7 +54,7 @@ dependencies {
     implementation Dependencies.Libraries.Kotlin
     implementation Dependencies.Libraries.MultiDex
 
-    implementation Dependencies.Libraries.AndroidSupport
+    implementation Dependencies.Libraries.AndroidX
     implementation Dependencies.Libraries.MaterialComponents
     implementation Dependencies.Libraries.AndroidArchComponents
     implementation Dependencies.Libraries.AndroidConstraintLayout

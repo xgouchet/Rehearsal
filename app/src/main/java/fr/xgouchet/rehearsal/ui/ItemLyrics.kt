@@ -61,6 +61,7 @@ class ItemLyrics {
             }
 
             if (item.highlight) {
+                highlightView.setImageResource(if (item.hidden) R.drawable.ic_notif_tragedy else R.drawable.ic_notif_comedy)
                 highlightView.imageTintList = ColorStateList.valueOf(item.color)
                 highlightView.visibility = View.VISIBLE
             } else {

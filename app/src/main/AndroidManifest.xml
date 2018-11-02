@@ -29,7 +29,15 @@
                 android:name=".cast.CastActivity"
                 android:label="@string/cast_title"/>
 
+        <!-- region Voice service -->
         <service android:name=".voice.service.VoiceService"/>
+        <receiver android:name=".voice.service.VoiceMediaButtonReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+            </intent-filter>
+        </receiver>
+        <!-- endregion -->
     </application>
 
 </manifest>

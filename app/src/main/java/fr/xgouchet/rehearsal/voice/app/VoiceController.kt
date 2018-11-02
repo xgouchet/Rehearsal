@@ -34,7 +34,6 @@ class VoiceController(context: Context)
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun disconnectListener() {
-        stop()
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
                 delay(500)

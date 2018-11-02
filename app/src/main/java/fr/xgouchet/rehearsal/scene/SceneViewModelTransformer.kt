@@ -77,7 +77,6 @@ class SceneViewModelTransformer
                     direction = item.content,
                     hidden = hideCue,
                     color = color,
-                    highlight = highlightCue,
                     data = item
             )
 
