@@ -64,6 +64,10 @@ class SceneFragment
     override fun showReading(reading: Boolean) {
         (activity as? SceneActivity)?.showReading(reading)
     }
+
+    override fun scrollToRow(index: Int) {
+        recyclerView?.smoothScrollToPosition(index)
+    }
     // endregion
 
 }

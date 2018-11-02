@@ -21,6 +21,7 @@ class ScenePresenter(
 
     private var linesVisible: Boolean = false
     private var rawData: List<CueWithCharacter> = emptyList()
+    private var viewModelData: List<Item.ViewModel> = emptyList()
 
     private var activeCueId: Int = -1
     private var isReading: Boolean = false
@@ -38,7 +39,7 @@ class ScenePresenter(
 
     override fun onChanged(t: List<CueWithCharacter>) {
         rawData = t
-        super.onChanged(t)
+        updateView()
     }
 
     // endregion
@@ -53,7 +54,7 @@ class ScenePresenter(
             } else {
                 (transformer as? SceneContract.Transformer)?.setSelectedCue(selectedCue.cueId)
                 activeCueId = selectedCue.cueId
-                onChanged(rawData)
+                updateView()
             }
         }
     }
@@ -61,7 +62,7 @@ class ScenePresenter(
     override fun onLinesVisibilityChanged(linesVisible: Boolean) {
         this.linesVisible = linesVisible
         (transformer as? SceneContract.Transformer)?.setUserLinesVisible(linesVisible)
-        onChanged(rawData)
+        updateView()
         view?.showLinesVisible(linesVisible)
     }
 
@@ -84,8 +85,16 @@ class ScenePresenter(
         isReading = true
         activeCueId = cueId
         (transformer as? SceneContract.Transformer)?.setSelectedCue(cueId)
-        onChanged(rawData)
+        updateView()
         view?.showReading(true)
+
+        val index = viewModelData.indexOfFirst {
+            val cueWithCharacter = it.getItemData() as? CueWithCharacter
+            cueWithCharacter?.cueId == cueId && it.getItemType() != Item.Type.CHARACTER
+        }
+        if (index >= 0) {
+            view?.scrollToRow(index)
+        }
     }
 
     override fun stopped() {
@@ -94,4 +103,12 @@ class ScenePresenter(
     }
 
     // endregion
+
+    // region Internal
+
+
+    private fun updateView() {
+        viewModelData = transformer.transform(rawData)
+        view?.showData(viewModelData)
+    }
 }

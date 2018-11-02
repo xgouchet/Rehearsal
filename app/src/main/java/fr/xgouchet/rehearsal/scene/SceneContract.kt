@@ -19,6 +19,7 @@ interface SceneContract {
     interface View : ArchXView<List<Item.ViewModel>> {
         fun showLinesVisible(linesVisible: Boolean)
         fun showReading(reading: Boolean)
+        fun scrollToRow(index: Int)
     }
 
     interface DataSource : ArchXDataSource<List<CueWithCharacter>>
