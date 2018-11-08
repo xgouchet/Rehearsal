@@ -68,6 +68,7 @@ class CastViewModelTransformer
                         value = item.ttsPitch,
                         min = 0.5f,
                         max = 2.0f,
+                        steps = 15,
                         data = item
                 )
         )
@@ -79,6 +80,7 @@ class CastViewModelTransformer
                         value = item.ttsRate,
                         min = 0.5f,
                         max = 2.0f,
+                        steps = 15,
                         data = item
                 )
         )

@@ -20,6 +20,7 @@ class ItemSlider {
             val value: Float = 0f,
             val min: Float = 0f,
             val max: Float = 100f,
+            val steps: Int = 100,
             val data: Any? = null
     ) : Item.ViewModel() {
         override fun getItemType() = Item.Type.SLIDER
@@ -28,7 +29,6 @@ class ItemSlider {
 
         override fun getItemData(): Any? = data
     }
-
 
     // endregion
 
@@ -59,29 +59,34 @@ class ItemSlider {
 
             seekView.setOnSeekBarChangeListener(null)
 
+            seekView.max = item.steps
             val progress = (item.value - item.min) / (item.max - item.min)
-            seekView.progress = (progress * 100).toInt()
-            updateHint()
+            seekView.progress = (progress * item.steps).toInt()
+            updateHint(item.value)
 
             seekView.setOnSeekBarChangeListener(this)
         }
 
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            updateHint()
+            val progressFloat = computeProgress()
+            updateHint(progressFloat)
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
         override fun onStopTrackingTouch(seekBar: SeekBar) {
-            val progressFloat = updateHint()
+            val progressFloat = computeProgress()
+            updateHint(progressFloat)
             listener?.invoke(boundItem, ACTION_VALUE_CHANGED, progressFloat.toString())
         }
 
-        private fun updateHint(): Float {
-            val progress = seekView.progress / 100f
-            val progressFloat = (boundItem.min + (progress * (boundItem.max - boundItem.min)))
+        private fun updateHint(progressFloat: Float) {
             hintView.text = String.format("%.1f", progressFloat)
-            return progressFloat
+        }
+
+        private fun computeProgress(): Float {
+            val progress = seekView.progress / boundItem.steps.toFloat()
+            return (boundItem.min + (progress * (boundItem.max - boundItem.min)))
         }
 
     }
