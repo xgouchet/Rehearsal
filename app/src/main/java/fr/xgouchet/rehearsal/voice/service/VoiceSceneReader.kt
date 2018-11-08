@@ -2,6 +2,7 @@ package fr.xgouchet.rehearsal.voice.service
 
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import fr.xgouchet.rehearsal.core.room.AppDatabase
 import fr.xgouchet.rehearsal.core.room.model.CueModel
@@ -23,6 +24,9 @@ class VoiceSceneReader(
         TTSEngine.Listener {
 
     private val appDatabase: AppDatabase = AppDatabase.getInstance(context.applicationContext)
+    private var observedData: LiveData<List<CueWithCharacter>>? = null
+    private val observer = Observer<List<CueWithCharacter>> { onCuesRetrieved(it, firstCueId) }
+    private var firstCueId = -1
 
     private var cueQueue: List<CueWithCharacter> = emptyList()
 
@@ -38,12 +42,16 @@ class VoiceSceneReader(
         if (!isStopped) {
             stopSpeakingEngine()
         }
+        observedData?.removeObserver(observer)
+
         index = -1
         currentCue = null
         isStopped = false
-        val data = appDatabase.cueDao()
+        firstCueId = cueId
+        observedData = appDatabase.cueDao()
                 .getAllInScene(sceneId)
-        data.observe(owner, Observer<List<CueWithCharacter>> { onCuesRetrieved(it, cueId) })
+
+        observedData?.observe(owner, observer)
     }
 
     override fun pauseScene() {
@@ -67,7 +75,10 @@ class VoiceSceneReader(
     }
 
     override fun onDone(utteranceId: String) {
-        readNextCue()
+        val utteranceIdPrefix = "${currentCue?.cueId}/"
+        if (utteranceId.startsWith(utteranceIdPrefix)) {
+            readNextCue()
+        }
     }
 
     // endregion
@@ -129,7 +140,6 @@ class VoiceSceneReader(
             CueModel.TYPE_LYRICS -> {
                 if (cue.character?.isHidden == true) {
                     silentDialog(cue)
-
                 } else {
                     speakDialogCue(cue)
                 }
@@ -149,7 +159,9 @@ class VoiceSceneReader(
             delay(duration)
         }
 
-        readNextCue()
+        if (currentCue == cue) {
+            readNextCue()
+        }
     }
 
     private suspend fun speakDialogCue(cue: CueWithCharacter) {
