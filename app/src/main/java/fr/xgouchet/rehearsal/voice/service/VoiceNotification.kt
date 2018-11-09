@@ -10,8 +10,8 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
 import androidx.core.app.NotificationCompat
 import fr.xgouchet.rehearsal.R
+import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
 import fr.xgouchet.rehearsal.core.room.model.CharacterModel
-import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 import timber.log.Timber
 import androidx.media.app.NotificationCompat as MediaNotifCompat
 

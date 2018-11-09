@@ -14,7 +14,7 @@ import android.os.RemoteException
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.lifecycle.LifecycleService
 import androidx.media.MediaSessionManager
-import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
+import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
 import fr.xgouchet.rehearsal.voice.ipc.MessageProtocol
 import fr.xgouchet.rehearsal.voice.tts.AndroidTTSEngine
 import timber.log.Timber
@@ -30,7 +30,7 @@ class VoiceService
 
     private lateinit var voiceSceneReader: VoiceSceneReader
     private lateinit var voiceNotification: VoiceNotification
-    private var isPlaying : Boolean = false
+    private var isPlaying: Boolean = false
 
 
     private lateinit var mediaSession: MediaSessionCompat

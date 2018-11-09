@@ -18,7 +18,8 @@ data class CueModel(
         var position: Int,
         var type: Int,
         var characterExtension: String?,
-        var content: String
+        var content: String,
+        var isBookmarked: Boolean
 ) {
 
     companion object {

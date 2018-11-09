@@ -5,8 +5,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import fr.xgouchet.rehearsal.core.room.AppDatabase
+import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
 import fr.xgouchet.rehearsal.core.room.model.CueModel
-import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 import fr.xgouchet.rehearsal.voice.tts.TTSEngine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

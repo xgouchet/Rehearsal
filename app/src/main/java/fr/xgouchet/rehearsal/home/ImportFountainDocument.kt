@@ -126,7 +126,8 @@ class ImportFountainDocument(
                 type = CueModel.TYPE_ACTION,
                 characterExtension = null,
                 position = cuePosition,
-                content = actionCue.direction
+                content = actionCue.direction,
+                isBookmarked = false
         )
         appDatabase.cueDao().insert(cueModel)
     }
@@ -140,7 +141,8 @@ class ImportFountainDocument(
                 type = CueModel.TYPE_LYRICS,
                 characterExtension = null,
                 position = cuePosition,
-                content = lyricsCue.lyrics
+                content = lyricsCue.lyrics,
+                isBookmarked = false
         )
         appDatabase.cueDao().insert(cueModel)
     }
@@ -163,7 +165,8 @@ class ImportFountainDocument(
                 type = type,
                 characterExtension = extension,
                 position = position,
-                content = content
+                content = content,
+                isBookmarked = false
         )
         appDatabase.cueDao().insert(cueModel)
     }

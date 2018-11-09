@@ -6,8 +6,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
+import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
 import fr.xgouchet.rehearsal.core.room.model.CueModel
-import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 
 @Dao
 interface CueDAO {
@@ -18,4 +19,8 @@ interface CueDAO {
 
     @Insert(onConflict = REPLACE)
     fun insert(cue: CueModel): Long
+
+
+    @Update
+    fun update(cue: CueModel): Int
 }

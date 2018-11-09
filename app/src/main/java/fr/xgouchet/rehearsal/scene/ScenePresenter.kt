@@ -3,7 +3,7 @@ package fr.xgouchet.rehearsal.scene
 import androidx.lifecycle.LifecycleOwner
 import fr.xgouchet.archx.ArchXView
 import fr.xgouchet.archx.data.ArchXDataPresenter
-import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
+import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
 import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.voice.app.VoiceController
 import fr.xgouchet.rehearsal.voice.app.VoiceServiceListener

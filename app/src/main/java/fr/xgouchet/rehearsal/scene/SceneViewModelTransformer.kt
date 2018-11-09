@@ -1,7 +1,7 @@
 package fr.xgouchet.rehearsal.scene
 
+import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
 import fr.xgouchet.rehearsal.core.room.model.CueModel
-import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
 import fr.xgouchet.rehearsal.core.ui.PrincipledViewModelTransformer
 import fr.xgouchet.rehearsal.ui.CharacterColor
 import fr.xgouchet.rehearsal.ui.Item

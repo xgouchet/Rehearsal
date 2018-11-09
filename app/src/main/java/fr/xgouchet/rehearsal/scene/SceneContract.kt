@@ -5,7 +5,7 @@ import fr.xgouchet.archx.ArchXView
 import fr.xgouchet.archx.ArchXViewModelTransformer
 import fr.xgouchet.archx.data.ArchXDataSink
 import fr.xgouchet.archx.data.ArchXDataSource
-import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
+import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
 import fr.xgouchet.rehearsal.ui.Item
 
 interface SceneContract {

@@ -1,6 +1,6 @@
 package fr.xgouchet.rehearsal.voice.service
 
-import fr.xgouchet.rehearsal.core.room.model.CueWithCharacter
+import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
 
 interface SceneReader {
 

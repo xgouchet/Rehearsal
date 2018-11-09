@@ -13,7 +13,9 @@ import fr.xgouchet.rehearsal.core.room.model.CueModel
 import fr.xgouchet.rehearsal.core.room.model.SceneModel
 import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 
-@Database(entities = [ScriptModel::class, SceneModel::class, CharacterModel::class, CueModel::class], version = 1)
+
+@Database(entities = [ScriptModel::class, SceneModel::class, CharacterModel::class, CueModel::class],
+        version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun scriptDao(): ScriptDAO
@@ -22,7 +24,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun characterDao(): CharacterDAO
 
     companion object {
-        private val DB_NAME = "AppDatabase"
+        private const val DB_NAME = "AppDatabase"
 
         private var INSTANCE: AppDatabase? = null
 
