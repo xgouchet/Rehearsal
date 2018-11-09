@@ -19,7 +19,8 @@ class ItemDialog {
             val hidden: Boolean = false,
             @ColorInt val color: Int = -1,
             val highlight: Boolean = false,
-            val bookmark: Boolean = false,
+            val hasBookmark: Boolean = false,
+            val hasNote : Boolean = false,
             val data: Any? = null
     ) : Item.ViewModel() {
         override fun getItemType() = Item.Type.DIALOG
@@ -43,6 +44,7 @@ class ItemDialog {
         private val hidingView: View = itemView.findViewById(R.id.hiding)
         private val highlightView: ImageView = itemView.findViewById(R.id.highlight)
         private val bookmarkView: ImageView = itemView.findViewById(R.id.bookmark)
+        private val noteView: ImageView = itemView.findViewById(R.id.note)
 
         init {
             if (listener != null) {
@@ -71,11 +73,18 @@ class ItemDialog {
                 highlightView.visibility = View.GONE
             }
 
-            if (item.bookmark) {
+            if (item.hasBookmark) {
                 bookmarkView.imageTintList = ColorStateList.valueOf(item.color)
                 bookmarkView.visibility = View.VISIBLE
             } else {
                 bookmarkView.visibility = View.GONE
+            }
+
+            if (item.hasNote) {
+                noteView.imageTintList = ColorStateList.valueOf(item.color)
+                noteView.visibility = View.VISIBLE
+            } else {
+                noteView.visibility = View.GONE
             }
         }
 

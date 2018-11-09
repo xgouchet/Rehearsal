@@ -7,8 +7,12 @@
     <string name="menu_showLines">Show lines</string>
     <string name="menu_hideLines">Hide lines</string>
     <string name="menu_goToBookmark">Go to bookmark</string>
-    <string name="menu_bookmarkCue">Bookmark cue</string>
+    <string name="menu_addBookmark">Add a bookmark</string>
     <string name="menu_removeBookmark">Remove bookmark</string>
+    <string name="menu_addNote">Add a note</string>
+    <string name="menu_showNote">Show note</string>
+    <string name="menu_editNote">Edit note</string>
+    <string name="menu_removeNote">Remove note</string>
 
     <string name="cast_title">Cast</string>
     <string name="cast_action_hideLines">Hide lines</string>

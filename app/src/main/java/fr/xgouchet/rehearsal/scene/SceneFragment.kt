@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import fr.xgouchet.rehearsal.R
 import fr.xgouchet.rehearsal.ui.ACTION_DEFAULT
@@ -19,7 +20,7 @@ class SceneFragment
 
     private var linesVisible: Boolean = false
     private var hasBookmarks: Boolean = false
-    private var cueMenuContext: CueMenuContext? = null
+    private var cueInfo: CueInfo? = null
 
     // region Fragment (OptionsMenu)
 
@@ -59,19 +60,37 @@ class SceneFragment
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
 
-        val context = cueMenuContext
+        val context = cueInfo
         return if (context == null) {
             false
         } else {
             when (item.itemId) {
-                R.id.action_bookmark_cue -> {
+                R.id.action_add_bookmark -> {
                     (presenter as? SceneContract.Presenter)?.onAddBookmarkPicked(context.cueId)
                     true
                 }
-                R.id.action_unbookmark -> {
+                R.id.action_remove_bookmark -> {
                     (presenter as? SceneContract.Presenter)?.onRemoveBookmarkPicked(context.cueId)
                     true
                 }
+
+                R.id.action_add_note -> {
+                    (presenter as? SceneContract.Presenter)?.onAddNotePicked(context.cueId)
+                    true
+                }
+                R.id.action_show_note -> {
+                    (presenter as? SceneContract.Presenter)?.onShowNotePicked(context.cueId)
+                    true
+                }
+                R.id.action_edit_note -> {
+                    (presenter as? SceneContract.Presenter)?.onEditNotePicked(context.cueId)
+                    true
+                }
+                R.id.action_remove_note -> {
+                    (presenter as? SceneContract.Presenter)?.onRemoveNotesPicked(context.cueId)
+                    true
+                }
+
                 else -> super.onOptionsItemSelected(item)
             }
         }
@@ -124,8 +143,34 @@ class SceneFragment
         showBookmarksDialog(currentContext, bookmarks)
     }
 
-    override fun showContextMenu(context: CueMenuContext) {
-        this.cueMenuContext = context
+    override fun showNote(note: String) {
+        val currentActivity = activity ?: return
+        AlertDialog.Builder(currentActivity)
+                .setMessage(note)
+                .setNeutralButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
+                .create()
+                .show()
+    }
+
+    override fun showNotePrompt(cueId: Int, title: String, note: String) {
+        val currentActivity = activity ?: return
+        val inputText = EditText(activity)
+        inputText.setText(note)
+
+        AlertDialog.Builder(currentActivity)
+                .setTitle(title)
+                .setView(inputText)
+                .setNeutralButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                    (presenter as? SceneContract.Presenter)?.onNoteEdited(cueId, inputText.text.toString())
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
+    }
+
+    override fun showContextMenu(context: CueInfo) {
+        this.cueInfo = context
         recyclerView?.let { CueMenuHelper(context).openContextMenu(it) }
     }
 

@@ -19,8 +19,15 @@ interface SceneContract {
         fun onLinesVisibilityChanged(linesVisible: Boolean)
         fun onPlayPauseSelected()
         fun onGoToBookmarkSelected()
+
         fun onAddBookmarkPicked(cueId: Int)
         fun onRemoveBookmarkPicked(cueId: Int)
+
+        fun onAddNotePicked(cueId: Int)
+        fun onShowNotePicked(cueId: Int)
+        fun onEditNotePicked(cueId: Int)
+        fun onRemoveNotesPicked(cueId: Int)
+        fun onNoteEdited(cueId: Int, note: String)
     }
 
     interface View : ArchXView<List<Item.ViewModel>> {
@@ -30,7 +37,10 @@ interface SceneContract {
         fun showHasBookmarks(hasBookmarks: Boolean)
 
         fun scrollToRow(index: Int)
-        fun showContextMenu(context: CueMenuContext)
+        fun showContextMenu(context: CueInfo)
+
+        fun showNotePrompt(cueId: Int, title: String, note: String)
+        fun showNote(note: String)
     }
 
     interface DataSource : ArchXDataSource<List<CueWithCharacter>>

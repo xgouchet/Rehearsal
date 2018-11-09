@@ -64,9 +64,11 @@ class ScenePresenter(
     override fun onItemPressed(item: Item.ViewModel) {
         val selectedCue = item.getItemData() as? CueWithCharacter
         if (selectedCue != null) {
-            view?.showContextMenu(CueMenuContext(
+            view?.showContextMenu(CueInfo(
                     cueId = selectedCue.cueId,
-                    isBookmarked = selectedCue.isBookmarked
+                    abstract = getAbstract(selectedCue.content, CONTEXT_MENU_ABSTRACT_LENGTH),
+                    isBookmarked = selectedCue.isBookmarked,
+                    hasNote = !selectedCue.note.isNullOrBlank()
             ))
         }
     }
@@ -95,6 +97,44 @@ class ScenePresenter(
         }
     }
 
+    override fun onAddNotePicked(cueId: Int) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null) {
+            view?.showNotePrompt(cueId, getAbstract(selectedCue.content, CONTEXT_MENU_ABSTRACT_LENGTH), "")
+        }
+    }
+
+    override fun onShowNotePicked(cueId: Int) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        val note = selectedCue?.note.orEmpty()
+        if (note.isNotBlank()) {
+            view?.showNote(note)
+        }
+    }
+
+    override fun onEditNotePicked(cueId: Int) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null) {
+            view?.showNotePrompt(cueId, getAbstract(selectedCue.content, CONTEXT_MENU_ABSTRACT_LENGTH), selectedCue.note.orEmpty())
+        }
+    }
+
+    override fun onRemoveNotesPicked(cueId: Int) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null) {
+            val updatedCue = selectedCue.copy(note = null)
+            dataSink.updateData(listOf(updatedCue))
+        }
+    }
+
+    override fun onNoteEdited(cueId: Int, note: String) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null) {
+            val updatedCue = selectedCue.copy(note = note)
+            dataSink.updateData(listOf(updatedCue))
+        }
+    }
+
     override fun onLinesVisibilityChanged(linesVisible: Boolean) {
         this.linesVisible = linesVisible
         (transformer as? SceneContract.Transformer)?.setUserLinesVisible(linesVisible)
@@ -114,7 +154,7 @@ class ScenePresenter(
     }
 
     override fun onGoToBookmarkSelected() {
-        val map = bookmarkedCues.map { it.cueId to "(${it.position}) ${it.character?.name.orEmpty()}\n${it.content}" }
+        val map = bookmarkedCues.map { it.cueId to getBookmarkDescription(it) }
         view?.showBookmarksDialog(map)
     }
 
@@ -145,6 +185,37 @@ class ScenePresenter(
 
     // region Internal
 
+    private fun getBookmarkDescription(cue: CueWithCharacter): String {
+        val abstract = getAbstract(cue.content, BOOKMARK_ABSTRACT_LENGHT)
+
+        return "${cue.character?.name.orEmpty()}\n$abstract\n"
+    }
+
+    private fun getAbstract(content: String, length: Int): String {
+        return if (content.length >= length) {
+            buildAbstract(content, length)
+        } else {
+            content
+        }
+    }
+
+    private fun buildAbstract(content: String, length: Int): String {
+        val builder = StringBuilder()
+        val firstLine = content.split("\n").first()
+        val tokens = firstLine.split(" ")
+
+        tokens.forEach {
+            if (builder.length < length - 1) {
+                if (builder.isNotEmpty()) {
+                    builder.append(" ")
+                }
+                builder.append(it)
+            }
+        }
+        builder.append("…")
+        return builder.toString()
+    }
+
     private fun setActiveCue(cueId: Int, scrollToCue: Boolean) {
         (transformer as? SceneContract.Transformer)?.setSelectedCue(cueId)
         activeCueId = cueId
@@ -167,4 +238,9 @@ class ScenePresenter(
     }
 
     // endregion
+
+    companion object {
+        private const val CONTEXT_MENU_ABSTRACT_LENGTH = 24
+        private const val BOOKMARK_ABSTRACT_LENGHT = 32
+    }
 }

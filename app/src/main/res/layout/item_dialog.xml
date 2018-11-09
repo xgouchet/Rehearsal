@@ -5,6 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="48dp"
         android:foreground="?android:attr/selectableItemBackground"
         android:animateLayoutChanges="true">
 
@@ -16,8 +17,18 @@
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:paddingBottom="8dp"
-            app:srcCompat="@drawable/ic_bookmark"
+            app:srcCompat="@drawable/ic_bookmark_hollow"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:tint="@color/character_fg_0"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/note"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:padding="4dp"
+            app:srcCompat="@drawable/ic_note"
+            app:layout_constraintTop_toBottomOf="@+id/bookmark"
             app:layout_constraintStart_toStartOf="parent"
             tools:tint="@color/character_fg_0"/>
 
@@ -44,6 +55,11 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:fontFamily="@font/sans_serif"
+            android:gravity="start|center_vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/lorem"/>
 
     <View

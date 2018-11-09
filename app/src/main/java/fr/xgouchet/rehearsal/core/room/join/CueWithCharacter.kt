@@ -15,7 +15,8 @@ data class CueWithCharacter(
         var content: String = "",
         var sceneId: Int = 0,
         var position: Int = 0,
-        var isBookmarked: Boolean = false
+        var isBookmarked: Boolean = false,
+        var note: String? = null
 ) {
 
     fun asCueModel(): CueModel {
@@ -27,7 +28,8 @@ data class CueWithCharacter(
                 type = type,
                 characterExtension = characterExtension,
                 content = content,
-                isBookmarked = isBookmarked
+                isBookmarked = isBookmarked,
+                note = note
         )
     }
 }
