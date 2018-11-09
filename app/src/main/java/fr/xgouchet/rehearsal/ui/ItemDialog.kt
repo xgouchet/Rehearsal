@@ -19,6 +19,7 @@ class ItemDialog {
             val hidden: Boolean = false,
             @ColorInt val color: Int = -1,
             val highlight: Boolean = false,
+            val bookmark: Boolean = false,
             val data: Any? = null
     ) : Item.ViewModel() {
         override fun getItemType() = Item.Type.DIALOG
@@ -41,6 +42,7 @@ class ItemDialog {
         private val lineView: TextView = itemView.findViewById(R.id.line)
         private val hidingView: View = itemView.findViewById(R.id.hiding)
         private val highlightView: ImageView = itemView.findViewById(R.id.highlight)
+        private val bookmarkView: ImageView = itemView.findViewById(R.id.bookmark)
 
         init {
             if (listener != null) {
@@ -62,11 +64,18 @@ class ItemDialog {
             }
 
             if (item.highlight) {
-                highlightView.setImageResource(if (item.hidden) R.drawable.ic_notif_tragedy else R.drawable.ic_notif_comedy)
+                highlightView.setImageResource(if (item.hidden) R.drawable.ic_notif_silent else R.drawable.ic_notif_comedy)
                 highlightView.imageTintList = ColorStateList.valueOf(item.color)
                 highlightView.visibility = View.VISIBLE
             } else {
                 highlightView.visibility = View.GONE
+            }
+
+            if (item.bookmark) {
+                bookmarkView.imageTintList = ColorStateList.valueOf(item.color)
+                bookmarkView.visibility = View.VISIBLE
+            } else {
+                bookmarkView.visibility = View.GONE
             }
         }
 

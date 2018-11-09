@@ -8,14 +8,28 @@
         android:foreground="?android:attr/selectableItemBackground"
         android:animateLayoutChanges="true">
 
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/bookmark"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:paddingTop="0dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:paddingBottom="8dp"
+            app:srcCompat="@drawable/ic_bookmark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:tint="@color/character_fg_0"/>
 
     <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/highlight"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:padding="4dp"
-            android:src="@drawable/ic_face"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:tint="@color/character_fg_0"
+            tools:src="@drawable/ic_notif_silent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/line"

@@ -69,6 +69,7 @@ class SceneViewModelTransformer
                     hidden = hideCue,
                     color = color,
                     highlight = highlightCue,
+                    bookmark = item.isBookmarked,
                     data = item
             )
 
