@@ -24,12 +24,14 @@ class CastFragment
 
     // region ItemListFragment
 
-    override fun onItemAction(item: Item.ViewModel, action: String, value: String?) {
+    override fun onItemAction(item: Item.ViewModel, action: String, value: String?): Boolean {
+        var consumed = true
         when (action) {
             ACTION_DEFAULT -> (presenter as? CastContract.Presenter)?.onItemSelected(item)
             ACTION_VALUE_CHANGED -> (presenter as? CastContract.Presenter)?.onItemValueChanged(item, value)
+            else -> consumed = false
         }
-
+        return consumed
     }
 
     // endregion

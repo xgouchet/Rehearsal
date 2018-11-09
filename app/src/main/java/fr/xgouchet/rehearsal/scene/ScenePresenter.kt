@@ -59,6 +59,9 @@ class ScenePresenter(
         }
     }
 
+    override fun onItemPressed(item: Item.ViewModel) {
+    }
+
     override fun onLinesVisibilityChanged(linesVisible: Boolean) {
         this.linesVisible = linesVisible
         (transformer as? SceneContract.Transformer)?.setUserLinesVisible(linesVisible)

@@ -11,8 +11,9 @@ class HomeFragment
 
     // region ItemListFragment
 
-    override fun onItemAction(item: Item.ViewModel, action: String, value: String?) {
+    override fun onItemAction(item: Item.ViewModel, action: String, value: String?): Boolean {
         (presenter as? HomeContract.Presenter)?.onItemSelected(item)
+        return true
     }
 
     // endregion

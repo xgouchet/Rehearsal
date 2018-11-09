@@ -44,6 +44,7 @@ class ItemDialog {
 
         init {
             if (listener != null) {
+                itemView.setOnLongClickListener { listener(boundItem, ACTION_LONG_CLICK, null) }
                 itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
             }
         }

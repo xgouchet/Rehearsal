@@ -5,6 +5,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import fr.xgouchet.rehearsal.R
+import fr.xgouchet.rehearsal.ui.ACTION_DEFAULT
+import fr.xgouchet.rehearsal.ui.ACTION_LONG_CLICK
 import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.ui.ItemListFragment
 
@@ -48,8 +50,16 @@ class SceneFragment
 
     // region ItemListFragment
 
-    override fun onItemAction(item: Item.ViewModel, action: String, value: String?) {
-        (presenter as? SceneContract.Presenter)?.onItemSelected(item)
+    override fun onItemAction(item: Item.ViewModel, action: String, value: String?): Boolean {
+        var consumed = true
+        when (action) {
+            ACTION_DEFAULT -> (presenter as? SceneContract.Presenter)?.onItemSelected(item)
+            ACTION_LONG_CLICK -> (presenter as? SceneContract.Presenter)?.onItemPressed(item)
+
+            else -> consumed = false
+        }
+
+        return consumed
     }
 
     // endregion
