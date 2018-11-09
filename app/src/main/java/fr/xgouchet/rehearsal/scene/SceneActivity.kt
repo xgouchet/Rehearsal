@@ -52,7 +52,7 @@ class SceneActivity
     override fun instantiatePresenter(): SceneContract.Presenter {
         val lifecycleOwner = this as LifecycleOwner
         val dataSource = SceneDataSource(applicationContext, sceneId)
-        val dataSink = SceneDataSink()
+        val dataSink = SceneDataSink(applicationContext)
         val transformer = SceneViewModelTransformer()
 
 

@@ -14,8 +14,12 @@ interface SceneContract {
         fun onItemSelected(item: Item.ViewModel)
         fun onItemPressed(item: Item.ViewModel)
 
+        fun onBookmarkPicked(cueId: Int)
+
         fun onLinesVisibilityChanged(linesVisible: Boolean)
         fun onPlayPauseSelected()
+        fun onAddBookmarkPicked(cueId: Int)
+        fun onRemoveBookmarkPicked(cueId: Int)
     }
 
     interface View : ArchXView<List<Item.ViewModel>> {

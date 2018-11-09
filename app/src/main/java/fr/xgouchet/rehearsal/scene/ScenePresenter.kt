@@ -21,6 +21,7 @@ class ScenePresenter(
 
     private var linesVisible: Boolean = false
     private var rawData: List<CueWithCharacter> = emptyList()
+    private var bookmarkedCues: List<CueWithCharacter> = emptyList()
     private var viewModelData: List<Item.ViewModel> = emptyList()
 
     private var activeCueId: Int = -1
@@ -39,6 +40,7 @@ class ScenePresenter(
 
     override fun onChanged(t: List<CueWithCharacter>) {
         rawData = t
+        bookmarkedCues = rawData.filter { it.isBookmarked }
         updateView()
     }
 
@@ -49,17 +51,47 @@ class ScenePresenter(
     override fun onItemSelected(item: Item.ViewModel) {
         val selectedCue = item.getItemData() as? CueWithCharacter
         if (selectedCue != null) {
+            val cueId = selectedCue.cueId
             if (isReading) {
-                voiceController.playFromCue(sceneId, selectedCue.cueId)
+                voiceController.playFromCue(sceneId, cueId)
             } else {
-                (transformer as? SceneContract.Transformer)?.setSelectedCue(selectedCue.cueId)
-                activeCueId = selectedCue.cueId
-                updateView()
+                setActiveCue(cueId, false)
             }
         }
     }
 
     override fun onItemPressed(item: Item.ViewModel) {
+        val selectedCue = item.getItemData() as? CueWithCharacter
+        if (selectedCue != null) {
+            view?.showContextMenu(CueMenuContext(
+                    cueId = selectedCue.cueId,
+                    isBookmarked = selectedCue.isBookmarked
+            ))
+        }
+    }
+
+    override fun onAddBookmarkPicked(cueId: Int) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null && !selectedCue.isBookmarked) {
+            val updatedCue = selectedCue.copy(isBookmarked = true)
+            dataSink.updateData(listOf(updatedCue))
+        }
+    }
+
+    override fun onRemoveBookmarkPicked(cueId: Int) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null && selectedCue.isBookmarked) {
+            val updatedCue = selectedCue.copy(isBookmarked = false)
+            dataSink.updateData(listOf(updatedCue))
+        }
+    }
+
+    override fun onBookmarkPicked(cueId: Int) {
+        if (isReading) {
+            voiceController.playFromCue(sceneId, cueId)
+        } else {
+            setActiveCue(cueId, true)
+        }
     }
 
     override fun onLinesVisibilityChanged(linesVisible: Boolean) {
@@ -80,15 +112,18 @@ class ScenePresenter(
         }
     }
 
+    override fun onGoToBookmarkSelected() {
+        val map = bookmarkedCues.map { it.cueId to "(${it.position}) ${it.character?.name.orEmpty()}\n${it.content}" }
+        view?.showBookmarksDialog(map)
+    }
+
     // endregion
 
     // region VoiceServiceListener
 
     override fun readingCue(cueId: Int) {
         isReading = true
-        activeCueId = cueId
-        (transformer as? SceneContract.Transformer)?.setSelectedCue(cueId)
-        updateView()
+        setActiveCue(cueId, true)
         view?.showReading(true)
 
         val index = viewModelData.indexOfFirst {
@@ -109,9 +144,26 @@ class ScenePresenter(
 
     // region Internal
 
+    private fun setActiveCue(cueId: Int, scrollToCue: Boolean) {
+        (transformer as? SceneContract.Transformer)?.setSelectedCue(cueId)
+        activeCueId = cueId
+        updateView()
+
+        if (scrollToCue) {
+            val index = viewModelData.indexOfFirst {
+                val cueWithCharacter = it.getItemData() as? CueWithCharacter
+                cueWithCharacter?.cueId == cueId && it.getItemType() != Item.Type.CHARACTER
+            }
+            if (index >= 0) {
+                view?.scrollToRow(index)
+            }
+        }
+    }
 
     private fun updateView() {
         viewModelData = transformer.transform(rawData)
         view?.showData(viewModelData)
     }
+
+    // endregion
 }
