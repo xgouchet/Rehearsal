@@ -1,24 +1,18 @@
-![Stanley icon](https://github.com/xgouchet/Stanley/raw/master/app/src/main/res/mipmap-xxhdpi/ic_launcher.png)
+![Rehearsal icon](https://github.com/xgouchet/Rehearsal/raw/master/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png)
 
 # Stanley
 
 
-> An Android app explorer for developers (extract the manifest and other info from any installed application).
+> An Android app to help learn and rehearse line for theater plays / screen plays.
 
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
-[![Kotlin 1.1.2-4](https://img.shields.io/badge/Kotlin-1.1.51-blue.svg)](http://kotlinlang.org)
+[![Kotlin 1.1.2-4](https://img.shields.io/badge/Kotlin-1.3.0-blue.svg)](http://kotlinlang.org)
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://paypal.me/xaviergouchet)
 
-[![FDroid](https://img.shields.io/badge/Download-F--Droid-yellow.svg)](https://f-droid.org/app/fr.xgouchet.packageexplorer)
-[![Google Play Store](https://img.shields.io/badge/Download-Google--Play--Store-yellow.svg)](https://play.google.com/store/apps/details?id=fr.xgouchet.packageexplorer)
-
-
-The official Stanley app is available on the [Google Play Store](https://play.google.com/store/apps/details?id=fr.xgouchet.packageexplorer) and [F-Droid](https://f-droid.org/app/fr.xgouchet.packageexplorer)
-
 ## Contributing
 
-Any contributions are welcome. You can [raise an issue](https://github.com/xgouchet/Stanley/issues/new), submit a [pull request](https://github.com/xgouchet/Stanley/pulls), translate the application, or suggest new features. 
+Any contributions are welcome. You can [raise an issue](https://github.com/xgouchet/Rehearsal/issues/new), submit a [pull request](https://github.com/xgouchet/Rehearsal/pulls), translate the application, or suggest new features. 
 
 ## Donate
 
@@ -33,4 +27,4 @@ Xavier F. Gouchet – [@xgouchet](https://twitter.com/xgouchet)
 
 Distributed under the MIT license. See [LICENSE.md](LICENSE.md) for more information.
 
-[https://github.com/xgouchet/Stanley](https://github.com/xgouchet/Stanley)
+[https://github.com/xgouchet/Rehearsal](https://github.com/xgouchet/Rehearsal)
