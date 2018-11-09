@@ -7,5 +7,9 @@
             android:icon="@drawable/ic_show_lines"
             android:title="@string/menu_cast"
             app:showAsAction="ifRoom"/>
-
+    <item
+            android:id="@+id/action_go_to_bookmark"
+            android:icon="@drawable/ic_bookmarks"
+            android:title="@string/menu_goToBookmark"
+            app:showAsAction="ifRoom"/>
 </menu>

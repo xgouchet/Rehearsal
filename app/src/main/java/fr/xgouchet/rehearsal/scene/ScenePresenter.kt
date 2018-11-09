@@ -41,6 +41,7 @@ class ScenePresenter(
     override fun onChanged(t: List<CueWithCharacter>) {
         rawData = t
         bookmarkedCues = rawData.filter { it.isBookmarked }
+        view?.showHasBookmarks(bookmarkedCues.isNotEmpty())
         updateView()
     }
 
