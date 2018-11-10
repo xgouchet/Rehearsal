@@ -16,38 +16,44 @@
 
     <color name="character_fg_0">#c62828</color>
     <color name="character_fg_1">#4527a0</color>
-    <color name="character_fg_2">#1565c0</color>
+    <color name="character_fg_2">#0277bd</color>
     <color name="character_fg_3">#2e7d32</color>
     <color name="character_fg_4">#f9a825</color>
     <color name="character_fg_5">#d84315</color>
-    <color name="character_fg_6">#6a1b9a</color>
-    <color name="character_fg_7">#1565c0</color>
-    <color name="character_fg_8">#00695c</color>
-    <color name="character_fg_9">#9e9d24</color>
-    <color name="character_fg_10">#ef6c00</color>
-    <color name="character_fg_11">#ad1457</color>
-    <color name="character_fg_12">#283593</color>
-    <color name="character_fg_13">#00838f</color>
-    <color name="character_fg_14">#2e7d32</color>
-    <color name="character_fg_15">#ff8f00</color>
+    <color name="character_fg_6">#37474f</color>
+    <color name="character_fg_7">#6a1b9a</color>
+    <color name="character_fg_8">#1565c0</color>
+    <color name="character_fg_9">#00695c</color>
+    <color name="character_fg_10">#9e9d24</color>
+    <color name="character_fg_11">#ef6c00</color>
+    <color name="character_fg_12">#424242</color>
+    <color name="character_fg_13">#ad1457</color>
+    <color name="character_fg_14">#283593</color>
+    <color name="character_fg_15">#00838f</color>
+    <color name="character_fg_16">#558b2f</color>
+    <color name="character_fg_17">#ff8f00</color>
+    <color name="character_fg_18">#4e342e</color>
 
     <array name="character_color">
         <item>@color/character_fg_0</item>
-        <item>@color/character_fg_5</item>
-        <item>@color/character_fg_10</item>
-        <item>@color/character_fg_15</item>
-        <item>@color/character_fg_4</item>
-        <item>@color/character_fg_9</item>
-        <item>@color/character_fg_14</item>
-        <item>@color/character_fg_3</item>
-        <item>@color/character_fg_8</item>
         <item>@color/character_fg_13</item>
-        <item>@color/character_fg_2</item>
         <item>@color/character_fg_7</item>
-        <item>@color/character_fg_12</item>
         <item>@color/character_fg_1</item>
-        <item>@color/character_fg_6</item>
+        <item>@color/character_fg_14</item>
+        <item>@color/character_fg_8</item>
+        <item>@color/character_fg_2</item>
+        <item>@color/character_fg_15</item>
+        <item>@color/character_fg_9</item>
+        <item>@color/character_fg_3</item>
+        <item>@color/character_fg_16</item>
+        <item>@color/character_fg_10</item>
+        <item>@color/character_fg_4</item>
+        <item>@color/character_fg_17</item>
         <item>@color/character_fg_11</item>
+        <item>@color/character_fg_5</item>
+        <item>@color/character_fg_18</item>
+        <item>@color/character_fg_12</item>
+        <item>@color/character_fg_6</item>
     </array>
 
 </resources>

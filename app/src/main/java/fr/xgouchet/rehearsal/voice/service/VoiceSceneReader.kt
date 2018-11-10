@@ -25,7 +25,12 @@ class VoiceSceneReader(
 
     private val appDatabase: AppDatabase = AppDatabase.getInstance(context.applicationContext)
     private var observedData: LiveData<List<CueWithCharacter>>? = null
-    private val observer = Observer<List<CueWithCharacter>> { onCuesRetrieved(it, firstCueId) }
+    private val observer = Observer<List<CueWithCharacter>> {
+        val shouldPlay = !isStopped
+        pauseScene()
+        ttsEngines.clear()
+        onCuesRetrieved(it, firstCueId, shouldPlay)
+    }
     private var firstCueId = -1
 
     private var cueQueue: List<CueWithCharacter> = emptyList()
@@ -85,8 +90,10 @@ class VoiceSceneReader(
 
     // region Internal
 
-    private fun onCuesRetrieved(cues: List<CueWithCharacter>, cueId: Int) {
+    private fun onCuesRetrieved(cues: List<CueWithCharacter>, cueId: Int, play: Boolean) {
         cueQueue = cues
+
+        isStopped = !play
 
         if (index < 0 || index >= cues.size) {
             val foundIndex = cues.indexOfFirst { it.cueId == cueId }

@@ -100,7 +100,7 @@ class VoiceNotification(val context: Context) {
         }
 
         if (character.isHidden) {
-            builder.setSmallIcon(R.drawable.ic_notif_tragedy)
+            builder.setSmallIcon(R.drawable.ic_notif_silent)
             builder.setContentText(context.getString(R.string.notif_text_hiddenCue))
         } else {
             builder.setSmallIcon(R.drawable.ic_notif_comedy)
