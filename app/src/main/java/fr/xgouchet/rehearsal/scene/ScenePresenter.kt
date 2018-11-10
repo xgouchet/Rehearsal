@@ -73,6 +73,21 @@ class ScenePresenter(
         }
     }
 
+    override fun onEditCuePicked(cueId: Int) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null) {
+            view?.showEditCuePrompt(cueId, selectedCue.content)
+        }
+    }
+
+    override fun onCueEdited(cueId: Int, content: String) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null) {
+            val updatedCue = selectedCue.copy(content = content)
+            dataSink.updateData(listOf(updatedCue))
+        }
+    }
+
     override fun onAddBookmarkPicked(cueId: Int) {
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
         if (selectedCue != null && !selectedCue.isBookmarked) {

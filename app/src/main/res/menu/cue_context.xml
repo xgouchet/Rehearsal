@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+        >
+
+    <item
+            android:id="@+id/action_edit_cue"
+            android:title="@string/menu_editCue"/>
 
     <item
             android:id="@+id/action_add_bookmark"
-            android:title="@string/menu_addBookmark"
-            app:showAsAction="ifRoom"/>
+            android:title="@string/menu_addBookmark"/>
     <item
             android:id="@+id/action_remove_bookmark"
-            android:title="@string/menu_removeBookmark"
-            app:showAsAction="ifRoom"/>
+            android:title="@string/menu_removeBookmark"/>
 
     <item
             android:id="@+id/action_add_note"
-            android:title="@string/menu_addNote"
-            app:showAsAction="ifRoom"/>
+            android:title="@string/menu_addNote"/>
     <item
             android:id="@+id/action_show_note"
-            android:title="@string/menu_showNote"
-            app:showAsAction="ifRoom"/>
+            android:title="@string/menu_showNote"/>
 
     <item
             android:id="@+id/action_edit_note"
-            android:title="@string/menu_editNote"
-            app:showAsAction="ifRoom"/>
+            android:title="@string/menu_editNote"/>
     <item
             android:id="@+id/action_remove_note"
-            android:title="@string/menu_removeNote"
-            app:showAsAction="ifRoom"/>
+            android:title="@string/menu_removeNote"/>
 </menu>

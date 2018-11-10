@@ -2,11 +2,13 @@ package fr.xgouchet.rehearsal.scene
 
 import android.content.Context
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import fr.xgouchet.rehearsal.R
 import fr.xgouchet.rehearsal.ui.ACTION_DEFAULT
 import fr.xgouchet.rehearsal.ui.ACTION_LONG_CLICK
@@ -65,6 +67,12 @@ class SceneFragment
             false
         } else {
             when (item.itemId) {
+
+                R.id.action_edit_cue -> {
+                    (presenter as? SceneContract.Presenter)?.onEditCuePicked(context.cueId)
+                    true
+                }
+
                 R.id.action_add_bookmark -> {
                     (presenter as? SceneContract.Presenter)?.onAddBookmarkPicked(context.cueId)
                     true
@@ -146,6 +154,7 @@ class SceneFragment
     override fun showNote(note: String) {
         val currentActivity = activity ?: return
         AlertDialog.Builder(currentActivity)
+                .setIcon(R.drawable.ic_note)
                 .setMessage(note)
                 .setNeutralButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
                 .create()
@@ -154,15 +163,37 @@ class SceneFragment
 
     override fun showNotePrompt(cueId: Int, title: String, note: String) {
         val currentActivity = activity ?: return
-        val inputText = EditText(activity)
+        val inputLayout = LayoutInflater.from(activity).inflate(R.layout.dialog_prompt, null, false) as TextInputLayout
+        val inputText = inputLayout.findViewById<TextInputEditText>(R.id.input)
         inputText.setText(note)
 
         AlertDialog.Builder(currentActivity)
                 .setTitle(title)
-                .setView(inputText)
+                .setIcon(R.drawable.ic_note)
+                .setView(inputLayout)
                 .setNeutralButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
                 .setPositiveButton(android.R.string.ok) { dialog, _ ->
                     (presenter as? SceneContract.Presenter)?.onNoteEdited(cueId, inputText.text.toString())
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
+    }
+
+    override fun showEditCuePrompt(cueId: Int, content: String) {
+        val currentActivity = activity ?: return
+
+        val inputLayout = LayoutInflater.from(activity).inflate(R.layout.dialog_prompt, null, false) as TextInputLayout
+        val inputText = inputLayout.findViewById<TextInputEditText>(R.id.input)
+        inputText.setText(content)
+
+        AlertDialog.Builder(currentActivity)
+                .setTitle(R.string.menu_editCue)
+                .setIcon(R.drawable.ic_edit_cue)
+                .setView(inputLayout)
+                .setNeutralButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                    (presenter as? SceneContract.Presenter)?.onCueEdited(cueId, inputText.text.toString())
                     dialog.dismiss()
                 }
                 .create()
@@ -186,6 +217,7 @@ class SceneFragment
         val bookmarkValues = bookmarks.map { it.second }.toTypedArray()
         val builder = AlertDialog.Builder(context)
                 .setTitle(R.string.scene_prompt_bookmark)
+                .setIcon(R.drawable.ic_bookmarks_dark)
                 .setItems(bookmarkValues) { d, w ->
                     val bookmarkId = bookmarks[w].first
                     (presenter as? SceneContract.Presenter)?.onBookmarkPicked(bookmarkId)

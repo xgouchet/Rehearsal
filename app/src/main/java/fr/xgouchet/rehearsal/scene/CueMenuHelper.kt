@@ -23,6 +23,7 @@ class CueMenuHelper(data: CueInfo) : ContextMenuHelper<CueInfo>(data) {
         menu.findItem(R.id.action_remove_note).isVisible = data.hasNote
 
         menu.setHeaderTitle(data.abstract)
+        menu.setHeaderIcon(R.drawable.ic_cue_dialog)
     }
 
 
