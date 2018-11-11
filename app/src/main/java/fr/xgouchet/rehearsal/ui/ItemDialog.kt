@@ -54,7 +54,7 @@ class ItemDialog {
         }
 
         override fun onBind(item: ViewModel) {
-            lineView.text = item.line
+            lineView.text =  MarkdownConverter.parse(item.line)
 
             if (item.hidden) {
                 hidingView.backgroundTintList = ColorStateList.valueOf(item.color)
