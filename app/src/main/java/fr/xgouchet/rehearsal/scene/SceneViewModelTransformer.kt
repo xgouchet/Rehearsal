@@ -44,6 +44,9 @@ class SceneViewModelTransformer
         val lastCharacter = lastCue?.character
         val color = CharacterColor.get(character)
 
+        val highlightCue = item.cueId == activeCueId
+        val highlightColor = if (highlightCue) CharacterColor.getHighlight(character) else null
+
         if (character != lastCharacter) {
             if (lastCue != null) {
                 list.add(ItemDivider.ViewModel(id = StableId.getStableId(index, 0, Item.Type.DIVIDER.ordinal)))
@@ -61,14 +64,13 @@ class SceneViewModelTransformer
         }
 
         val hideCue = if (userLinesVisible) false else character?.isHidden ?: false
-        val highlightCue = item.cueId == activeCueId
         val cueItem = when (item.type) {
             CueModel.TYPE_DIALOG -> ItemDialog.ViewModel(
                     id = StableId.getStableId(index, 2, Item.Type.DIALOG.ordinal),
                     line = item.content,
                     hidden = hideCue,
                     color = color,
-                    highlight = highlightCue,
+                    highlightColor = highlightColor,
                     hasBookmark = item.isBookmarked,
                     hasNote = !item.note.isNullOrBlank(),
                     data = item
@@ -79,6 +81,8 @@ class SceneViewModelTransformer
                     direction = item.content,
                     hidden = hideCue,
                     color = color,
+                    hasBookmark = item.isBookmarked,
+                    hasNote = !item.note.isNullOrBlank(),
                     data = item
             )
 
@@ -87,7 +91,9 @@ class SceneViewModelTransformer
                     lyrics = item.content,
                     hidden = hideCue,
                     color = color,
-                    highlight = highlightCue,
+                    highlightColor = highlightColor,
+                    hasBookmark = item.isBookmarked,
+                    hasNote = !item.note.isNullOrBlank(),
                     data = item
             )
             else -> null

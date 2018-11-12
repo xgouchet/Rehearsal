@@ -13,8 +13,10 @@ import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import fr.xgouchet.rehearsal.R
+import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
 import fr.xgouchet.rehearsal.ui.ACTION_DEFAULT
 import fr.xgouchet.rehearsal.ui.ACTION_LONG_CLICK
+import fr.xgouchet.rehearsal.ui.ACTION_NOTE
 import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.ui.ItemListFragment
 
@@ -141,6 +143,12 @@ class SceneFragment
         when (action) {
             ACTION_DEFAULT -> (presenter as? SceneContract.Presenter)?.onItemSelected(item)
             ACTION_LONG_CLICK -> (presenter as? SceneContract.Presenter)?.onItemPressed(item)
+            ACTION_NOTE ->  {
+                val cue = item.getItemData() as? CueWithCharacter
+                if (cue != null ) {
+                    (presenter as? SceneContract.Presenter)?.onShowNotePicked(cue.cueId)
+                }
+            }
 
             else -> consumed = false
         }
@@ -183,6 +191,7 @@ class SceneFragment
     override fun showNote(note: String) {
         val currentActivity = activity ?: return
         AlertDialog.Builder(currentActivity)
+                .setTitle(R.string.menu_note)
                 .setIcon(R.drawable.ic_note)
                 .setMessage(note)
                 .setNeutralButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }

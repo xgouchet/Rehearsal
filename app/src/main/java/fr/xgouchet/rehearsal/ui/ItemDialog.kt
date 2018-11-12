@@ -18,7 +18,7 @@ class ItemDialog {
             val line: String = "",
             val hidden: Boolean = false,
             @ColorInt val color: Int = -1,
-            val highlight: Boolean = false,
+            @ColorInt val highlightColor: Int? = null,
             val hasBookmark: Boolean = false,
             val hasNote: Boolean = false,
             val data: Any? = null
@@ -42,13 +42,14 @@ class ItemDialog {
 
         private val lineView: TextView = itemView.findViewById(R.id.line)
         private val hidingView: View = itemView.findViewById(R.id.hiding)
-        private val highlightView: ImageView = itemView.findViewById(R.id.highlight)
         private val bookmarkView: ImageView = itemView.findViewById(R.id.bookmark)
         private val noteView: ImageView = itemView.findViewById(R.id.note)
+        private val highlightView: View = itemView.findViewById(R.id.highlight)
 
         init {
             itemView.setOnLongClickListener { listener(boundItem, ACTION_LONG_CLICK, null) }
             itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
+            noteView.setOnClickListener { listener(boundItem, ACTION_NOTE, null) }
         }
 
         override fun onBind(item: ViewModel) {
@@ -63,9 +64,8 @@ class ItemDialog {
                 lineView.visibility = View.VISIBLE
             }
 
-            if (item.highlight) {
-                highlightView.setImageResource(if (item.hidden) R.drawable.ic_notif_silent else R.drawable.ic_notif_comedy)
-                highlightView.imageTintList = ColorStateList.valueOf(item.color)
+            if (item.highlightColor != null) {
+                highlightView.backgroundTintList = ColorStateList.valueOf(item.highlightColor)
                 highlightView.visibility = View.VISIBLE
             } else {
                 highlightView.visibility = View.GONE

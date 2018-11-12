@@ -1,6 +1,7 @@
 package fr.xgouchet.rehearsal.ui
 
 import android.content.Context
+import android.graphics.Color
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import fr.xgouchet.rehearsal.R
@@ -52,8 +53,19 @@ object CharacterColor {
         }
     }
 
+
     @ColorInt
-    fun get(colorIndex: Int): Int {
+    fun getHighlight(character: CharacterModel?): Int {
+        val baseColor = get(character)
+
+        val r = (Color.red(baseColor) / 8) + 224
+        val g = (Color.green(baseColor) / 8) + 224
+        val b = (Color.blue(baseColor) / 8) + 224
+        return Color.rgb(r, g, b)
+    }
+
+    @ColorInt
+    private fun get(colorIndex: Int): Int {
         val colorIdx = colorIndex % characterColors.size
         return if (colorIndex >= 0) characterColors[colorIdx] else unknown
     }

@@ -11,8 +11,7 @@
 
     <color name="divider_color">#B6B6B6</color>
 
-
-    <color name="character_fg_unknown">#616161</color>
+    <color name="character_fg_unknown">#424242</color>
 
     <color name="character_fg_0">#c62828</color>
     <color name="character_fg_1">#4527a0</color>
@@ -33,6 +32,7 @@
     <color name="character_fg_16">#558b2f</color>
     <color name="character_fg_17">#ff8f00</color>
     <color name="character_fg_18">#4e342e</color>
+
 
     <array name="character_color">
         <item>@color/character_fg_0</item>

@@ -18,7 +18,9 @@ class ItemLyrics {
             val lyrics: String = "",
             val hidden: Boolean = false,
             @ColorInt val color: Int = -1,
-            val highlight: Boolean = false,
+            @ColorInt val highlightColor: Int? = null,
+            val hasBookmark: Boolean = false,
+            val hasNote: Boolean = false,
             val data: Any? = null
     ) : Item.ViewModel() {
         override fun getItemType() = Item.Type.LYRICS
@@ -40,11 +42,14 @@ class ItemLyrics {
 
         private val lyricsView: TextView = itemView.findViewById(R.id.lyrics)
         private val hidingView: View = itemView.findViewById(R.id.hiding)
-        private val highlightView: ImageView = itemView.findViewById(R.id.highlight)
+        private val bookmarkView: ImageView = itemView.findViewById(R.id.bookmark)
+        private val highlightView: View = itemView.findViewById(R.id.highlight)
+        private val noteView: ImageView = itemView.findViewById(R.id.note)
 
         init {
             itemView.setOnLongClickListener { listener(boundItem, ACTION_LONG_CLICK, null) }
             itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
+            noteView.setOnClickListener { listener(boundItem, ACTION_NOTE, null) }
         }
 
         override fun onBind(item: ViewModel) {
@@ -59,12 +64,25 @@ class ItemLyrics {
                 lyricsView.visibility = View.VISIBLE
             }
 
-            if (item.highlight) {
-                highlightView.setImageResource(if (item.hidden) R.drawable.ic_notif_tragedy else R.drawable.ic_notif_comedy)
-                highlightView.imageTintList = ColorStateList.valueOf(item.color)
+            if (item.highlightColor != null) {
+                highlightView.backgroundTintList = ColorStateList.valueOf(item.highlightColor)
                 highlightView.visibility = View.VISIBLE
             } else {
                 highlightView.visibility = View.GONE
+            }
+
+            if (item.hasBookmark) {
+                bookmarkView.imageTintList = ColorStateList.valueOf(item.color)
+                bookmarkView.visibility = View.VISIBLE
+            } else {
+                bookmarkView.visibility = View.GONE
+            }
+
+            if (item.hasNote) {
+                noteView.imageTintList = ColorStateList.valueOf(item.color)
+                noteView.visibility = View.VISIBLE
+            } else {
+                noteView.visibility = View.GONE
             }
         }
 
