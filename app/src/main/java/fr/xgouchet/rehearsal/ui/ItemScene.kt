@@ -30,7 +30,7 @@ class ItemScene {
 
     class ViewHolder(
             itemView: View,
-            listener: ItemListener?
+            listener: ItemListener
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val titleView: TextView = itemView.findViewById(R.id.title)
@@ -57,7 +57,7 @@ class ItemScene {
         @JvmStatic
         fun instantiateViewHolder(inflater: LayoutInflater,
                                   parent: ViewGroup,
-                                  listener: ItemListener?)
+                                  listener: ItemListener)
                 : ViewHolder {
             val view = inflater.inflate(R.layout.item_scene, parent, false)
             return ViewHolder(view, listener)

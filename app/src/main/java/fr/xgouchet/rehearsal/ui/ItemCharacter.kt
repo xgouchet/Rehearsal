@@ -32,7 +32,7 @@ class ItemCharacter {
 
     class ViewHolder(
             itemView: View,
-            listener: ItemListener?
+            listener: ItemListener
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val nameView: TextView = itemView.findViewById(R.id.character_name)
@@ -67,7 +67,7 @@ class ItemCharacter {
         @JvmStatic
         fun instantiateViewHolder(inflater: LayoutInflater,
                                   parent: ViewGroup,
-                                  listener: ItemListener?)
+                                  listener: ItemListener)
                 : ViewHolder {
             val view = inflater.inflate(R.layout.item_character, parent, false)
             return ViewHolder(view, listener)

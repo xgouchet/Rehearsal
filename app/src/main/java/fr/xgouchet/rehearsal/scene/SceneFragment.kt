@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -162,42 +163,21 @@ class SceneFragment
     }
 
     override fun showNotePrompt(cueId: Int, title: String, note: String) {
-        val currentActivity = activity ?: return
-        val inputLayout = LayoutInflater.from(activity).inflate(R.layout.dialog_prompt, null, false) as TextInputLayout
-        val inputText = inputLayout.findViewById<TextInputEditText>(R.id.input)
-        inputText.setText(note)
-
-        AlertDialog.Builder(currentActivity)
-                .setTitle(title)
-                .setIcon(R.drawable.ic_note)
-                .setView(inputLayout)
-                .setNeutralButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
-                .setPositiveButton(android.R.string.ok) { dialog, _ ->
-                    (presenter as? SceneContract.Presenter)?.onNoteEdited(cueId, inputText.text.toString())
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
+        showInputPrompt(
+                title = title,
+                value = note,
+                icon = R.drawable.ic_edit_note,
+                onEdited = { onNoteEdited(cueId, it) }
+        )
     }
 
     override fun showEditCuePrompt(cueId: Int, content: String) {
-        val currentActivity = activity ?: return
-
-        val inputLayout = LayoutInflater.from(activity).inflate(R.layout.dialog_prompt, null, false) as TextInputLayout
-        val inputText = inputLayout.findViewById<TextInputEditText>(R.id.input)
-        inputText.setText(content)
-
-        AlertDialog.Builder(currentActivity)
-                .setTitle(R.string.menu_editCue)
-                .setIcon(R.drawable.ic_edit_cue)
-                .setView(inputLayout)
-                .setNeutralButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
-                .setPositiveButton(android.R.string.ok) { dialog, _ ->
-                    (presenter as? SceneContract.Presenter)?.onCueEdited(cueId, inputText.text.toString())
-                    dialog.dismiss()
-                }
-                .create()
-                .show()
+        showInputPrompt(
+                title = getString(R.string.menu_editCue),
+                value = content,
+                icon = R.drawable.ic_edit_cue,
+                onEdited = { onCueEdited(cueId, it) }
+        )
     }
 
     override fun showContextMenu(context: CueInfo) {
@@ -227,6 +207,30 @@ class SceneFragment
 
         val dialog = builder.create()
         dialog.show()
+    }
+
+    private fun showInputPrompt(title: String,
+                                @DrawableRes icon: Int,
+                                value: String,
+                                onEdited: SceneContract.Presenter.(String) -> Unit) {
+        val currentActivity = activity ?: return
+
+        val inputLayout = LayoutInflater.from(activity).inflate(R.layout.dialog_prompt, null, false) as TextInputLayout
+        val inputText = inputLayout.findViewById<TextInputEditText>(R.id.input)
+        inputText.setText(value)
+        inputText.requestFocus()
+
+        AlertDialog.Builder(currentActivity)
+                .setTitle(title)
+                .setIcon(icon)
+                .setView(inputLayout)
+                .setNeutralButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                    (presenter as? SceneContract.Presenter)?.onEdited(inputText.text.toString())
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
     }
 
     // endregion

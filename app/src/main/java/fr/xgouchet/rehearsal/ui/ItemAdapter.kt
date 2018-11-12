@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import fr.xgouchet.archx.ui.ArchXAdapter
 
-class ItemAdapter(private val listener: ItemListener?)
+class ItemAdapter(private val listener: ItemListener)
     : ArchXAdapter<Item.ViewModel, Item.ViewHolder<*>, Long>(extractId = { it.getItemStableId() }) {
 
     init {

@@ -32,7 +32,7 @@ class ItemSwitch {
 
     class ViewHolder(
             itemView: View,
-            private val listener: ItemListener?
+            private val listener: ItemListener
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val switchView: SwitchCompat = itemView.findViewById(R.id.switch_input)
@@ -69,7 +69,7 @@ class ItemSwitch {
         @JvmStatic
         fun instantiateViewHolder(inflater: LayoutInflater,
                                   parent: ViewGroup,
-                                  listener: ItemListener?)
+                                  listener: ItemListener)
                 : ViewHolder {
             val view = inflater.inflate(R.layout.item_switch, parent, false)
             return ViewHolder(view, listener)

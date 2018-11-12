@@ -33,7 +33,7 @@ class ItemInteractive {
 
     class ViewHolder(
             itemView: View,
-            listener: ItemListener?
+            listener: ItemListener
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val labelView: TextView = itemView.findViewById(R.id.label)
@@ -65,7 +65,7 @@ class ItemInteractive {
         @JvmStatic
         fun instantiateViewHolder(inflater: LayoutInflater,
                                   parent: ViewGroup,
-                                  listener: ItemListener?)
+                                  listener: ItemListener)
                 : ViewHolder {
             val view = inflater.inflate(R.layout.item_interactive, parent, false)
             return ViewHolder(view, listener)

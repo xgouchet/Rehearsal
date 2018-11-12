@@ -36,7 +36,7 @@ class ItemSlider {
 
     class ViewHolder(
             itemView: View,
-            private val listener: ItemListener?
+            private val listener: ItemListener
     ) : Item.ViewHolder<ViewModel>(itemView),
             SeekBar.OnSeekBarChangeListener {
 
@@ -97,7 +97,7 @@ class ItemSlider {
         @JvmStatic
         fun instantiateViewHolder(inflater: LayoutInflater,
                                   parent: ViewGroup,
-                                  listener: ItemListener?)
+                                  listener: ItemListener)
                 : ViewHolder {
             val view = inflater.inflate(R.layout.item_slider, parent, false)
             return ViewHolder(view, listener)

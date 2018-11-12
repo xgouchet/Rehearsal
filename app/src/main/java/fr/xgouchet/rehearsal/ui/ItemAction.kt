@@ -32,16 +32,15 @@ class ItemAction {
 
     class ViewHolder(
             itemView: View,
-            listener: ItemListener?
+            listener: ItemListener
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val directionView: TextView = itemView.findViewById(R.id.direction)
         private val hidingView: View = itemView.findViewById(R.id.hiding)
 
         init {
-            if (listener != null) {
-                itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
-            }
+            itemView.setOnLongClickListener { listener(boundItem, ACTION_LONG_CLICK, null) }
+            itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
         }
 
         override fun onBind(item: ViewModel) {
@@ -65,7 +64,7 @@ class ItemAction {
         @JvmStatic
         fun instantiateViewHolder(inflater: LayoutInflater,
                                   parent: ViewGroup,
-                                  listener: ItemListener?)
+                                  listener: ItemListener)
                 : ViewHolder {
             val view = inflater.inflate(R.layout.item_action, parent, false)
             return ViewHolder(view, listener)

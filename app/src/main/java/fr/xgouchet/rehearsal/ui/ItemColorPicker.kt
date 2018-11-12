@@ -36,7 +36,7 @@ class ItemColorPicker {
 
     class ViewHolder(
             itemView: View,
-            listener: ItemListener?
+            listener: ItemListener
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val labelView: TextView = itemView.findViewById(R.id.label)
@@ -68,7 +68,7 @@ class ItemColorPicker {
         @JvmStatic
         fun instantiateViewHolder(inflater: LayoutInflater,
                                   parent: ViewGroup,
-                                  listener: ItemListener?)
+                                  listener: ItemListener)
                 : ViewHolder {
             val view = inflater.inflate(R.layout.item_color, parent, false)
             return ViewHolder(view, listener)
