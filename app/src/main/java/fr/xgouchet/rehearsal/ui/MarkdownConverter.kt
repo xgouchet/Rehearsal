@@ -14,6 +14,6 @@ object MarkdownConverter {
     fun parse(text: String): CharSequence {
         val tree = parser.buildMarkdownTreeFromString(text)
         val html = HtmlGenerator(text, tree, flavour).generateHtml()
-        return Html.fromHtml(html)
+        return Html.fromHtml(html).trim()
     }
 }

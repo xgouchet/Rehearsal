@@ -43,9 +43,8 @@ class ItemLyrics {
         private val highlightView: ImageView = itemView.findViewById(R.id.highlight)
 
         init {
-            if (listener != null) {
-                itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
-            }
+            itemView.setOnLongClickListener { listener(boundItem, ACTION_LONG_CLICK, null) }
+            itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
         }
 
         override fun onBind(item: ViewModel) {

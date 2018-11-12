@@ -1,9 +1,12 @@
 package fr.xgouchet.rehearsal.scene
 
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import fr.xgouchet.archx.ArchXView
 import fr.xgouchet.archx.data.ArchXDataPresenter
 import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
+import fr.xgouchet.rehearsal.core.room.model.CharacterModel
+import fr.xgouchet.rehearsal.core.room.model.CueModel
 import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.voice.app.VoiceController
 import fr.xgouchet.rehearsal.voice.app.VoiceServiceListener
@@ -14,6 +17,7 @@ class ScenePresenter(
         owner: LifecycleOwner,
         dataSource: SceneContract.DataSource,
         dataSink: SceneContract.DataSink,
+        private val characterDataSource: SceneContract.CharacterDataSource,
         transformer: SceneContract.Transformer
 ) : ArchXDataPresenter<List<CueWithCharacter>, SceneContract.View, List<Item.ViewModel>>(owner, dataSource, dataSink, transformer),
         SceneContract.Presenter,
@@ -23,6 +27,9 @@ class ScenePresenter(
     private var rawData: List<CueWithCharacter> = emptyList()
     private var bookmarkedCues: List<CueWithCharacter> = emptyList()
     private var viewModelData: List<Item.ViewModel> = emptyList()
+    private var characters: List<CharacterModel> = emptyList()
+
+    private val characterObserver = Observer<List<CharacterModel>> { list -> characters = list }
 
     private var activeCueId: Int = -1
     private var isReading: Boolean = false
@@ -36,7 +43,15 @@ class ScenePresenter(
 
         this.view?.showLinesVisible(linesVisible)
         this.view?.showReading(isReading)
+
+        characterDataSource.getData().observe(owner, characterObserver)
     }
+
+    override fun onViewDetached() {
+        super.onViewDetached()
+        characterDataSource.getData().removeObserver(characterObserver)
+    }
+
 
     override fun onChanged(t: List<CueWithCharacter>) {
         rawData = t
@@ -98,14 +113,31 @@ class ScenePresenter(
     override fun onEditCuePicked(cueId: Int) {
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
         if (selectedCue != null) {
-            view?.showEditCuePrompt(cueId, selectedCue.content)
+            val characterInfo = getCharacterInfoList(selectedCue.type != CueModel.TYPE_DIALOG)
+            val selectedCharacter = characterInfo.firstOrNull { it.characterId == selectedCue.character?.characterId }
+            view?.showEditCuePrompt(cueId, selectedCue.content, characterInfo, selectedCharacter)
         }
     }
 
-    override fun onCueEdited(cueId: Int, content: String) {
+    private fun getCharacterInfoList(withNull: Boolean): List<CharacterInfo> {
+
+        val knownCharacters = characters.map { CharacterInfo(it.characterId, it.name) }
+
+
+        return if (withNull) {
+            arrayOf(CharacterInfo(0, " — "))
+                    .union(knownCharacters)
+                    .toList()
+        } else {
+            knownCharacters
+        }
+    }
+
+    override fun onCueEdited(cueId: Int, content: String, c: CharacterInfo) {
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        val selectedCharacter = characters.firstOrNull { it.characterId == c.characterId }
         if (selectedCue != null) {
-            val updatedCue = selectedCue.copy(content = content)
+            val updatedCue = selectedCue.copy(content = content, character = selectedCharacter)
             dataSink.updateData(listOf(updatedCue))
         }
     }
@@ -125,14 +157,63 @@ class ScenePresenter(
         }
     }
 
-    override fun onAddAction(cueId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun onAddDialog(cueId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null) {
+            val characterInfo = getCharacterInfoList(false)
+            val selectedCharacter = characterInfo.firstOrNull { it.characterId == selectedCue.character?.characterId }
+            view?.showAddDialogPrompt(cueId, characterInfo, selectedCharacter)
+        }
     }
 
+    override fun onDialogWritten(cueId: Int, content: String, c: CharacterInfo) {
+        val selectedCharacter = characters.firstOrNull { it.characterId == c.characterId } ?: return
+        addCueAfter(
+                cueId = cueId,
+                content = content,
+                type = CueModel.TYPE_DIALOG,
+                character = selectedCharacter
+        )
+    }
+
+
+    override fun onAddAction(cueId: Int) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null) {
+            val characterInfo = getCharacterInfoList(true)
+            val selectedCharacter = characterInfo.firstOrNull { it.characterId == selectedCue.character?.characterId }
+            view?.showAddActionPrompt(cueId, characterInfo, selectedCharacter)
+        }
+    }
+
+    override fun onActionWritten(cueId: Int, content: String, c: CharacterInfo) {
+        val selectedCharacter = characters.firstOrNull { it.characterId == c.characterId }
+        addCueAfter(
+                cueId = cueId,
+                content = content,
+                type = CueModel.TYPE_ACTION,
+                character = selectedCharacter
+        )
+    }
+
+    override fun onAddLyrics(cueId: Int) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null) {
+            val characterInfo = getCharacterInfoList(true)
+            val selectedCharacter = characterInfo.firstOrNull { it.characterId == selectedCue.character?.characterId }
+            view?.showAddLyricsPrompt(cueId, characterInfo, selectedCharacter)
+        }
+    }
+
+    override fun onLyricsWritten(cueId: Int, content: String, c: CharacterInfo) {
+        val selectedCharacter = characters.firstOrNull { it.characterId == c.characterId }
+        addCueAfter(
+                cueId = cueId,
+                content = content,
+                type = CueModel.TYPE_LYRICS,
+                character = selectedCharacter
+        )
+    }
     // endregion
 
     // region SceneContract.Presenter / Bookmarks
@@ -236,6 +317,34 @@ class ScenePresenter(
     // endregion
 
     // region Internal
+
+
+    private fun addCueAfter(cueId: Int,
+                            content: String,
+                            type: Int,
+                            character: CharacterModel?) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null) {
+
+            val movedCues = rawData.filter { it.position > selectedCue.position }
+                    .map { it.copy(position = it.position + 1) }
+
+            val newCue = CueWithCharacter(
+                    cueId = 0,
+                    position = selectedCue.position + 1,
+                    character = character,
+                    isBookmarked = false,
+                    note = null,
+                    sceneId = sceneId,
+                    type = type,
+                    content = content,
+                    characterExtension = null
+            )
+
+            if (movedCues.isNotEmpty()) dataSink.updateData(movedCues)
+            dataSink.createData(listOf(newCue))
+        }
+    }
 
     private fun getBookmarkDescription(cue: CueWithCharacter): String {
         val abstract = getAbstract(cue.content, BOOKMARK_ABSTRACT_LENGHT)

@@ -23,7 +23,7 @@ data class CueWithCharacter(
         return CueModel(
                 cueId = cueId,
                 sceneId = sceneId,
-                characterId = character?.characterId ?: 0,
+                characterId = character?.characterId,
                 position = position,
                 type = type,
                 characterExtension = characterExtension,

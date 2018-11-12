@@ -18,6 +18,7 @@
     <string name="menu_scene">Scene…</string>
     <string name="menu_addDialog">Add a dialog</string>
     <string name="menu_addAction">Add an action</string>
+    <string name="menu_addLyrics">Add lyrics</string>
 
     <string name="cast_title">Cast</string>
     <string name="cast_action_hideLines">Hide lines</string>

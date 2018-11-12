@@ -15,7 +15,8 @@ import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 
 
 @Database(entities = [ScriptModel::class, SceneModel::class, CharacterModel::class, CueModel::class],
-        version = 1)
+        version = 1,
+        exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun scriptDao(): ScriptDAO

@@ -52,11 +52,11 @@ class SceneActivity
     override fun instantiatePresenter(): SceneContract.Presenter {
         val lifecycleOwner = this as LifecycleOwner
         val dataSource = SceneDataSource(applicationContext, sceneId)
+        val characterDataSource = CharactersDataSource(applicationContext, sceneId)
         val dataSink = SceneDataSink(applicationContext)
         val transformer = SceneViewModelTransformer()
 
-
-        return ScenePresenter(sceneId, voiceObserver, lifecycleOwner, dataSource, dataSink, transformer)
+        return ScenePresenter(sceneId, voiceObserver, lifecycleOwner, dataSource, dataSink, characterDataSource, transformer)
     }
 
     // endregion

@@ -44,6 +44,9 @@
                     android:id="@+id/action_add_action"
                     android:title="@string/menu_addAction"/>
             <item
+                    android:id="@+id/action_add_lyrics"
+                    android:title="@string/menu_addLyrics"/>
+            <item
                     android:id="@+id/action_delete_cue"
                     android:title="@string/menu_delete"/>
         </menu>

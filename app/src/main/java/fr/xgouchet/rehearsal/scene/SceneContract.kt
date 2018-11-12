@@ -6,6 +6,7 @@ import fr.xgouchet.archx.ArchXViewModelTransformer
 import fr.xgouchet.archx.data.ArchXDataSink
 import fr.xgouchet.archx.data.ArchXDataSource
 import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
+import fr.xgouchet.rehearsal.core.room.model.CharacterModel
 import fr.xgouchet.rehearsal.ui.Item
 
 interface SceneContract {
@@ -29,11 +30,15 @@ interface SceneContract {
         fun onNoteEdited(cueId: Int, note: String)
 
         fun onEditCuePicked(cueId: Int)
-        fun onCueEdited(cueId: Int, content: String)
+        fun onCueEdited(cueId: Int, content: String, c: CharacterInfo)
         fun onDeleteCue(cueId: Int)
         fun onDeleteCueConfirmed(cueId: Int)
         fun onAddDialog(cueId: Int)
+        fun onDialogWritten(cueId: Int, content: String, c: CharacterInfo)
         fun onAddAction(cueId: Int)
+        fun onActionWritten(cueId: Int, content: String, c: CharacterInfo)
+        fun onAddLyrics(cueId: Int)
+        fun onLyricsWritten(cueId: Int, content: String, c: CharacterInfo)
     }
 
     interface View : ArchXView<List<Item.ViewModel>> {
@@ -50,11 +55,16 @@ interface SceneContract {
         fun showNotePrompt(cueId: Int, title: String, note: String)
         fun showNote(note: String)
 
-        fun showEditCuePrompt(cueId: Int, content: String)
+        fun showEditCuePrompt(cueId: Int, content: String, characters: List<CharacterInfo>, selected: CharacterInfo?)
         fun showDeleteConfirm(cueId: Int, title: String)
+        fun showAddActionPrompt(afterCueId: Int, characters: List<CharacterInfo>, selected: CharacterInfo?)
+        fun showAddDialogPrompt(afterCueId: Int, characters: List<CharacterInfo>, selected: CharacterInfo?)
+        fun showAddLyricsPrompt(afterCueId: Int, characters: List<CharacterInfo>, selected: CharacterInfo?)
     }
 
     interface DataSource : ArchXDataSource<List<CueWithCharacter>>
+
+    interface CharacterDataSource : ArchXDataSource<List<CharacterModel>>
 
     interface DataSink : ArchXDataSink<List<CueWithCharacter>>
 

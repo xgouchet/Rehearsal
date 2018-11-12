@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputEditText
@@ -112,6 +114,10 @@ class SceneFragment
                     (presenter as? SceneContract.Presenter)?.onAddAction(context.cueId)
                     true
                 }
+                R.id.action_add_lyrics -> {
+                    (presenter as? SceneContract.Presenter)?.onAddLyrics(context.cueId)
+                    true
+                }
 
                 else -> super.onOptionsItemSelected(item)
             }
@@ -193,12 +199,47 @@ class SceneFragment
         )
     }
 
-    override fun showEditCuePrompt(cueId: Int, content: String) {
-        showInputPrompt(
+    override fun showEditCuePrompt(cueId: Int, content: String, characters: List<CharacterInfo>, selected: CharacterInfo?) {
+        showInputWithCharacterPrompt(
                 title = getString(R.string.menu_editCue),
                 value = content,
                 icon = R.drawable.ic_edit_cue,
-                onEdited = { onCueEdited(cueId, it) }
+                characters = characters,
+                selected = selected,
+                onEdited = { t, c -> onCueEdited(cueId, t, c) }
+        )
+    }
+
+    override fun showAddDialogPrompt(afterCueId: Int, characters: List<CharacterInfo>, selected: CharacterInfo?) {
+        showInputWithCharacterPrompt(
+                title = getString(R.string.menu_addAction),
+                value = "",
+                icon = R.drawable.ic_edit_cue,
+                characters = characters,
+                selected = selected,
+                onEdited = { t, c -> onDialogWritten(afterCueId, t, c) }
+        )
+    }
+
+    override fun showAddActionPrompt(afterCueId: Int, characters: List<CharacterInfo>, selected: CharacterInfo?) {
+        showInputWithCharacterPrompt(
+                title = getString(R.string.menu_addAction),
+                value = "",
+                icon = R.drawable.ic_edit_cue,
+                characters = characters,
+                selected = selected,
+                onEdited = { t, c -> onActionWritten(afterCueId, t, c) }
+        )
+    }
+
+    override fun showAddLyricsPrompt(afterCueId: Int, characters: List<CharacterInfo>, selected: CharacterInfo?) {
+        showInputWithCharacterPrompt(
+                title = getString(R.string.menu_addLyrics),
+                value = "",
+                icon = R.drawable.ic_edit_cue,
+                characters = characters,
+                selected = selected,
+                onEdited = { t, c -> onLyricsWritten(afterCueId, t, c) }
         )
     }
 
@@ -256,6 +297,42 @@ class SceneFragment
                 .setNeutralButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
                 .setPositiveButton(android.R.string.ok) { dialog, _ ->
                     (presenter as? SceneContract.Presenter)?.onEdited(inputText.text.toString())
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
+    }
+
+    private fun showInputWithCharacterPrompt(title: String,
+                                             @DrawableRes icon: Int,
+                                             value: String,
+                                             characters: List<CharacterInfo>,
+                                             selected: CharacterInfo?,
+                                             onEdited: SceneContract.Presenter.(String, CharacterInfo) -> Unit) {
+        val currentActivity = activity ?: return
+
+        val layout = LayoutInflater.from(activity).inflate(R.layout.dialog_prompt_with_character, null, false)
+
+        val inputText = layout.findViewById<TextInputEditText>(R.id.input)
+        inputText.setText(value)
+        inputText.requestFocus()
+
+        val characterSpinner = layout.findViewById<Spinner>(R.id.characters)
+        val adapter = ArrayAdapter<CharacterInfo>(currentActivity, R.layout.spinner_item_character, characters)
+        adapter.setDropDownViewResource(R.layout.spinner_item_dropdown_character)
+        characterSpinner.adapter = adapter
+        val indexOf = characters.indexOf(selected)
+        if (indexOf >= 0) characterSpinner.setSelection(indexOf)
+
+
+        AlertDialog.Builder(currentActivity)
+                .setTitle(title)
+                .setIcon(icon)
+                .setView(layout)
+                .setNeutralButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
+
+                    (presenter as? SceneContract.Presenter)?.onEdited(inputText.text.toString(), characterSpinner.selectedItem as CharacterInfo)
                     dialog.dismiss()
                 }
                 .create()
