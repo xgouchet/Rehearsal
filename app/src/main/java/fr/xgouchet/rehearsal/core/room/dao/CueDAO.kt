@@ -23,4 +23,7 @@ interface CueDAO {
 
     @Update
     fun update(cue: CueModel): Int
+
+    @Query("DELETE FROM cue WHERE cue.cueId = :id")
+    fun deleteById(id: Int)
 }

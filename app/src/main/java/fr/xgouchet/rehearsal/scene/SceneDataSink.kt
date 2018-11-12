@@ -38,6 +38,19 @@ class SceneDataSink(context: Context)
     }
 
     override fun deleteData(data: List<CueWithCharacter>) {
+        val disposable = Observable.fromIterable(data)
+                .subscribeOn(Schedulers.io())
+                .map { appDatabase.cueDao().deleteById(it.cueId) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        {
+                            Timber.i("#update @result:$it")
+                        },
+                        {
+                            Timber.i(it, "#error #update")
+                        }
+                )
 
+        disposables.add(disposable)
     }
 }

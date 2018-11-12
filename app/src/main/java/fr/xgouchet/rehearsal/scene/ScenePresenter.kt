@@ -47,7 +47,7 @@ class ScenePresenter(
 
     // endregion
 
-    // region SceneContract.Presenter
+    // region SceneContract.Presenter / Direct Interaction
 
     override fun onItemSelected(item: Item.ViewModel) {
         val selectedCue = item.getItemData() as? CueWithCharacter
@@ -73,6 +73,28 @@ class ScenePresenter(
         }
     }
 
+    override fun onLinesVisibilityChanged(linesVisible: Boolean) {
+        this.linesVisible = linesVisible
+        (transformer as? SceneContract.Transformer)?.setUserLinesVisible(linesVisible)
+        updateView()
+        view?.showLinesVisible(linesVisible)
+    }
+
+    override fun onPlayPauseSelected() {
+        if (isReading) {
+            voiceController.stop()
+        } else {
+            val firstCueId = rawData.firstOrNull()?.cueId ?: -1
+            val startFromCue = if (activeCueId >= 0) activeCueId else firstCueId
+
+            voiceController.playFromCue(sceneId, startFromCue)
+        }
+    }
+
+    // endregion
+
+    // region SceneContract.Presenter / Scene Edition
+
     override fun onEditCuePicked(cueId: Int) {
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
         if (selectedCue != null) {
@@ -87,6 +109,34 @@ class ScenePresenter(
             dataSink.updateData(listOf(updatedCue))
         }
     }
+
+    override fun onDeleteCue(cueId: Int) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null) {
+            val abstract = getAbstract(selectedCue.content, CONTEXT_MENU_ABSTRACT_LENGTH)
+            view?.showDeleteConfirm(cueId, abstract)
+        }
+    }
+
+    override fun onDeleteCueConfirmed(cueId: Int) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null) {
+            dataSink.deleteData(listOf(selectedCue))
+        }
+    }
+
+    override fun onAddAction(cueId: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onAddDialog(cueId: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    // endregion
+
+    // region SceneContract.Presenter / Bookmarks
+
 
     override fun onAddBookmarkPicked(cueId: Int) {
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
@@ -111,6 +161,15 @@ class ScenePresenter(
             setActiveCue(cueId, true)
         }
     }
+
+    override fun onGoToBookmarkSelected() {
+        val map = bookmarkedCues.map { it.cueId to getBookmarkDescription(it) }
+        view?.showBookmarksDialog(map)
+    }
+
+    // endregion
+
+    // region SceneContract.Presenter / Notes
 
     override fun onAddNotePicked(cueId: Int) {
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
@@ -150,28 +209,6 @@ class ScenePresenter(
         }
     }
 
-    override fun onLinesVisibilityChanged(linesVisible: Boolean) {
-        this.linesVisible = linesVisible
-        (transformer as? SceneContract.Transformer)?.setUserLinesVisible(linesVisible)
-        updateView()
-        view?.showLinesVisible(linesVisible)
-    }
-
-    override fun onPlayPauseSelected() {
-        if (isReading) {
-            voiceController.stop()
-        } else {
-            val firstCueId = rawData.firstOrNull()?.cueId ?: -1
-            val startFromCue = if (activeCueId >= 0) activeCueId else firstCueId
-
-            voiceController.playFromCue(sceneId, startFromCue)
-        }
-    }
-
-    override fun onGoToBookmarkSelected() {
-        val map = bookmarkedCues.map { it.cueId to getBookmarkDescription(it) }
-        view?.showBookmarksDialog(map)
-    }
 
     // endregion
 

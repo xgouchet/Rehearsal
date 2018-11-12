@@ -100,6 +100,19 @@ class SceneFragment
                     true
                 }
 
+                R.id.action_delete_cue -> {
+                    (presenter as? SceneContract.Presenter)?.onDeleteCue(context.cueId)
+                    true
+                }
+                R.id.action_add_dialog -> {
+                    (presenter as? SceneContract.Presenter)?.onAddDialog(context.cueId)
+                    true
+                }
+                R.id.action_add_action -> {
+                    (presenter as? SceneContract.Presenter)?.onAddAction(context.cueId)
+                    true
+                }
+
                 else -> super.onOptionsItemSelected(item)
             }
         }
@@ -142,14 +155,23 @@ class SceneFragment
         (activity as? SceneActivity)?.showReading(reading)
     }
 
-    override fun showHasBookmarks(hasBookmarks: Boolean) {
-        this.hasBookmarks = hasBookmarks
-        activity?.invalidateOptionsMenu()
+    override fun scrollToRow(index: Int) {
+        recyclerView?.smoothScrollToPosition(index)
+    }
+
+    override fun showContextMenu(context: CueInfo) {
+        this.cueInfo = context
+        recyclerView?.let { CueMenuHelper(context).openContextMenu(it) }
     }
 
     override fun showBookmarksDialog(bookmarks: List<Pair<Int, String>>) {
         val currentContext = context ?: return
         showBookmarksDialog(currentContext, bookmarks)
+    }
+
+    override fun showHasBookmarks(hasBookmarks: Boolean) {
+        this.hasBookmarks = hasBookmarks
+        activity?.invalidateOptionsMenu()
     }
 
     override fun showNote(note: String) {
@@ -180,14 +202,21 @@ class SceneFragment
         )
     }
 
-    override fun showContextMenu(context: CueInfo) {
-        this.cueInfo = context
-        recyclerView?.let { CueMenuHelper(context).openContextMenu(it) }
+    override fun showDeleteConfirm(cueId: Int, title: String) {
+        val currentActivity = activity ?: return
+        AlertDialog.Builder(currentActivity)
+                .setIcon(R.drawable.ic_delete)
+                .setTitle(title)
+                .setMessage(R.string.scene_prompt_deleteWarningPrompt)
+                .setNeutralButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+                .setNegativeButton(android.R.string.ok) { dialog, _ ->
+                    (presenter as? SceneContract.Presenter)?.onDeleteCueConfirmed(cueId)
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
     }
 
-    override fun scrollToRow(index: Int) {
-        recyclerView?.smoothScrollToPosition(index)
-    }
     // endregion
 
     // region Internal

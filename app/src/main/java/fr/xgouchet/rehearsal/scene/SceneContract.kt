@@ -19,10 +19,6 @@ interface SceneContract {
 
         fun onGoToBookmarkSelected()
         fun onBookmarkPicked(cueId: Int)
-
-        fun onEditCuePicked(cueId: Int)
-        fun onCueEdited(cueId: Int, content: String)
-
         fun onAddBookmarkPicked(cueId: Int)
         fun onRemoveBookmarkPicked(cueId: Int)
 
@@ -31,22 +27,31 @@ interface SceneContract {
         fun onEditNotePicked(cueId: Int)
         fun onRemoveNotesPicked(cueId: Int)
         fun onNoteEdited(cueId: Int, note: String)
+
+        fun onEditCuePicked(cueId: Int)
+        fun onCueEdited(cueId: Int, content: String)
+        fun onDeleteCue(cueId: Int)
+        fun onDeleteCueConfirmed(cueId: Int)
+        fun onAddDialog(cueId: Int)
+        fun onAddAction(cueId: Int)
     }
 
     interface View : ArchXView<List<Item.ViewModel>> {
         fun showLinesVisible(linesVisible: Boolean)
-        fun showReading(reading: Boolean)
 
-        fun showEditCuePrompt(cueId: Int, content: String)
+        fun showReading(reading: Boolean)
+        fun scrollToRow(index: Int)
+
+        fun showContextMenu(context: CueInfo)
 
         fun showBookmarksDialog(bookmarks: List<Pair<Int, String>>)
         fun showHasBookmarks(hasBookmarks: Boolean)
 
-        fun scrollToRow(index: Int)
-        fun showContextMenu(context: CueInfo)
-
         fun showNotePrompt(cueId: Int, title: String, note: String)
         fun showNote(note: String)
+
+        fun showEditCuePrompt(cueId: Int, content: String)
+        fun showDeleteConfirm(cueId: Int, title: String)
     }
 
     interface DataSource : ArchXDataSource<List<CueWithCharacter>>
