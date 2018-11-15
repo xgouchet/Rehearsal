@@ -31,10 +31,9 @@ class HomeActivity
     override fun instantiatePresenter(): HomeContract.Presenter {
         val lifecycleOwner = this as LifecycleOwner
         val dataSource = HomeDataSource(applicationContext)
-        val dataSink = HomeDataSink()
         val transformer = HomeViewModelTransformer()
 
-        return HomePresenter(lifecycleOwner, dataSource, dataSink, transformer)
+        return HomePresenter(lifecycleOwner, dataSource, transformer)
     }
 
     // endregion

@@ -19,8 +19,8 @@ object DateFormatter {
     init {
         // val hourFormat = if (DateFormat.is24HourFormat(context)) "HH" else "KK"
 
-        dateNoYear = bestFormat("EE MM/dd")
-        dateWithYear = bestFormat("EE yyyy/MM/dd")
+        dateNoYear = bestFormat("EE dd MMM")
+        dateWithYear = bestFormat("EE dd MMM YYYY")
 
     }
 

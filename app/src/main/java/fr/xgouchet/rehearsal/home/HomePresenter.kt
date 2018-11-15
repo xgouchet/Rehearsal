@@ -5,11 +5,11 @@ import fr.xgouchet.archx.data.ArchXDataPresenter
 import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 import fr.xgouchet.rehearsal.ui.Item
 
-class HomePresenter(owner: LifecycleOwner,
-                    dataSource: HomeContract.DataSource,
-                    dataSink: HomeContract.DataSink,
-                    transformer: HomeContract.Transformer)
-    : ArchXDataPresenter<List<ScriptModel>, HomeContract.View, List<Item.ViewModel>>(owner, dataSource, dataSink, transformer),
+class HomePresenter(
+        owner: LifecycleOwner,
+        dataSource: HomeContract.DataSource,
+        transformer: HomeContract.Transformer
+) : ArchXDataPresenter<List<ScriptModel>, HomeContract.View, List<Item.ViewModel>>(owner, dataSource, transformer),
         HomeContract.Presenter {
 
 

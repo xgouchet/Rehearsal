@@ -17,10 +17,10 @@ class ScenePresenter(
         private val voiceController: VoiceController,
         owner: LifecycleOwner,
         dataSource: SceneContract.DataSource,
-        dataSink: SceneContract.DataSink,
+        private val dataSink: SceneContract.DataSink,
         private val characterDataSource: SceneContract.CharacterDataSource,
         transformer: SceneContract.Transformer
-) : ArchXDataPresenter<List<CueWithCharacter>, SceneContract.View, List<Item.ViewModel>>(owner, dataSource, dataSink, transformer),
+) : ArchXDataPresenter<List<CueWithCharacter>, SceneContract.View, List<Item.ViewModel>>(owner, dataSource, transformer),
         SceneContract.Presenter,
         VoiceServiceListener {
 

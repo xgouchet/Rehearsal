@@ -53,4 +53,8 @@
     <string name="rangePicker_prompt_cue">Select a Cue</string>
 
     <string name="rangePicker_text_ellipsis">…</string>
+
+
+    <string name="schedule_title_confirmDelete">Delete schedule?</string>
+    <string name="schedule_text_deleteWarningPrompt">Are you sure you want to delete this item? This action can\'t be undone.</string>
 </resources>

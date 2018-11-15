@@ -10,9 +10,9 @@ import fr.xgouchet.rehearsal.ui.StableId
 class CastPresenter(
         owner: LifecycleOwner,
         dataSource: CastContract.DataSource,
-        dataSink: CastContract.DataSink,
+        private val dataSink: CastContract.DataSink,
         transformer: CastContract.Transformer
-) : ArchXDataPresenter<List<CharacterModel>, CastContract.View, List<Item.ViewModel>>(owner, dataSource, dataSink, transformer),
+) : ArchXDataPresenter<List<CharacterModel>, CastContract.View, List<Item.ViewModel>>(owner, dataSource, transformer),
         CastContract.Presenter {
 
     private val colorPickerMap: MutableMap<Int, CharacterModel> = mutableMapOf()

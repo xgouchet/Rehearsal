@@ -10,16 +10,15 @@ class ScriptSchedulePresenter(
         private val scriptTitle: String,
         owner: LifecycleOwner,
         dataSource: ScriptScheduleContract.DataSource,
-        dataSink: ScriptScheduleContract.DataSink,
         transformer: ScriptScheduleContract.Transformer
-) : ArchXDataPresenter<List<ScheduleModel>, ScriptScheduleContract.View, List<Item.ViewModel>>(owner, dataSource, dataSink, transformer),
+) : ArchXDataPresenter<List<ScheduleModel>, ScriptScheduleContract.View, List<Item.ViewModel>>(owner, dataSource, transformer),
         ScriptScheduleContract.Presenter {
 
     // region ScriptScheduleContract.Presenter
 
     override fun onItemSelected(item: Item.ViewModel) {
         val schedule = item.getItemData() as? ScheduleModel ?: return
-       view?.navigateToScheduleDetails(schedule)
+        view?.navigateToScheduleDetails(schedule)
     }
 
     override fun onAddSchedule() {

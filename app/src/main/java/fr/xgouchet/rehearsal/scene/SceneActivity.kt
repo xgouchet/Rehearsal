@@ -38,10 +38,10 @@ class SceneActivity
         sceneId = intent.getIntExtra(EXTRA_SCENE_ID, 0)
         sceneTitle = intent.getStringExtra(EXTRA_SCENE_TITLE).orEmpty()
 
-        val startCueId = intent.getIntExtra(EXTRA_RANGE_START_POSITION, 0)
-        val endCueId = intent.getIntExtra(EXTRA_RANGE_END_POSITION, 0)
+        val startCueId = intent.getIntExtra(EXTRA_RANGE_START_POSITION, -1)
+        val endCueId = intent.getIntExtra(EXTRA_RANGE_END_POSITION, -1)
 
-        if (startCueId > 0 && endCueId > 0) {
+        if (startCueId >= 0 && endCueId >= 0) {
             range = startCueId to endCueId
         }
 

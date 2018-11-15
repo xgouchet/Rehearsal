@@ -3,7 +3,6 @@ package fr.xgouchet.rehearsal.script
 import androidx.lifecycle.LifecycleOwner
 import fr.xgouchet.archx.data.ArchXDataPresenter
 import fr.xgouchet.rehearsal.core.room.join.SceneWithCount
-import fr.xgouchet.rehearsal.core.room.model.SceneModel
 import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 import fr.xgouchet.rehearsal.ui.Item
 
@@ -12,10 +11,9 @@ class ScriptPresenter(
         private val scriptTitle: String,
         owner: LifecycleOwner,
         dataSource: ScriptContract.DataSource,
-        dataSink: ScriptContract.DataSink,
         private val scriptDataSink: ScriptContract.ScriptDataSink,
         transformer: ScriptContract.Transformer
-) : ArchXDataPresenter<List<SceneWithCount>, ScriptContract.View, List<Item.ViewModel>>(owner, dataSource, dataSink, transformer),
+) : ArchXDataPresenter<List<SceneWithCount>, ScriptContract.View, List<Item.ViewModel>>(owner, dataSource, transformer),
         ScriptContract.Presenter {
 
 

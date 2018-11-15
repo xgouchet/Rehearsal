@@ -37,10 +37,9 @@ class ScriptScheduleActivity
     override fun instantiatePresenter(): ScriptScheduleContract.Presenter {
         val lifecycleOwner = this as LifecycleOwner
         val dataSource = ScriptScheduleDataSource(applicationContext, scriptId)
-        val dataSink = ScriptScheduleDataSink(applicationContext)
         val transformer = ScriptScheduleViewModelTransformer()
 
-        return ScriptSchedulePresenter(scriptId, scriptTitle, lifecycleOwner, dataSource, dataSink, transformer)
+        return ScriptSchedulePresenter(scriptId, scriptTitle, lifecycleOwner, dataSource, transformer)
     }
 
     // endregion

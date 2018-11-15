@@ -68,25 +68,62 @@ class RangePickerPresenter(
             IDX_SCENE -> {
                 view?.showScenePicker(scenes.map { it.sceneId to "(${it.cues}) ­— ${it.description}" })
             }
-            IDX_FROM, IDX_TO -> {
-                val filteredCues = cues.map {
-                    val abstract = it.content.getAbstract(ABSTRACT_LENGTH)
-                    val oneLine = "${it.character?.name.orEmpty()}\n$abstract\n"
-                    it.cueId to oneLine
+            IDX_FROM -> {
+                val end = selectedEnd
+                val filteredCues = cues
+                        .filter {
+                            if (end != null) {
+                                it.position < end.position
+                            } else {
+                                true
+                            }
+                        }
+                        .map {
+                            val abstract = it.content.getAbstract(ABSTRACT_LENGTH)
+                            val oneLine = "${it.character?.name.orEmpty()}\n$abstract\n"
+                            it.cueId to oneLine
+                        }
+                if (filteredCues.isNotEmpty()) {
+                    view?.showCuePicker(IDX_FROM, filteredCues)
                 }
-                view?.showCuePicker(subIndex, filteredCues)
+            }
+            IDX_TO -> {
+                val start = selectedStart
+                val filteredCues = cues
+                        .filter {
+                            if (start != null) {
+                                it.position > start.position
+                            } else {
+                                true
+                            }
+                        }
+                        .map {
+                            val abstract = it.content.getAbstract(ABSTRACT_LENGTH)
+                            val oneLine = "${it.character?.name.orEmpty()}\n$abstract\n"
+                            it.cueId to oneLine
+                        }
+                if (filteredCues.isNotEmpty()) {
+                    view?.showCuePicker(IDX_TO, filteredCues)
+                }
             }
         }
     }
 
     override fun onScenePicked(sceneId: Int) {
+        val previousSceneId = selectedScene?.sceneId
         selectedScene = scenes.firstOrNull { it.sceneId == sceneId }
-        cues = emptyList()
 
-        cueData?.removeObserver(cuesObserver)
-        cueData = cueDataSourceProvider(sceneId).getData().apply { observe(owner, cuesObserver) }
+        if (previousSceneId != sceneId) {
+            selectedStart = null
+            selectedEnd = null
+            cues = emptyList()
 
-        updateSceneSelection()
+            cueData?.removeObserver(cuesObserver)
+            cueData = cueDataSourceProvider(sceneId).getData().apply { observe(owner, cuesObserver) }
+
+            updateSceneSelection()
+        }
+
     }
 
     override fun onCuePicked(requestId: Int, cueId: Int) {
@@ -137,8 +174,6 @@ class RangePickerPresenter(
 
 
     private fun updateCueSelection() {
-        // TODO swap start and end if they're out of order
-
         val start = if (selectedStart == null) {
             cues.firstOrNull()
         } else {

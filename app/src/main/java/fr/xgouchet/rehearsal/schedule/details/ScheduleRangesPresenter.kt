@@ -5,14 +5,16 @@ import fr.xgouchet.archx.ArchXViewModelTransformer
 import fr.xgouchet.archx.data.ArchXDataPresenter
 import fr.xgouchet.archx.data.ArchXDataSink
 import fr.xgouchet.rehearsal.core.room.model.RangeModel
+import fr.xgouchet.rehearsal.core.room.model.ScheduleModel
 import fr.xgouchet.rehearsal.ui.Item
 
 class ScheduleRangesPresenter(
+        private val scheduleId: Int,
         owner: LifecycleOwner,
         dataSource: ScheduleRangesContract.DataSource,
-        dataSink: ArchXDataSink<List<RangeModel>>,
+        private val scheduleDataSink: ScheduleRangesContract.ScheduleDataSink,
         transformer: ArchXViewModelTransformer<List<RangeModel>, List<Item.ViewModel>>
-) : ArchXDataPresenter<List<RangeModel>, ScheduleRangesContract.View, List<Item.ViewModel>>(owner, dataSource, dataSink, transformer),
+) : ArchXDataPresenter<List<RangeModel>, ScheduleRangesContract.View, List<Item.ViewModel>>(owner, dataSource, transformer),
         ScheduleRangesContract.Presenter {
 
     // region ScheduleRangesContract.Presenter
@@ -25,6 +27,15 @@ class ScheduleRangesPresenter(
         val end = range.endCue ?: return
 
         view?.navigateToSceneWithRange(scene, start.position to end.position)
+    }
+
+    override fun onDeleteActionSelected() {
+        scheduleDataSink.deleteData(ScheduleModel(scheduleId = scheduleId)) {
+            if (it != null) {
+                view?.showError(it)
+            }
+        }
+        view?.navigateBack()
     }
 
     // endregion

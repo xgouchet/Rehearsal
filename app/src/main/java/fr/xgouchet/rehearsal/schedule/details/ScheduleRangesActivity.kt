@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LifecycleOwner
 import fr.xgouchet.archx.ArchXActivity
-import fr.xgouchet.archx.data.ArchXNoOpDataSink
-import fr.xgouchet.rehearsal.core.room.model.RangeModel
 import fr.xgouchet.rehearsal.core.room.model.ScheduleModel
 import fr.xgouchet.rehearsal.ui.DateFormatter
 import fr.xgouchet.rehearsal.ui.Item
@@ -40,10 +38,10 @@ class ScheduleRangesActivity
     override fun instantiatePresenter(): ScheduleRangesContract.Presenter {
         val lifecycleOwner = this as LifecycleOwner
         val dataSource = ScheduleRangesDataSource(applicationContext, scheduleId)
-        val dataSink = ArchXNoOpDataSink<List<RangeModel>>()
+        val dataSink = ScheduleDataSink(applicationContext)
         val transformer = ScheduleRangesViewModelTransformer()
 
-        return ScheduleRangesPresenter(lifecycleOwner, dataSource, dataSink, transformer)
+        return ScheduleRangesPresenter(scheduleId, lifecycleOwner, dataSource, dataSink, transformer)
     }
 
     // endregion

@@ -5,7 +5,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import fr.xgouchet.rehearsal.core.room.model.CueModel
 import fr.xgouchet.rehearsal.core.room.model.ScheduleModel
 
 
@@ -19,4 +18,8 @@ interface ScheduleDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(schedule: ScheduleModel): Long
+
+
+    @Query("DELETE FROM schedule WHERE schedule.scheduleId = :id")
+    fun deleteById(id: Int)
 }

@@ -1,6 +1,12 @@
 package fr.xgouchet.rehearsal.schedule.details
 
-import fr.xgouchet.rehearsal.core.room.model.RangeModel
+import android.app.AlertDialog
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import com.google.android.material.snackbar.Snackbar
+import fr.xgouchet.rehearsal.R
 import fr.xgouchet.rehearsal.core.room.model.SceneModel
 import fr.xgouchet.rehearsal.scene.SceneActivity
 import fr.xgouchet.rehearsal.ui.Item
@@ -10,6 +16,42 @@ class ScheduleRangesFragment
     : ItemListFragment(),
         ScheduleRangesContract.View {
 
+    // region Fragment
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.schedule, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.action_delete -> {
+                confirmDelete()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun confirmDelete() {
+        val currentActivity = activity ?: return
+
+        AlertDialog.Builder(currentActivity)
+                .setTitle(R.string.schedule_title_confirmDelete)
+                .setMessage(R.string.schedule_text_deleteWarningPrompt)
+                .setNeutralButton(android.R.string.cancel) { a, _ -> a.dismiss() }
+                .setNegativeButton(android.R.string.ok) { _, _ ->
+                    (presenter as? ScheduleRangesContract.Presenter)?.onDeleteActionSelected()
+                }
+                .create()
+                .show()
+    }
+
+    // endregion
 
     // region ItemListFragment
 
@@ -22,11 +64,19 @@ class ScheduleRangesFragment
 
     // region ScheduleRangesContract.View
 
-    override fun navigateToSceneWithRange(scene: SceneModel,  range: Pair<Int, Int>) {
+    override fun showError(throwable: Throwable) {
+        Snackbar.make(contentView, throwable.message.orEmpty(), Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun navigateToSceneWithRange(scene: SceneModel, range: Pair<Int, Int>) {
         val currentActivity = activity ?: return
         val intent = SceneActivity.createIntent(currentActivity, scene, range)
         startActivity(intent)
     }
 
+
+    override fun navigateBack() {
+        activity?.finish()
+    }
     // endregion
 }

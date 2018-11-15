@@ -37,11 +37,10 @@ class ScriptActivity
     override fun instantiatePresenter(): ScriptContract.Presenter {
         val lifecycleOwner = this as LifecycleOwner
         val dataSource = ScriptDataSource(applicationContext, scriptId)
-        val dataSink = ScriptScenesDataSink()
         val scriptDataSink = ScriptDataSink(applicationContext)
         val transformer = ScriptViewModelTransformer()
 
-        return ScriptPresenter(scriptId, scriptTitle, lifecycleOwner, dataSource, dataSink, scriptDataSink, transformer)
+        return ScriptPresenter(scriptId, scriptTitle, lifecycleOwner, dataSource, scriptDataSink, transformer)
     }
 
     // endregion
