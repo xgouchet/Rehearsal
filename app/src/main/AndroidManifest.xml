@@ -41,6 +41,8 @@
                 android:name=".range.RangePickerActivity"
                 android:label="@string/rangePicker_title"/>
 
+        <activity android:name=".schedule.details.ScheduleRangesActivity"/>
+
         <!-- region Voice service -->
         <service android:name=".voice.service.VoiceService"/>
         <receiver android:name=".voice.service.VoiceMediaButtonReceiver">

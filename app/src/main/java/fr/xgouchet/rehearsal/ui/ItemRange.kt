@@ -12,6 +12,7 @@ class ItemRange {
 
     data class ViewModel(
             val id: Long,
+            val scene: String = "",
             val startLine: String = "",
             val endLine: String = "",
             val data: Any? = null
@@ -33,16 +34,16 @@ class ItemRange {
             listener: ItemListener
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
+        private val titleView: TextView = itemView.findViewById(R.id.title)
         private val startLineView: TextView = itemView.findViewById(R.id.start_line)
         private val endLineView: TextView = itemView.findViewById(R.id.end_line)
 
         init {
-//            itemView.setOnLongClickListener { listener(boundItem, ACTION_LONG_CLICK, null) }
-//            itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
-//            noteView.setOnClickListener { listener(boundItem, ACTION_NOTE, null) }
+            itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
         }
 
         override fun onBind(item: ViewModel) {
+            titleView.text =  MarkdownConverter.parse(item.scene)
             startLineView.text = MarkdownConverter.parse(item.startLine)
             endLineView.text = MarkdownConverter.parse(item.endLine)
         }

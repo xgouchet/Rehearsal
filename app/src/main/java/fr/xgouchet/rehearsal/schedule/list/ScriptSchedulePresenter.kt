@@ -18,7 +18,8 @@ class ScriptSchedulePresenter(
     // region ScriptScheduleContract.Presenter
 
     override fun onItemSelected(item: Item.ViewModel) {
-       // TODO()
+        val schedule = item.getItemData() as? ScheduleModel ?: return
+       view?.navigateToScheduleDetails(schedule)
     }
 
     override fun onAddSchedule() {

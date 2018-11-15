@@ -17,6 +17,11 @@ interface CueDAO {
     @Query("SELECT * FROM cue LEFT JOIN character ON cue.characterId = character.characterId WHERE sceneId = :sceneId ORDER BY position ASC")
     fun getAllInScene(sceneId: Int): LiveData<List<CueWithCharacter>>
 
+
+    @Transaction
+    @Query("SELECT * FROM cue  LEFT JOIN character ON cue.characterId = character.characterId WHERE sceneId = :sceneId AND position >= :startPosition AND position <= :endPosition")
+    fun getAllInSceneInRange(sceneId: Int, startPosition: Int, endPosition: Int): LiveData<List<CueWithCharacter>>
+
     @Insert(onConflict = REPLACE)
     fun insert(cue: CueModel): Long
 

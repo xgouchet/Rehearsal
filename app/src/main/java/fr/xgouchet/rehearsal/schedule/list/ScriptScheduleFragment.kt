@@ -1,6 +1,8 @@
 package fr.xgouchet.rehearsal.schedule.list
 
+import fr.xgouchet.rehearsal.core.room.model.ScheduleModel
 import fr.xgouchet.rehearsal.schedule.create.CreateScheduleActivity
+import fr.xgouchet.rehearsal.schedule.details.ScheduleRangesActivity
 import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.ui.ItemListFragment
 
@@ -24,9 +26,15 @@ class ScriptScheduleFragment
 
     // region ScriptScheduleContract.View
 
+    override fun navigateToScheduleDetails(schedule: ScheduleModel) {
+        val currentActivity = activity ?: return
+        val intent = ScheduleRangesActivity.createIntent(currentActivity, schedule)
+        startActivity(intent)
+    }
+
     override fun navigateToScheduleCreation(scriptId: Int, scriptTitle: String) {
         val currentActivity = activity ?: return
-        val intent = CreateScheduleActivity.createIntent(currentActivity, scriptId )
+        val intent = CreateScheduleActivity.createIntent(currentActivity, scriptId)
         startActivity(intent)
     }
 

@@ -5,8 +5,8 @@ import fr.xgouchet.archx.ArchXView
 import fr.xgouchet.archx.ArchXViewModelTransformer
 import fr.xgouchet.archx.data.ArchXDataSource
 import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
+import fr.xgouchet.rehearsal.core.room.join.SceneWithCount
 import fr.xgouchet.rehearsal.core.room.model.RangeModel
-import fr.xgouchet.rehearsal.core.room.model.SceneModel
 import fr.xgouchet.rehearsal.core.room.model.ScheduleModel
 import fr.xgouchet.rehearsal.ui.Item
 
@@ -14,7 +14,6 @@ interface RangePickerContract {
 
     interface Presenter : ArchXPresenter<List<Item.ViewModel>> {
         fun onItemSelected(item: Item.ViewModel)
-        fun onItemValueChanged(item: Item.ViewModel, value: String?)
 
         fun onScenePicked(sceneId: Int)
         fun onCuePicked(requestId: Int, cueId: Int)
@@ -29,7 +28,7 @@ interface RangePickerContract {
         fun navigateBackWithResult(rangeModel: RangeModel)
     }
 
-    interface SceneDataSource : ArchXDataSource<List<SceneModel>>
+    interface SceneDataSource : ArchXDataSource<List<SceneWithCount>>
     interface CueDataSource : ArchXDataSource<List<CueWithCharacter>>
 
     interface Transformer : ArchXViewModelTransformer<List<ScheduleModel>, List<Item.ViewModel>>

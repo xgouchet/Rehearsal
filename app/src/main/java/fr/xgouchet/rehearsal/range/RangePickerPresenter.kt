@@ -6,9 +6,9 @@ import androidx.lifecycle.Observer
 import fr.xgouchet.archx.ArchXView
 import fr.xgouchet.rehearsal.R
 import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
+import fr.xgouchet.rehearsal.core.room.join.SceneWithCount
 import fr.xgouchet.rehearsal.core.room.model.CueModel
 import fr.xgouchet.rehearsal.core.room.model.RangeModel
-import fr.xgouchet.rehearsal.core.room.model.SceneModel
 import fr.xgouchet.rehearsal.ext.getAbstract
 import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.ui.ItemInteractive
@@ -24,9 +24,9 @@ class RangePickerPresenter(
 
     protected var view: RangePickerContract.View? = null
 
-    private var scenes: List<SceneModel> = emptyList()
-    private var selectedScene: SceneModel? = null
-    private val scenesObserver = Observer<List<SceneModel>> {
+    private var scenes: List<SceneWithCount> = emptyList()
+    private var selectedScene: SceneWithCount? = null
+    private val scenesObserver = Observer<List<SceneWithCount>> {
         scenes = it
         updateSceneSelection()
     }
@@ -66,7 +66,7 @@ class RangePickerPresenter(
 
         when (subIndex) {
             IDX_SCENE -> {
-                view?.showScenePicker(scenes.map { it.sceneId to it.description })
+                view?.showScenePicker(scenes.map { it.sceneId to "(${it.cues}) ­— ${it.description}" })
             }
             IDX_FROM, IDX_TO -> {
                 val filteredCues = cues.map {
@@ -77,10 +77,6 @@ class RangePickerPresenter(
                 view?.showCuePicker(subIndex, filteredCues)
             }
         }
-    }
-
-    override fun onItemValueChanged(item: Item.ViewModel, value: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onScenePicked(sceneId: Int) {
@@ -105,12 +101,13 @@ class RangePickerPresenter(
     }
 
     override fun onValidate() {
-       val rangeModel = RangeModel(
-               rangeId = 0,
-               scheduleId = 0,
-               startCue = selectedStart?.asCueModel(),
-               endCue = selectedEnd?.asCueModel()
-       )
+        val rangeModel = RangeModel(
+                rangeId = 0,
+                scheduleId = 0,
+                startCue = selectedStart?.asCueModel(),
+                endCue = selectedEnd?.asCueModel(),
+                scene = selectedScene?.asSceneModel()
+        )
         view?.navigateBackWithResult(rangeModel)
     }
 
@@ -140,6 +137,8 @@ class RangePickerPresenter(
 
 
     private fun updateCueSelection() {
+        // TODO swap start and end if they're out of order
+
         val start = if (selectedStart == null) {
             cues.firstOrNull()
         } else {
@@ -170,10 +169,13 @@ class RangePickerPresenter(
 
         val defaultCue = if (cues.isEmpty()) "✗" else "?"
 
+        val sceneDesc = selectedScene?.let {
+            "(${it.cues}) ­— ${it.description}"
+        }
         list.add(ItemInteractive.ViewModel(
                 id = StableId.getStableId(0, IDX_SCENE, Item.Type.INTERACTIVE.ordinal),
                 labelRes = R.string.rangePicker_action_scene,
-                value = selectedScene?.description ?: "?"
+                value = sceneDesc ?: "?"
         ))
 
         list.add(ItemInteractive.ViewModel(

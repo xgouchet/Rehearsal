@@ -21,6 +21,21 @@
             >
 
         <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/primary_text"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:padding="4dp"
+                android:fontFamily="@font/daisy_wheel"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="@tools:sample/lorem/random"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/start_line"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -38,7 +53,7 @@
                 android:maxLines="2"
                 android:ellipsize="end"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="@tools:sample/lorem/random"/>
 
@@ -55,7 +70,6 @@
                 android:paddingBottom="8dp"
                 android:layout_marginStart="48dp"
                 android:layout_marginEnd="48dp"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:fontFamily="@font/sans_serif"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="@string/rangePicker_text_ellipsis"

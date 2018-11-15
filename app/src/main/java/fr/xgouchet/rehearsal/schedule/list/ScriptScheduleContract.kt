@@ -17,6 +17,7 @@ interface ScriptScheduleContract {
 
     interface View : ArchXView<List<Item.ViewModel>> {
         fun navigateToScheduleCreation(scriptId: Int, scriptTitle: String)
+        fun navigateToScheduleDetails(schedule: ScheduleModel)
     }
 
     interface DataSource : ArchXDataSource<List<ScheduleModel>>

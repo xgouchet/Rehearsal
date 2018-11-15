@@ -453,4 +453,5 @@ class FountainDomParserTest(private val inputPath: String,
 TODO Dual Dialog
 TODO Centered Text > <
 TODO Sections and Synopses # / =
+TODO multiple Character extension eg: EDWARD (V.O.) (CONT'D)
  */

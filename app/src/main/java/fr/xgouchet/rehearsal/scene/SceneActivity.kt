@@ -17,6 +17,8 @@ class SceneActivity
     private var sceneId: Int = 0
     private var sceneTitle: String = ""
 
+    private var range: Pair<Int, Int>? = null
+
     private var linesVisible: Boolean = false
 
     private lateinit var voiceObserver: VoiceController
@@ -36,6 +38,13 @@ class SceneActivity
         sceneId = intent.getIntExtra(EXTRA_SCENE_ID, 0)
         sceneTitle = intent.getStringExtra(EXTRA_SCENE_TITLE).orEmpty()
 
+        val startCueId = intent.getIntExtra(EXTRA_RANGE_START_POSITION, 0)
+        val endCueId = intent.getIntExtra(EXTRA_RANGE_END_POSITION, 0)
+
+        if (startCueId > 0 && endCueId > 0) {
+            range = startCueId to endCueId
+        }
+
         if (sceneId <= 0) {
             finish()
         }
@@ -51,7 +60,7 @@ class SceneActivity
 
     override fun instantiatePresenter(): SceneContract.Presenter {
         val lifecycleOwner = this as LifecycleOwner
-        val dataSource = SceneDataSource(applicationContext, sceneId)
+        val dataSource = SceneDataSource(applicationContext, sceneId, range)
         val characterDataSource = CharactersDataSource(applicationContext, sceneId)
         val dataSink = SceneDataSink(applicationContext)
         val transformer = SceneViewModelTransformer()
@@ -82,6 +91,8 @@ class SceneActivity
 
         private const val EXTRA_SCENE_ID = "fr.xgouchet.rehearsal.extra.SCENE_ID"
         private const val EXTRA_SCENE_TITLE = "fr.xgouchet.rehearsal.extra.SCENE_TITLE"
+        private const val EXTRA_RANGE_START_POSITION = "fr.xgouchet.rehearsal.extra.RANGE_START_POSITION"
+        private const val EXTRA_RANGE_END_POSITION = "fr.xgouchet.rehearsal.extra.RANGE_END_POSITION"
 
         @JvmStatic
         fun createIntent(context: Context, sceneModel: SceneModel): Intent {
@@ -89,6 +100,18 @@ class SceneActivity
 
             intent.putExtra(EXTRA_SCENE_ID, sceneModel.sceneId)
             intent.putExtra(EXTRA_SCENE_TITLE, sceneModel.description)
+
+            return intent
+        }
+
+        @JvmStatic
+        fun createIntent(context: Context, sceneModel: SceneModel, range: Pair<Int, Int>): Intent {
+            val intent = Intent(context, SceneActivity::class.java)
+
+            intent.putExtra(EXTRA_SCENE_ID, sceneModel.sceneId)
+            intent.putExtra(EXTRA_SCENE_TITLE, sceneModel.description)
+            intent.putExtra(EXTRA_RANGE_START_POSITION, range.first)
+            intent.putExtra(EXTRA_RANGE_END_POSITION, range.second)
 
             return intent
         }

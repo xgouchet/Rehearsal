@@ -114,6 +114,7 @@ class CreateSchedulePresenter(
             list.add(
                     ItemRange.ViewModel(
                             id = StableId.getStableId(i, IDX_RANGE, Item.Type.RANGE.ordinal),
+                            scene = range.scene?.description.orEmpty(),
                             startLine = range.startCue?.content.orEmpty(),
                             endLine = range.endCue?.content.orEmpty(),
                             data = range

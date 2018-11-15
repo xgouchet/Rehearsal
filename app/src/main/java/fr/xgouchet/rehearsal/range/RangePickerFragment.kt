@@ -50,7 +50,6 @@ class RangePickerFragment
         var consumed = true
         when (action) {
             ACTION_DEFAULT -> (presenter as? RangePickerContract.Presenter)?.onItemSelected(item)
-            ACTION_VALUE_CHANGED -> (presenter as? RangePickerContract.Presenter)?.onItemValueChanged(item, value)
             else -> consumed = false
         }
         return consumed

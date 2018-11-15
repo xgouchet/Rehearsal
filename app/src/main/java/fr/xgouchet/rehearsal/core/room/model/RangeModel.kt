@@ -16,6 +16,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class RangeModel(
         @PrimaryKey(autoGenerate = true) var rangeId: Int = 0,
+        @Embedded var scene : SceneModel? = null,
         @Embedded(prefix = "start_") var startCue: CueModel? = null,
         @Embedded(prefix = "end_") var endCue: CueModel? = null,
         @ColumnInfo(index = true) var scheduleId: Int? = null

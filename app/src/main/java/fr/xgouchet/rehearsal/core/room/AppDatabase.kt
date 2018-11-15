@@ -23,7 +23,7 @@ import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 
 
 @Database(entities = [ScriptModel::class, SceneModel::class, CharacterModel::class, CueModel::class, ScheduleModel::class, RangeModel::class],
-        version = 3,
+        version = 4,
         exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -33,7 +33,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun cueDao(): CueDAO
     abstract fun characterDao(): CharacterDAO
     abstract fun scheduleDao(): ScheduleDAO
-    abstract fun rangeDao() : RangeDao
+    abstract fun rangeDao(): RangeDao
 
     companion object {
         private const val DB_NAME = "AppDatabase"
@@ -58,7 +58,7 @@ abstract class AppDatabase : RoomDatabase() {
                         AppDatabase::class.java,
                         DB_NAME
                 )
-                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_to_4)
                         .build()
 
         private val MIGRATION_1_2 = object : Migration(1, 2) {
@@ -79,6 +79,16 @@ abstract class AppDatabase : RoomDatabase() {
                 database.execSQL("DROP TABLE IF EXISTS `range`")
 
                 database.execSQL("CREATE TABLE IF NOT EXISTS `range` (`rangeId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `scheduleId` INTEGER, `start_cueId` INTEGER, `start_sceneId` INTEGER, `start_characterId` INTEGER, `start_position` INTEGER, `start_type` INTEGER, `start_characterExtension` TEXT, `start_content` TEXT, `start_isBookmarked` INTEGER, `start_note` TEXT, `end_cueId` INTEGER, `end_sceneId` INTEGER, `end_characterId` INTEGER, `end_position` INTEGER, `end_type` INTEGER, `end_characterExtension` TEXT, `end_content` TEXT, `end_isBookmarked` INTEGER, `end_note` TEXT, FOREIGN KEY(`scheduleId`) REFERENCES `schedule`(`scheduleId`) ON UPDATE NO ACTION ON DELETE CASCADE )")
+                database.execSQL("CREATE  INDEX `index_range_scheduleId` ON `range` (`scheduleId`)")
+            }
+        }
+
+        private val MIGRATION_3_to_4 = object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+
+                database.execSQL("DROP TABLE IF EXISTS `range`")
+
+                database.execSQL("CREATE TABLE IF NOT EXISTS `range` (`rangeId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `scheduleId` INTEGER, `sceneId` INTEGER, `scriptId` INTEGER, `position` INTEGER, `description` TEXT, `numbering` TEXT, `start_cueId` INTEGER, `start_sceneId` INTEGER, `start_characterId` INTEGER, `start_position` INTEGER, `start_type` INTEGER, `start_characterExtension` TEXT, `start_content` TEXT, `start_isBookmarked` INTEGER, `start_note` TEXT, `end_cueId` INTEGER, `end_sceneId` INTEGER, `end_characterId` INTEGER, `end_position` INTEGER, `end_type` INTEGER, `end_characterExtension` TEXT, `end_content` TEXT, `end_isBookmarked` INTEGER, `end_note` TEXT, FOREIGN KEY(`scheduleId`) REFERENCES `schedule`(`scheduleId`) ON UPDATE NO ACTION ON DELETE CASCADE )")
                 database.execSQL("CREATE  INDEX `index_range_scheduleId` ON `range` (`scheduleId`)")
             }
         }

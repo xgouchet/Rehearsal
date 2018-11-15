@@ -5,6 +5,7 @@ import fr.xgouchet.archx.ArchXView
 import fr.xgouchet.archx.ArchXViewModelTransformer
 import fr.xgouchet.archx.data.ArchXDataSink
 import fr.xgouchet.archx.data.ArchXDataSource
+import fr.xgouchet.rehearsal.core.room.join.SceneWithCount
 import fr.xgouchet.rehearsal.core.room.model.SceneModel
 import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 import fr.xgouchet.rehearsal.ui.Item
@@ -12,7 +13,7 @@ import fr.xgouchet.rehearsal.ui.Item
 interface ScriptContract {
 
     interface Presenter : ArchXPresenter<List<Item.ViewModel>> {
-        fun onItemSelected(item:  Item.ViewModel)
+        fun onItemSelected(item: Item.ViewModel)
 
         fun onScheduleActionSelected()
         fun onCastActionSelected()
@@ -27,11 +28,11 @@ interface ScriptContract {
         fun showError(throwable: Throwable)
     }
 
-    interface DataSource : ArchXDataSource<List<SceneModel>>
+    interface DataSource : ArchXDataSource<List<SceneWithCount>>
 
-    interface DataSink : ArchXDataSink<List<SceneModel>>
+    interface DataSink : ArchXDataSink<List<SceneWithCount>>
 
     interface ScriptDataSink : ArchXDataSink<ScriptModel>
 
-    interface Transformer : ArchXViewModelTransformer<List<SceneModel>, List<Item.ViewModel>>
+    interface Transformer : ArchXViewModelTransformer<List<SceneWithCount>, List<Item.ViewModel>>
 }
