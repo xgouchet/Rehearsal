@@ -16,7 +16,7 @@ class SceneDataSink(context: Context)
 
     private var disposables: CompositeDisposable = CompositeDisposable()
 
-    override fun updateData(data: List<CueWithCharacter>) {
+    override fun updateData(data: List<CueWithCharacter>, onEnd: (Throwable?) -> Unit) {
         val disposable = Observable.fromIterable(data)
                 .subscribeOn(Schedulers.io())
                 .map { appDatabase.cueDao().update(it.asCueModel()) }
@@ -24,16 +24,18 @@ class SceneDataSink(context: Context)
                 .subscribe(
                         {
                             Timber.i("#update @result:$it")
+                            onEnd(null)
                         },
                         {
                             Timber.i(it, "#error #update")
+                            onEnd(it)
                         }
                 )
 
         disposables.add(disposable)
     }
 
-    override fun createData(data: List<CueWithCharacter>) {
+    override fun createData(data: List<CueWithCharacter>, onEnd: (Throwable?) -> Unit) {
         val disposable = Observable.fromIterable(data)
                 .subscribeOn(Schedulers.io())
                 .map { appDatabase.cueDao().insert(it.asCueModel()) }
@@ -41,16 +43,18 @@ class SceneDataSink(context: Context)
                 .subscribe(
                         {
                             Timber.i("#insert @result:$it")
+                            onEnd(null)
                         },
                         {
                             Timber.i(it, "#error #insert")
+                            onEnd(it)
                         }
                 )
 
         disposables.add(disposable)
     }
 
-    override fun deleteData(data: List<CueWithCharacter>) {
+    override fun deleteData(data: List<CueWithCharacter>, onEnd: (Throwable?) -> Unit) {
         val disposable = Observable.fromIterable(data)
                 .subscribeOn(Schedulers.io())
                 .map { appDatabase.cueDao().deleteById(it.cueId) }
@@ -58,9 +62,11 @@ class SceneDataSink(context: Context)
                 .subscribe(
                         {
                             Timber.i("#deleteById @result:$it")
+                            onEnd(null)
                         },
                         {
                             Timber.i(it, "#error #deleteById")
+                            onEnd(it)
                         }
                 )
 

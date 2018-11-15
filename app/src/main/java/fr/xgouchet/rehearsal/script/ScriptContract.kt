@@ -13,6 +13,8 @@ interface ScriptContract {
 
     interface Presenter : ArchXPresenter<List<Item.ViewModel>> {
         fun onItemSelected(item:  Item.ViewModel)
+
+        fun onScheduleActionSelected()
         fun onCastActionSelected()
         fun onDeleteActionSelected()
     }
@@ -21,6 +23,8 @@ interface ScriptContract {
         fun navigateToScene(scene: SceneModel)
         fun navigateToCastSettings(scriptId: Int)
         fun navigateBack()
+        fun navigateToSchedule(scriptId: Int, scriptTitle: String)
+        fun showError(throwable: Throwable)
     }
 
     interface DataSource : ArchXDataSource<List<SceneModel>>

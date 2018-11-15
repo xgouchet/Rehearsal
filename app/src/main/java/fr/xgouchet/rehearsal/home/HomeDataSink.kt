@@ -1,8 +1,8 @@
 package fr.xgouchet.rehearsal.home
 
-import fr.xgouchet.rehearsal.core.NoOpDataSink
+import fr.xgouchet.archx.data.ArchXNoOpDataSink
 import fr.xgouchet.rehearsal.core.room.model.ScriptModel
 
 class HomeDataSink
-    : NoOpDataSink<List<ScriptModel>>(),
+    : ArchXNoOpDataSink<List<ScriptModel>>(),
         HomeContract.DataSink

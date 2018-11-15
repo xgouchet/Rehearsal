@@ -8,7 +8,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 class CastDataSink(context: Context)
     : CastContract.DataSink {
@@ -17,7 +16,7 @@ class CastDataSink(context: Context)
 
     private var disposables: CompositeDisposable = CompositeDisposable()
 
-    override fun updateData(data: List<CharacterModel>) {
+    override fun updateData(data: List<CharacterModel>, onEnd: (Throwable?) -> Unit) {
         val disposable = Observable.fromIterable(data)
                 .subscribeOn(Schedulers.io())
                 .map { appDatabase.characterDao().update(it) }
@@ -25,21 +24,21 @@ class CastDataSink(context: Context)
                 .subscribe(
                         {
                             Timber.i("#update @result:$it")
+                            onEnd(null)
                         },
                         {
                             Timber.i(it, "#error #update")
+                            onEnd(it)
                         }
                 )
 
         disposables.add(disposable)
     }
 
-    override fun createData(data: List<CharacterModel>) {
-
+    override fun createData(data: List<CharacterModel>, onEnd: (Throwable?) -> Unit) {
     }
 
-    override fun deleteData(data: List<CharacterModel>) {
-
+    override fun deleteData(data: List<CharacterModel>, onEnd: (Throwable?) -> Unit) {
     }
 
 }

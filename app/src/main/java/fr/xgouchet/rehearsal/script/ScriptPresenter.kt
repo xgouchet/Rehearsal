@@ -8,6 +8,7 @@ import fr.xgouchet.rehearsal.ui.Item
 
 class ScriptPresenter(
         private val scriptId: Int,
+        private val scriptTitle: String,
         owner: LifecycleOwner,
         dataSource: ScriptContract.DataSource,
         dataSink: ScriptContract.DataSink,
@@ -19,7 +20,7 @@ class ScriptPresenter(
 
     // region ScriptContract.Presenter
 
-    override fun onItemSelected(item:  Item.ViewModel) {
+    override fun onItemSelected(item: Item.ViewModel) {
         val scene = item.getItemData() as? SceneModel
 
         if (scene != null) {
@@ -27,12 +28,20 @@ class ScriptPresenter(
         }
     }
 
+    override fun onScheduleActionSelected() {
+        view?.navigateToSchedule(scriptId, scriptTitle)
+    }
+
     override fun onCastActionSelected() {
         view?.navigateToCastSettings(scriptId)
     }
 
     override fun onDeleteActionSelected() {
-        scriptDataSink.deleteData(ScriptModel(scriptId = scriptId, title = "", author = ""))
+        scriptDataSink.deleteData(ScriptModel(scriptId = scriptId, title = "", author = "")) {
+            if (it != null) {
+                view?.showError(it)
+            }
+        }
         view?.navigateBack()
     }
 

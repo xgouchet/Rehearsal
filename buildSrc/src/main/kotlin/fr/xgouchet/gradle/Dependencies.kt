@@ -33,7 +33,7 @@ object Dependencies {
         const val Leakcanary = "1.5.4"
         const val Timber = "4.6.0"
         const val Stetho = "1.5.0"
-        const val ArchX = "0.4"
+        const val ArchX = "0.5"
         const val Spectrum = "1.0.0"
 
 

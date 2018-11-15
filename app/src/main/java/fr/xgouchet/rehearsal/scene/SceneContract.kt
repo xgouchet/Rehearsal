@@ -60,6 +60,8 @@ interface SceneContract {
         fun showAddActionPrompt(afterCueId: Int, characters: List<CharacterInfo>, selected: CharacterInfo?)
         fun showAddDialogPrompt(afterCueId: Int, characters: List<CharacterInfo>, selected: CharacterInfo?)
         fun showAddLyricsPrompt(afterCueId: Int, characters: List<CharacterInfo>, selected: CharacterInfo?)
+
+        fun showError(throwable: Throwable)
     }
 
     interface DataSource : ArchXDataSource<List<CueWithCharacter>>

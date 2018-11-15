@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import fr.xgouchet.rehearsal.R
@@ -143,9 +144,9 @@ class SceneFragment
         when (action) {
             ACTION_DEFAULT -> (presenter as? SceneContract.Presenter)?.onItemSelected(item)
             ACTION_LONG_CLICK -> (presenter as? SceneContract.Presenter)?.onItemPressed(item)
-            ACTION_NOTE ->  {
+            ACTION_NOTE -> {
                 val cue = item.getItemData() as? CueWithCharacter
-                if (cue != null ) {
+                if (cue != null) {
                     (presenter as? SceneContract.Presenter)?.onShowNotePicked(cue.cueId)
                 }
             }
@@ -265,6 +266,10 @@ class SceneFragment
                 }
                 .create()
                 .show()
+    }
+
+    override fun showError(throwable: Throwable) {
+        Snackbar.make(contentView, throwable.message.orEmpty(), Snackbar.LENGTH_LONG).show()
     }
 
     // endregion

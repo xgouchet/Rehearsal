@@ -7,6 +7,7 @@ import fr.xgouchet.archx.data.ArchXDataPresenter
 import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
 import fr.xgouchet.rehearsal.core.room.model.CharacterModel
 import fr.xgouchet.rehearsal.core.room.model.CueModel
+import fr.xgouchet.rehearsal.ext.getAbstract
 import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.voice.app.VoiceController
 import fr.xgouchet.rehearsal.voice.app.VoiceServiceListener
@@ -81,7 +82,7 @@ class ScenePresenter(
         if (selectedCue != null) {
             view?.showContextMenu(CueInfo(
                     cueId = selectedCue.cueId,
-                    abstract = getAbstract(selectedCue.content, CONTEXT_MENU_ABSTRACT_LENGTH),
+                    abstract = selectedCue.content.getAbstract(CONTEXT_MENU_ABSTRACT_LENGTH),
                     isBookmarked = selectedCue.isBookmarked,
                     hasNote = !selectedCue.note.isNullOrBlank()
             ))
@@ -138,14 +139,18 @@ class ScenePresenter(
         val selectedCharacter = characters.firstOrNull { it.characterId == c.characterId }
         if (selectedCue != null) {
             val updatedCue = selectedCue.copy(content = content, character = selectedCharacter)
-            dataSink.updateData(listOf(updatedCue))
+            dataSink.updateData(listOf(updatedCue)) {
+                if (it != null) {
+                    view?.showError(it)
+                }
+            }
         }
     }
 
     override fun onDeleteCue(cueId: Int) {
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
         if (selectedCue != null) {
-            val abstract = getAbstract(selectedCue.content, CONTEXT_MENU_ABSTRACT_LENGTH)
+            val abstract = selectedCue.content.getAbstract(CONTEXT_MENU_ABSTRACT_LENGTH)
             view?.showDeleteConfirm(cueId, abstract)
         }
     }
@@ -153,7 +158,11 @@ class ScenePresenter(
     override fun onDeleteCueConfirmed(cueId: Int) {
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
         if (selectedCue != null) {
-            dataSink.deleteData(listOf(selectedCue))
+            dataSink.deleteData(listOf(selectedCue)) {
+                if (it != null) {
+                    view?.showError(it)
+                }
+            }
         }
     }
 
@@ -223,7 +232,11 @@ class ScenePresenter(
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
         if (selectedCue != null && !selectedCue.isBookmarked) {
             val updatedCue = selectedCue.copy(isBookmarked = true)
-            dataSink.updateData(listOf(updatedCue))
+            dataSink.updateData(listOf(updatedCue)) {
+                if (it != null) {
+                    view?.showError(it)
+                }
+            }
         }
     }
 
@@ -231,7 +244,11 @@ class ScenePresenter(
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
         if (selectedCue != null && selectedCue.isBookmarked) {
             val updatedCue = selectedCue.copy(isBookmarked = false)
-            dataSink.updateData(listOf(updatedCue))
+            dataSink.updateData(listOf(updatedCue)) {
+                if (it != null) {
+                    view?.showError(it)
+                }
+            }
         }
     }
 
@@ -255,7 +272,7 @@ class ScenePresenter(
     override fun onAddNotePicked(cueId: Int) {
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
         if (selectedCue != null) {
-            view?.showNotePrompt(cueId, getAbstract(selectedCue.content, CONTEXT_MENU_ABSTRACT_LENGTH), "")
+            view?.showNotePrompt(cueId, selectedCue.content.getAbstract(CONTEXT_MENU_ABSTRACT_LENGTH), "")
         }
     }
 
@@ -270,7 +287,7 @@ class ScenePresenter(
     override fun onEditNotePicked(cueId: Int) {
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
         if (selectedCue != null) {
-            view?.showNotePrompt(cueId, getAbstract(selectedCue.content, CONTEXT_MENU_ABSTRACT_LENGTH), selectedCue.note.orEmpty())
+            view?.showNotePrompt(cueId, selectedCue.content.getAbstract(CONTEXT_MENU_ABSTRACT_LENGTH), selectedCue.note.orEmpty())
         }
     }
 
@@ -278,7 +295,11 @@ class ScenePresenter(
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
         if (selectedCue != null) {
             val updatedCue = selectedCue.copy(note = null)
-            dataSink.updateData(listOf(updatedCue))
+            dataSink.updateData(listOf(updatedCue)) {
+                if (it != null) {
+                    view?.showError(it)
+                }
+            }
         }
     }
 
@@ -286,7 +307,11 @@ class ScenePresenter(
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
         if (selectedCue != null) {
             val updatedCue = selectedCue.copy(note = note)
-            dataSink.updateData(listOf(updatedCue))
+            dataSink.updateData(listOf(updatedCue)) {
+                if (it != null) {
+                    view?.showError(it)
+                }
+            }
         }
     }
 
@@ -341,41 +366,27 @@ class ScenePresenter(
                     characterExtension = null
             )
 
-            if (movedCues.isNotEmpty()) dataSink.updateData(movedCues)
-            dataSink.createData(listOf(newCue))
+            if (movedCues.isNotEmpty()) {
+                dataSink.updateData(movedCues) {
+                    if (it != null) {
+                        view?.showError(it)
+                    }
+                }
+            }
+            dataSink.createData(listOf(newCue)) {
+                if (it != null) {
+                    view?.showError(it)
+                }
+            }
         }
     }
 
     private fun getBookmarkDescription(cue: CueWithCharacter): String {
-        val abstract = getAbstract(cue.content, BOOKMARK_ABSTRACT_LENGHT)
+        val abstract = cue.content.getAbstract(BOOKMARK_ABSTRACT_LENGHT)
 
         return "${cue.character?.name.orEmpty()}\n$abstract\n"
     }
 
-    private fun getAbstract(content: String, length: Int): String {
-        return if (content.length >= length) {
-            buildAbstract(content, length)
-        } else {
-            content
-        }
-    }
-
-    private fun buildAbstract(content: String, length: Int): String {
-        val builder = StringBuilder()
-        val firstLine = content.split("\n").first()
-        val tokens = firstLine.split(" ")
-
-        tokens.forEach {
-            if (builder.length < length - 1) {
-                if (builder.isNotEmpty()) {
-                    builder.append(" ")
-                }
-                builder.append(it)
-            }
-        }
-        builder.append("…")
-        return builder.toString()
-    }
 
     private fun setActiveCue(cueId: Int, scrollToCue: Boolean) {
         (transformer as? SceneContract.Transformer)?.setSelectedCue(cueId)

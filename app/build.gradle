@@ -47,6 +47,10 @@ android {
 
 }
 
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
 
     compile project(":fountain-parser")

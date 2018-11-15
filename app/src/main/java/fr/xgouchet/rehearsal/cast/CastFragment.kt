@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.speech.tts.TextToSpeech
 import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
+import com.google.android.material.snackbar.Snackbar
 import com.takisoft.colorpicker.ColorPickerDialog
 import com.takisoft.colorpicker.OnColorSelectedListener
 import fr.xgouchet.rehearsal.R
@@ -85,6 +86,10 @@ class CastFragment
 
         return services.map { it.serviceInfo.packageName }
                 .toTypedArray()
+    }
+
+    override fun showError(throwable: Throwable) {
+        Snackbar.make(contentView, throwable.message.orEmpty(), Snackbar.LENGTH_LONG).show()
     }
 
     // endregion

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="fr.xgouchet.rehearsal">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -10,7 +11,8 @@
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            tools:ignore="GoogleAppIndexingWarning">
 
         <activity
                 android:name=".home.HomeActivity"
@@ -29,12 +31,22 @@
                 android:name=".cast.CastActivity"
                 android:label="@string/cast_title"/>
 
+        <activity android:name=".schedule.list.ScriptScheduleActivity"/>
+
+        <activity
+                android:name=".schedule.create.CreateScheduleActivity"
+                android:label="@string/schedule_title_create"/>
+
+        <activity
+                android:name=".range.RangePickerActivity"
+                android:label="@string/rangePicker_title"/>
+
         <!-- region Voice service -->
         <service android:name=".voice.service.VoiceService"/>
         <receiver android:name=".voice.service.VoiceMediaButtonReceiver">
             <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.MEDIA_BUTTON" />
-                <action android:name="android.media.AUDIO_BECOMING_NOISY" />
+                <action android:name="android.intent.action.MEDIA_BUTTON"/>
+                <action android:name="android.media.AUDIO_BECOMING_NOISY"/>
             </intent-filter>
         </receiver>
         <!-- endregion -->

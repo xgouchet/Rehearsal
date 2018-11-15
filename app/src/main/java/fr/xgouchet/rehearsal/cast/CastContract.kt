@@ -21,6 +21,8 @@ interface CastContract {
     interface View : ArchXView<List<Item.ViewModel>> {
         fun showColorPicker(requestId: Int, @ColorInt color: Int)
         fun showEnginePicker(requestId: Int, engine: String?)
+
+        fun showError(throwable: Throwable)
     }
 
     interface DataSource : ArchXDataSource<List<CharacterModel>>

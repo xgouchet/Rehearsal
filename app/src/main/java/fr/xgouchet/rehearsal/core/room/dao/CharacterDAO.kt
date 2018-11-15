@@ -14,7 +14,6 @@ interface CharacterDAO {
     @Query("SELECT * FROM character WHERE name = :name AND scriptId = :scriptId")
     fun getByNameInScript(name: String, scriptId: Int): CharacterModel?
 
-
     @Query("SELECT * FROM character WHERE scriptId = :scriptId ORDER BY name ASC ")
     fun getAllFromScript(scriptId: Int): LiveData<List<CharacterModel>>
 

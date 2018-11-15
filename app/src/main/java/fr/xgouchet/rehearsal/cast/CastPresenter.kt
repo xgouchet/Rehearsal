@@ -53,7 +53,11 @@ class CastPresenter(
 
 
         if (updatedCharacter != null) {
-            dataSink.updateData(listOf(updatedCharacter))
+            dataSink.updateData(listOf(updatedCharacter)) {
+                if (it != null) {
+                    view?.showError(it)
+                }
+            }
         }
     }
 
@@ -62,7 +66,11 @@ class CastPresenter(
 
         val updatedCharacter = character.copy(color = color)
 
-        dataSink.updateData(listOf(updatedCharacter))
+        dataSink.updateData(listOf(updatedCharacter)) {
+            if (it != null) {
+                view?.showError(it)
+            }
+        }
     }
 
     override fun onEnginePicked(requestId: Int, engine: String) {
@@ -70,7 +78,11 @@ class CastPresenter(
 
         val updatedCharacter = character.copy(ttsEngine = engine)
 
-        dataSink.updateData(listOf(updatedCharacter))
+        dataSink.updateData(listOf(updatedCharacter)) {
+            if (it != null) {
+                view?.showError(it)
+            }
+        }
     }
     // endregion
 }

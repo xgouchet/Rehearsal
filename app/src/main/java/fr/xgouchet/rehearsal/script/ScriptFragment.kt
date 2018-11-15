@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import com.google.android.material.snackbar.Snackbar
 import fr.xgouchet.rehearsal.R
 import fr.xgouchet.rehearsal.cast.CastActivity
 import fr.xgouchet.rehearsal.core.room.model.SceneModel
 import fr.xgouchet.rehearsal.scene.SceneActivity
+import fr.xgouchet.rehearsal.schedule.list.ScriptScheduleActivity
 import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.ui.ItemListFragment
 
@@ -29,6 +31,10 @@ class ScriptFragment
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
+            R.id.action_schedule -> {
+                (presenter as? ScriptContract.Presenter)?.onScheduleActionSelected()
+                true
+            }
             R.id.action_cast -> {
                 (presenter as? ScriptContract.Presenter)?.onCastActionSelected()
                 true
@@ -74,11 +80,22 @@ class ScriptFragment
         startActivity(intent)
     }
 
+    override fun navigateToSchedule(scriptId: Int, scriptTitle: String) {
+        val currentActivity = activity ?: return
+        val intent = ScriptScheduleActivity.createIntent(currentActivity, scriptId, scriptTitle)
+        startActivity(intent)
+    }
+
     override fun navigateToCastSettings(scriptId: Int) {
         val currentActivity = activity ?: return
         val intent = CastActivity.createIntent(currentActivity, scriptId)
         startActivity(intent)
     }
+
+    override fun showError(throwable: Throwable) {
+        Snackbar.make(contentView, throwable.message.orEmpty(), Snackbar.LENGTH_LONG).show()
+    }
+
 
     override fun navigateBack() {
         activity?.finish()

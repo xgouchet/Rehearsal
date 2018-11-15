@@ -39,6 +39,8 @@ class Item {
         DIALOG,
         ACTION,
         LYRICS,
+        SCHEDULE,
+        RANGE,
 
         SWITCH,
         COLOR,
