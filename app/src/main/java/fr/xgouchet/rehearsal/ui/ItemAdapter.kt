@@ -30,7 +30,7 @@ class ItemAdapter(private val listener: ItemListener)
             Item.Type.DIALOG.ordinal -> ItemDialog.instantiateViewHolder(inflater, parent, listener)
             Item.Type.ACTION.ordinal -> ItemAction.instantiateViewHolder(inflater, parent, listener)
             Item.Type.LYRICS.ordinal -> ItemLyrics.instantiateViewHolder(inflater, parent, listener)
-            Item.Type.SCHEDULE.ordinal -> ItemSchedule.instantiateViewHolder(inflater, parent, listener)
+            Item.Type.SCHEDULE.ordinal -> ItemRehearsal.instantiateViewHolder(inflater, parent, listener)
             Item.Type.RANGE.ordinal -> ItemRange.instantiateViewHolder(inflater, parent, listener)
 
             Item.Type.EMPTY.ordinal -> ItemEmpty.instantiateViewHolder(inflater, parent)

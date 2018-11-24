@@ -1,10 +1,10 @@
 package fr.xgouchet.rehearsal.voice.service
 
-import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
+import fr.xgouchet.rehearsal.core.model.Cue
 
 interface SceneReader {
 
-    fun playSceneFromCue(sceneId: Int, cueId: Int)
+    fun playSceneFromCue(sceneId: Long, cueId: Long)
 
     fun pauseScene()
 
@@ -12,7 +12,7 @@ interface SceneReader {
 
     interface Listener {
 
-        fun readingCue(cue: CueWithCharacter)
+        fun readingCue(cue: Cue)
 
         fun stopped()
     }

@@ -10,7 +10,7 @@ import fr.xgouchet.rehearsal.ui.CharacterColor
 import fr.xgouchet.rehearsal.voice.service.VoiceNotification
 import timber.log.Timber
 
-class RehearsalApplication : Application() {
+open class RehearsalApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()

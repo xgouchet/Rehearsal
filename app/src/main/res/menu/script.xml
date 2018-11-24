@@ -14,6 +14,15 @@
             android:title="@string/menu_cast"
             app:showAsAction="ifRoom"/>
 
+    <group android:id="@+id/menu_group_empty_scenes">
+        <item
+                android:id="@+id/action_show_empty_scenes"
+                android:title="@string/menu_showEmptyScenes"/>
+        <item
+                android:id="@+id/action_hide_empty_scenes"
+                android:title="@string/menu_hideEmptyScenes"/>
+    </group>
+
     <item
             android:id="@+id/action_delete"
             android:title="@string/menu_delete"

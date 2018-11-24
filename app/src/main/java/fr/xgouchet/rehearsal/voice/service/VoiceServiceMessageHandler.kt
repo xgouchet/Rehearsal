@@ -35,8 +35,8 @@ class VoiceServiceMessageHandler(resource: VoiceService)
     }
 
     private fun handlePlaySceneMessage(resource: VoiceService, bundle: Bundle): Boolean {
-        val sceneId = bundle.getInt(MessageProtocol.EXTRA_SCENE_ID)
-        val cueId = bundle.getInt(MessageProtocol.EXTRA_CUE_ID)
+        val sceneId = bundle.getLong(MessageProtocol.EXTRA_SCENE_ID)
+        val cueId = bundle.getLong(MessageProtocol.EXTRA_CUE_ID)
 
         Timber.i("#voice #msg #play @sceneId:$sceneId @cueId:$cueId")
         resource.playSceneFromCue(sceneId, cueId)

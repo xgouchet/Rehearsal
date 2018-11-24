@@ -70,6 +70,7 @@ dependencies {
     api Dependencies.Libraries.Markdown
     implementation Dependencies.Libraries.AboutPage
     implementation Dependencies.Libraries.Timber
+    implementation Dependencies.Libraries.Stetho
 
     kapt Dependencies.Processors.AnrdoidXArch
 }

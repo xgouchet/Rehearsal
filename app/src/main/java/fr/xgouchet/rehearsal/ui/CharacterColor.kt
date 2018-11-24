@@ -5,7 +5,7 @@ import android.graphics.Color
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import fr.xgouchet.rehearsal.R
-import fr.xgouchet.rehearsal.core.room.model.CharacterModel
+import fr.xgouchet.rehearsal.core.model.Character
 
 object CharacterColor {
 
@@ -43,19 +43,17 @@ object CharacterColor {
 
 
     @ColorInt
-    fun get(character: CharacterModel?): Int {
-        return if (character == null) {
-            unknown
-        } else if (character.color != -1) {
-            character.color
-        } else {
-            get(character.characterId)
+    fun get(character: Character?): Int {
+        return when {
+            character == null -> unknown
+            character.color != -1 -> character.color
+            else -> get(character.characterId)
         }
     }
 
 
     @ColorInt
-    fun getHighlight(character: CharacterModel?): Int {
+    fun getHighlight(character: Character?): Int {
         val baseColor = get(character)
 
         val r = (Color.red(baseColor) / 8) + 224
@@ -65,8 +63,8 @@ object CharacterColor {
     }
 
     @ColorInt
-    private fun get(colorIndex: Int): Int {
-        val colorIdx = colorIndex % characterColors.size
+    private fun get(colorIndex: Long): Int {
+        val colorIdx = (colorIndex % characterColors.size).toInt()
         return if (colorIndex >= 0) characterColors[colorIdx] else unknown
     }
 

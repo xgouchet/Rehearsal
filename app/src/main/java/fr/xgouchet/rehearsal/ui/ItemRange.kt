@@ -13,7 +13,9 @@ class ItemRange {
     data class ViewModel(
             val id: Long,
             val scene: String = "",
+            val startCharacter: String = "",
             val startLine: String = "",
+            val endCharacter: String = "",
             val endLine: String = "",
             val data: Any? = null
     ) : Item.ViewModel() {
@@ -35,7 +37,9 @@ class ItemRange {
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
         private val titleView: TextView = itemView.findViewById(R.id.title)
+        private val startNameView: TextView = itemView.findViewById(R.id.start_name)
         private val startLineView: TextView = itemView.findViewById(R.id.start_line)
+        private val endNameView: TextView = itemView.findViewById(R.id.end_name)
         private val endLineView: TextView = itemView.findViewById(R.id.end_line)
 
         init {
@@ -43,8 +47,10 @@ class ItemRange {
         }
 
         override fun onBind(item: ViewModel) {
-            titleView.text =  MarkdownConverter.parse(item.scene)
+            titleView.text = MarkdownConverter.parse(item.scene)
+            startNameView.text = item.startCharacter
             startLineView.text = MarkdownConverter.parse(item.startLine)
+            endNameView.text = item.endCharacter
             endLineView.text = MarkdownConverter.parse(item.endLine)
         }
 

@@ -1,13 +1,12 @@
 package fr.xgouchet.rehearsal.voice.service
 
-import android.content.Context
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import fr.xgouchet.rehearsal.core.room.AppDatabase
-import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
-import fr.xgouchet.rehearsal.core.room.model.CueModel
+import fr.xgouchet.archx.data.ArchXDataSource
+import fr.xgouchet.archx.rx.SchedulerProvider
+import fr.xgouchet.archx.rx.schedule
+import fr.xgouchet.rehearsal.core.model.Cue
+import fr.xgouchet.rehearsal.core.room.model.CueDbModel
 import fr.xgouchet.rehearsal.voice.tts.TTSEngine
+import io.reactivex.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -16,47 +15,52 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class VoiceSceneReader(
-        context: Context,
-        private val owner: LifecycleOwner,
+        private val dataSourceProvider: (Long) -> ArchXDataSource<List<Cue>>,
         private val listener: SceneReader.Listener,
+        private val schedulerProvider: SchedulerProvider,
         private val ttsEngineProvider: (String?) -> TTSEngine
 ) : SceneReader,
         TTSEngine.Listener {
 
-    private val appDatabase: AppDatabase = AppDatabase.getInstance(context.applicationContext)
-    private var observedData: LiveData<List<CueWithCharacter>>? = null
-    private val observer = Observer<List<CueWithCharacter>> {
-        val shouldPlay = !isStopped
-        pauseScene()
-        ttsEngines.clear()
-        onCuesRetrieved(it, firstCueId, shouldPlay)
-    }
-    private var firstCueId = -1
+    private var listeningDisposable: Disposable? = null
 
-    private var cueQueue: List<CueWithCharacter> = emptyList()
+    private var firstCueId: Long = -1L
+
+    private var cueQueue: List<Cue> = emptyList()
+
+    private lateinit var dataSource: ArchXDataSource<List<Cue>>
 
     private var index = -1
     private var isStopped = true
-    private var currentCue: CueWithCharacter? = null
+    private var currentCue: Cue? = null
 
-    private val ttsEngines: MutableMap<Int, TTSEngine> = mutableMapOf()
+    private val ttsEngines: MutableMap<Long, TTSEngine> = mutableMapOf()
 
     // region VoiceSceneReader
 
-    override fun playSceneFromCue(sceneId: Int, cueId: Int) {
+    override fun playSceneFromCue(sceneId: Long, cueId: Long) {
         if (!isStopped) {
             stopSpeakingEngine()
         }
-        observedData?.removeObserver(observer)
+        listeningDisposable?.dispose()
 
         index = -1
         currentCue = null
         isStopped = false
         firstCueId = cueId
-        observedData = appDatabase.cueDao()
-                .getAllInScene(sceneId)
 
-        observedData?.observe(owner, observer)
+        dataSource = dataSourceProvider(sceneId)
+        listeningDisposable = dataSource.listenData()
+                .schedule(schedulerProvider)
+                .subscribe(
+                        {
+                            val shouldPlay = !isStopped
+                            pauseScene()
+                            ttsEngines.clear()
+                            onCuesRetrieved(it, firstCueId, shouldPlay)
+                        },
+                        { Timber.e(it, "#error #listening to cues") }
+                )
     }
 
     override fun pauseScene() {
@@ -90,7 +94,7 @@ class VoiceSceneReader(
 
     // region Internal
 
-    private fun onCuesRetrieved(cues: List<CueWithCharacter>, cueId: Int, play: Boolean) {
+    private fun onCuesRetrieved(cues: List<Cue>, cueId: Long, play: Boolean) {
         cueQueue = cues
 
         isStopped = !play
@@ -137,14 +141,14 @@ class VoiceSceneReader(
 
     }
 
-    private suspend fun speakCue(cue: CueWithCharacter) {
+    private suspend fun speakCue(cue: Cue) {
         when (cue.type) {
-            CueModel.TYPE_ACTION -> {
+            CueDbModel.TYPE_ACTION -> {
                 Timber.d("#voice ignoring action : ${cue.content}")
                 readNextCue()
             }
-            CueModel.TYPE_DIALOG,
-            CueModel.TYPE_LYRICS -> {
+            CueDbModel.TYPE_DIALOG,
+            CueDbModel.TYPE_LYRICS -> {
                 if (cue.character?.isHidden == true) {
                     silentDialog(cue)
                 } else {
@@ -155,7 +159,7 @@ class VoiceSceneReader(
         }
     }
 
-    private suspend fun silentDialog(cue: CueWithCharacter) {
+    private suspend fun silentDialog(cue: Cue) {
         val length = cue.content.length.toFloat()
 
         val factor = (SILENT_FACTOR_A / length) + SILENT_FACTOR_C
@@ -171,7 +175,7 @@ class VoiceSceneReader(
         }
     }
 
-    private suspend fun speakDialogCue(cue: CueWithCharacter) {
+    private suspend fun speakDialogCue(cue: Cue) {
         Timber.i("#voice reading cue at @index:$index")
         val character = cue.character ?: return
 
@@ -198,7 +202,7 @@ class VoiceSceneReader(
         speakingEngine?.stop()
     }
 
-    private fun getEngine(characterId: Int, name: String?): TTSEngine {
+    private fun getEngine(characterId: Long, name: String?): TTSEngine {
         return ttsEngines.getOrPut(characterId) {
             ttsEngineProvider(name).apply {
                 setListener(this@VoiceSceneReader)

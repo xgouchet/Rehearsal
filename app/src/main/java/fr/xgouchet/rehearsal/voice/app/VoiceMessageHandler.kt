@@ -23,7 +23,7 @@ class VoiceMessageHandler(resource: VoiceServiceListener)
     private fun handleReadingCue(resource: VoiceServiceListener,
                                  data: Bundle?)
             : Boolean {
-        val cueId = data?.getInt(MessageProtocol.EXTRA_CUE_ID)
+        val cueId = data?.getLong(MessageProtocol.EXTRA_CUE_ID)
 
         return if (cueId != null) {
             resource.readingCue(cueId)

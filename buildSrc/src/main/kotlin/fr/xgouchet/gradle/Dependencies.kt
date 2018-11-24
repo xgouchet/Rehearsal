@@ -9,7 +9,7 @@ object Dependencies {
 
         const val AndroidSupportLibs = "27.1.1"
         const val AndroidX = "1.0.0"
-        const val AndroidXArch = "2.0.0-rc01"
+        const val AndroidXArch = "2.0.0"
         const val AndroidMaven = "2.1"
         const val MultiDex = "2.0.0"
         const val ConstraintLayout = "1.1.2"
@@ -33,7 +33,7 @@ object Dependencies {
         const val Leakcanary = "1.5.4"
         const val Timber = "4.6.0"
         const val Stetho = "1.5.0"
-        const val ArchX = "0.6"
+        const val ArchX = "83afa849aa"
         const val Spectrum = "1.0.0"
 
 
@@ -63,8 +63,9 @@ object Dependencies {
         const val MaterialComponents = "com.google.android.material:material:${Versions.MaterialComponents}"
 
         @JvmField val AndroidArchComponents = arrayOf(
-                "androidx.lifecycle:lifecycle-extensions:${Versions.AndroidXArch}",
-                "androidx.room:room-runtime:${Versions.AndroidXArch}"
+                // "androidx.lifecycle:lifecycle-extensions:${Versions.AndroidXArch}",
+                "androidx.room:room-runtime:${Versions.AndroidXArch}",
+                "androidx.room:room-rxjava2:${Versions.AndroidXArch}"
         )
 
         @JvmField val Navigation = arrayOf(
@@ -95,6 +96,7 @@ object Dependencies {
         const val Spectrum = "com.takisoft.preferencex:preferencex-colorpicker:${Versions.Spectrum}"
 
         const val Timber = "com.jakewharton.timber:timber:${Versions.Timber}"
+        const val Stetho = "com.facebook.stetho:stetho:${Versions.Stetho}"
 
         @JvmField
         val Testing = arrayOf(

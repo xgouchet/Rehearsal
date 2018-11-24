@@ -17,7 +17,7 @@ class VoiceController(context: Context)
     : LifecycleObserver,
         VoiceServiceListener {
 
-    public var listener: VoiceServiceListener? = null
+    var listener: VoiceServiceListener? = null
 
     private val appContext: Context = context.applicationContext
     private val connection = VoiceConnection(this)
@@ -49,7 +49,7 @@ class VoiceController(context: Context)
 
     // region VoiceServiceListener
 
-    override fun readingCue(cueId: Int) {
+    override fun readingCue(cueId: Long) {
         listener?.readingCue(cueId)
     }
 
@@ -60,12 +60,12 @@ class VoiceController(context: Context)
 
     // region VoiceController
 
-    fun playFromCue(sceneId: Int, cueId: Int) {
+    fun playFromCue(sceneId: Long, cueId: Long) {
         val message = Message.obtain(null, MessageProtocol.MSG_PLAY_SCENE)
 
         val bundle = Bundle(2)
-        bundle.putInt(MessageProtocol.EXTRA_SCENE_ID, sceneId)
-        bundle.putInt(MessageProtocol.EXTRA_CUE_ID, cueId)
+        bundle.putLong(MessageProtocol.EXTRA_SCENE_ID, sceneId)
+        bundle.putLong(MessageProtocol.EXTRA_CUE_ID, cueId)
         message.data = bundle
 
         connection.sendMessage(message)

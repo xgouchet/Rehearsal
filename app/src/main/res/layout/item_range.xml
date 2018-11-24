@@ -10,7 +10,9 @@
         android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="4dp"
+        app:cardElevation="2dp"
+        app:cardBackgroundColor="@color/paper_grey"
+        app:cardCornerRadius="4dp"
         android:foreground="?android:attr/selectableItemBackground">
 
 
@@ -35,6 +37,39 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="@tools:sample/lorem/random"/>
 
+        <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/accent"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/start_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textSize="16sp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:gravity="center_vertical|end"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:fontFamily="@font/daisy_wheel"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="@tools:sample/full_names"/>
+
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/start_line"
                 android:layout_width="0dp"
@@ -53,7 +88,7 @@
                 android:maxLines="2"
                 android:ellipsize="end"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title"
+                app:layout_constraintTop_toBottomOf="@+id/start_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="@tools:sample/lorem/random"/>
 
@@ -61,7 +96,7 @@
                 android:id="@+id/ellipsis"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="italic"
                 android:textColor="@color/secondary_text"
                 android:paddingTop="4dp"
@@ -77,6 +112,28 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/start_line"/>
 
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/end_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textSize="16sp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:gravity="center_vertical|end"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:fontFamily="@font/daisy_wheel"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintTop_toBottomOf="@+id/ellipsis"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="@tools:sample/full_names"/>
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/end_line"
@@ -97,7 +154,7 @@
                 android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ellipsis"
+                app:layout_constraintTop_toBottomOf="@+id/end_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="@tools:sample/lorem/random"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

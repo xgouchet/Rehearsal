@@ -12,16 +12,18 @@ import android.os.Message
 import android.os.Messenger
 import android.os.RemoteException
 import android.support.v4.media.session.MediaSessionCompat
-import androidx.lifecycle.LifecycleService
 import androidx.media.MediaSessionManager
-import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
+import fr.xgouchet.rehearsal.core.RuntimeSchedulerProvider
+import fr.xgouchet.rehearsal.core.model.Cue
+import fr.xgouchet.rehearsal.core.source.AllCuesInSceneSource
 import fr.xgouchet.rehearsal.voice.ipc.MessageProtocol
 import fr.xgouchet.rehearsal.voice.tts.AndroidTTSEngine
 import timber.log.Timber
 
 class VoiceService
-    : LifecycleService(),
-        SceneReader.Listener, VoiceMediaSessionCallback.Delegate {
+    : Service(),
+        SceneReader.Listener,
+        VoiceMediaSessionCallback.Delegate {
 
     private val listeningMessengers: MutableList<Messenger> = mutableListOf()
     private lateinit var handlerThread: HandlerThread
@@ -50,7 +52,8 @@ class VoiceService
 
         inMessenger = Messenger(messageHandler)
 
-        voiceSceneReader = VoiceSceneReader(applicationContext, this, this) {
+        val dataSourceProvider = { sceneId: Long -> AllCuesInSceneSource(applicationContext, sceneId) }
+        voiceSceneReader = VoiceSceneReader(dataSourceProvider, this, RuntimeSchedulerProvider) {
             AndroidTTSEngine(it, this@VoiceService)
         }
         voiceNotification = VoiceNotification(this)
@@ -64,6 +67,7 @@ class VoiceService
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
     }
 
+    @Suppress("DEPRECATION", "OverridingDeprecatedMember")
     override fun onStart(intent: Intent, startId: Int) {
         super.onStart(intent, startId)
         Timber.d("#service #started #legay")
@@ -87,7 +91,6 @@ class VoiceService
     }
 
     override fun onBind(intent: Intent?): IBinder? {
-        super.onBind(intent)
         Timber.d("#service #bound")
         return inMessenger.binder
     }
@@ -107,7 +110,7 @@ class VoiceService
         listeningMessengers.add(listener)
     }
 
-    fun playSceneFromCue(sceneId: Int, cueId: Int) {
+    fun playSceneFromCue(sceneId: Long, cueId: Long) {
         voiceSceneReader.playSceneFromCue(sceneId, cueId)
     }
 
@@ -119,7 +122,7 @@ class VoiceService
 
     // region SceneReader.Listener
 
-    override fun readingCue(cue: CueWithCharacter) {
+    override fun readingCue(cue: Cue) {
         isPlaying = true
         voiceNotification.start(this, mediaSession.sessionToken, cue)
 
@@ -127,7 +130,7 @@ class VoiceService
             val message = Message.obtain(null, MessageProtocol.MSG_READING_CUE)
 
             val bundle = Bundle(1)
-            bundle.putInt(MessageProtocol.EXTRA_CUE_ID, cue.cueId)
+            bundle.putLong(MessageProtocol.EXTRA_CUE_ID, cue.cueId)
             message.data = bundle
 
             message

@@ -6,6 +6,8 @@
     <string name="menu_delete">Delete</string>
     <string name="menu_showLines">Show lines</string>
     <string name="menu_hideLines">Hide lines</string>
+    <string name="menu_showEmptyScenes">Show empty scenes</string>
+    <string name="menu_hideEmptyScenes">Hide empty scenes</string>
     <string name="menu_goToBookmark">Go to bookmark</string>
     <string name="menu_editCue">Edit cue</string>
     <string name="menu_addBookmark">Add a bookmark</string>

@@ -10,8 +10,8 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
 import androidx.core.app.NotificationCompat
 import fr.xgouchet.rehearsal.R
-import fr.xgouchet.rehearsal.core.room.join.CueWithCharacter
-import fr.xgouchet.rehearsal.core.room.model.CharacterModel
+import fr.xgouchet.rehearsal.core.model.Character
+import fr.xgouchet.rehearsal.core.model.Cue
 import timber.log.Timber
 import androidx.media.app.NotificationCompat as MediaNotifCompat
 
@@ -19,13 +19,13 @@ class VoiceNotification(val context: Context) {
 
     private val notifManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
     private var isInForeground = false
-    private var lastCue: CueWithCharacter? = null
+    private var lastCue: Cue? = null
 
     // region VoiceNotification
 
     fun start(service: Service,
               mediaSessionToken: MediaSessionCompat.Token,
-              cue: CueWithCharacter) {
+              cue: Cue) {
         val notification = createNotification(mediaSessionToken, cue, true)
         lastCue = cue
 
@@ -51,7 +51,7 @@ class VoiceNotification(val context: Context) {
     // region Internal
 
     private fun createNotification(mediaSessionToken: MediaSessionCompat.Token,
-                                   cue: CueWithCharacter,
+                                   cue: Cue,
                                    isPlaying: Boolean): Notification {
         val builder = NotificationCompat.Builder(context, VOICE_CHANNEL)
 
@@ -90,8 +90,8 @@ class VoiceNotification(val context: Context) {
     }
 
     private fun buildCharacterNotification(builder: NotificationCompat.Builder,
-                                           cue: CueWithCharacter,
-                                           character: CharacterModel) {
+                                           cue: Cue,
+                                           character: Character) {
 
         if (cue.characterExtension.isNullOrBlank()) {
             builder.setContentTitle(character.name)
@@ -111,7 +111,7 @@ class VoiceNotification(val context: Context) {
     }
 
     private fun buildAnonymousNotification(builder: NotificationCompat.Builder,
-                                           cue: CueWithCharacter) {
+                                           cue: Cue) {
         builder.setContentTitle(context.getString(R.string.notif_title_anonymous))
 
         builder.setContentText(cue.content)

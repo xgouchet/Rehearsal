@@ -1,8 +1,8 @@
 package fr.xgouchet.rehearsal.core.ui
 
-import fr.xgouchet.archx.ArchXViewModelTransformer
+import fr.xgouchet.archx.transformer.ArchXViewModelTransformer
 
-abstract class PrincipledViewModelTransformer<AM, VM>
+open class PrincipledViewModelTransformer<AM, VM>
     : ArchXViewModelTransformer<List<AM>, List<VM>> {
 
 
