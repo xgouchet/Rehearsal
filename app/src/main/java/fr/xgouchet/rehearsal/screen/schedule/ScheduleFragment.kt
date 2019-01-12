@@ -2,6 +2,9 @@ package fr.xgouchet.rehearsal.screen.schedule
 
 import android.app.DatePickerDialog
 import fr.xgouchet.rehearsal.core.model.Rehearsal
+import fr.xgouchet.rehearsal.ext.dayOfMonth
+import fr.xgouchet.rehearsal.ext.month
+import fr.xgouchet.rehearsal.ext.year
 import fr.xgouchet.rehearsal.screen.rehearsal.RehearsalActivity
 import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.ui.ItemListFragment
@@ -39,9 +42,9 @@ class ScheduleFragment
         val currentActivity = activity ?: return
 
         val cal = Calendar.getInstance().apply { time = dueDate }
-        val year: Int = cal[Calendar.YEAR]
-        val month: Int = cal[Calendar.MONTH]
-        val dayOfMonth: Int = cal[Calendar.DAY_OF_MONTH]
+        val year: Int = cal.year()
+        val month: Int = cal.month()
+        val dayOfMonth: Int = cal.dayOfMonth()
 
         val dialog = DatePickerDialog(currentActivity,
                 { _, y, m, d ->

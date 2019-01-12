@@ -58,7 +58,7 @@
             android:id="@+id/hiding"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/tiling_stripes_action"
+            android:background="@drawable/tiling_stripes"
             android:layout_marginTop="4dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
@@ -67,7 +67,7 @@
             app:layout_constraintEnd_toEndOf="@+id/direction"
             app:layout_constraintStart_toStartOf="@+id/direction"
             app:layout_constraintTop_toTopOf="@+id/direction"
-            tools:backgroundTint="@color/character_fg_2"/>
+            tools:backgroundTint="@color/character_fg_0"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

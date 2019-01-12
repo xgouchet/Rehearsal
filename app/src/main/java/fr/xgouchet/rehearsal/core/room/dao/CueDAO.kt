@@ -18,6 +18,9 @@ interface CueDAO {
     @Query("SELECT COUNT(cueId) FROM cue WHERE cue.sceneId = :sceneId AND cue.type = :type")
     fun countTypeInScene(sceneId: Long, type: Int): Int
 
+    @Query("SELECT COUNT(cueId) FROM cue WHERE cue.characterId = :characterId AND cue.type = :type")
+    fun countTypeWithCharacter(characterId: Long, type: Int): Int
+
     @Query("SELECT * FROM cue WHERE cueId = :sceneId")
     fun get(sceneId: Long): CueDbModel?
 

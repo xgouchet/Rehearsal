@@ -40,7 +40,7 @@ class ScriptActivity
         val scriptDataSink = SingleScriptSink(applicationContext)
         val transformer = ScriptViewModelTransformer()
 
-        return ScriptPresenter(script, dataSource, scriptDataSink, transformer, RuntimeSchedulerProvider)
+        return ScriptPresenter(script, this, dataSource, scriptDataSink, transformer, RuntimeSchedulerProvider)
     }
 
     // endregion

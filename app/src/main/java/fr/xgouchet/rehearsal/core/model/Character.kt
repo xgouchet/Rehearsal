@@ -10,7 +10,8 @@ data class Character (
         val name: String,
         val color : Int,
         val isHidden : Boolean,
-        var ttsEngine: String?,
-        var ttsPitch: Float,
-        var ttsRate: Float
+        val ttsEngine: String?,
+        val ttsPitch: Float,
+        val ttsRate: Float,
+        val cuesCount : Int
 ) : Parcelable

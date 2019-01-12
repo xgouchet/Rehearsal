@@ -9,6 +9,7 @@
     <string name="menu_showEmptyScenes">Show empty scenes</string>
     <string name="menu_hideEmptyScenes">Hide empty scenes</string>
     <string name="menu_goToBookmark">Go to bookmark</string>
+    <string name="menu_copyCue">Copy cue</string>
     <string name="menu_editCue">Edit cue</string>
     <string name="menu_addBookmark">Add a bookmark</string>
     <string name="menu_removeBookmark">Remove bookmark</string>
@@ -22,6 +23,7 @@
     <string name="menu_addAction">Add an action</string>
     <string name="menu_addLyrics">Add lyrics</string>
     <string name="menu_schedule">Schedule</string>
+    <string name="menu_exportScript">Export script</string>
 
     <string name="cast_title">Cast</string>
     <string name="cast_action_hideLines">Hide lines:</string>

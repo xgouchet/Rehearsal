@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
         >
 
+    <item
+            android:id="@+id/action_copy_cue"
+            android:title="@string/menu_copyCue"/>
+
     <group android:id="@+id/menu_group_bookmark">
         <item
                 android:id="@+id/action_add_bookmark"

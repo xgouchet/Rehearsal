@@ -1,11 +1,12 @@
 package fr.xgouchet.rehearsal.screen.script
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import com.google.android.material.snackbar.Snackbar
 import fr.xgouchet.rehearsal.R
 import fr.xgouchet.rehearsal.core.model.Scene
 import fr.xgouchet.rehearsal.core.model.Script
@@ -44,6 +45,7 @@ class ScriptFragment
             R.id.action_delete -> confirmDelete()
             R.id.action_hide_empty_scenes -> (presenter as? ScriptContract.Presenter)?.onHideEmptyScenes()
             R.id.action_show_empty_scenes -> (presenter as? ScriptContract.Presenter)?.onShowEmptyScenes()
+            R.id.action_export_script -> (presenter as? ScriptContract.Presenter)?.onExportScript()
             else -> handled = super.onOptionsItemSelected(item)
         }
         return handled
@@ -61,6 +63,13 @@ class ScriptFragment
                 }
                 .create()
                 .show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == EXPORT_REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            val uri = data?.data ?: return
+            (presenter as? ScriptContract.Presenter)?.onExportScriptToUri(uri)
+        }
     }
 
     // endregion
@@ -107,5 +116,20 @@ class ScriptFragment
         this.showEmptyScenes = showEmptyScenes
         activity?.invalidateOptionsMenu()
     }
+
+    override fun requestDocumentUri(filename: String) {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TITLE, filename)
+
+        startActivityForResult(intent, EXPORT_REQUEST_CODE)
+    }
+
     // endregion
+
+    companion object {
+        private const val EXPORT_REQUEST_CODE = 12
+    }
 }

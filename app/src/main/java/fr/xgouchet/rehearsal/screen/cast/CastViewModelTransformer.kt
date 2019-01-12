@@ -31,6 +31,7 @@ class CastViewModelTransformer
                 ItemCharacter.ViewModel(
                         id = StableId.getStableId(index, 1, Item.Type.CHARACTER.ordinal),
                         characterName = item.name,
+                        characterExtension = "(${item.cuesCount})",
                         color = color,
                         data = item
                 )

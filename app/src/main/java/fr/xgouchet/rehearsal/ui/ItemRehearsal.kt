@@ -16,7 +16,7 @@ class ItemRehearsal {
     class ViewModel(
             val id: Long,
             val title: String = "",
-            val isPast: Boolean = false,
+            val time: Time = Time.FUTURE,
             val data: Any? = null
     ) : Item.ViewModel() {
         override fun getItemType() = Item.Type.SCHEDULE
@@ -24,6 +24,12 @@ class ItemRehearsal {
         override fun getItemStableId() = id
 
         override fun getItemData(): Any? = data
+
+        enum class Time {
+            PAST,
+            PRESENT,
+            FUTURE
+        }
     }
 
     // endregion
@@ -47,12 +53,19 @@ class ItemRehearsal {
 
             titleView.text = item.title
 
-            if (item.isPast) {
-                titleView.setTextColor(ContextCompat.getColor(titleView.context, R.color.secondary_text))
-                iconView.setImageResource(R.drawable.ic_event_past)
-            } else {
-                titleView.setTextColor(ContextCompat.getColor(titleView.context, R.color.primary_text))
-                iconView.setImageResource(R.drawable.ic_event_future)
+            when (item.time) {
+                ViewModel.Time.PAST -> {
+                    titleView.setTextColor(ContextCompat.getColor(titleView.context, R.color.secondary_text))
+                    iconView.setImageResource(R.drawable.ic_event_past)
+                }
+                ViewModel.Time.FUTURE -> {
+                    titleView.setTextColor(ContextCompat.getColor(titleView.context, R.color.primary_text))
+                    iconView.setImageResource(R.drawable.ic_event_future)
+                }
+                ViewModel.Time.PRESENT -> {
+                    titleView.setTextColor(ContextCompat.getColor(titleView.context, R.color.accent))
+                    iconView.setImageResource(R.drawable.ic_event_today)
+                }
             }
         }
 

@@ -36,6 +36,7 @@ interface SceneContract {
         fun onActionWritten(cueId: Long, content: String, c: CharacterInfo)
         fun onAddLyrics(cueId: Long)
         fun onLyricsWritten(cueId: Long, content: String, c: CharacterInfo)
+        fun onCopyCue(cueId: Long)
     }
 
     interface View : ArchXView<List<Item.ViewModel>> {
@@ -59,6 +60,7 @@ interface SceneContract {
         fun showAddLyricsPrompt(afterCueId: Long, characters: List<CharacterInfo>, selected: CharacterInfo?)
 
         fun showError(throwable: Throwable)
+        fun copyToClipboard(label: String, content: String)
     }
 
 

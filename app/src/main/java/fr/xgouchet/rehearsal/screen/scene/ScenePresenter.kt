@@ -127,6 +127,29 @@ class ScenePresenter(
 
     // region SceneContract.Presenter / Scene Edition
 
+    override fun onCopyCue(cueId: Long) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+
+        if (selectedCue != null) {
+            val character = selectedCue?.character
+            val labelType = when (selectedCue.type) {
+                CueDbModel.TYPE_DIALOG -> "line"
+                CueDbModel.TYPE_ACTION -> "action"
+                CueDbModel.TYPE_LYRICS -> "lyrics"
+                else -> "cue"
+            }
+
+            val content = selectedCue.content
+            val label = if (character != null) {
+                "${character.name}'s $labelType: ${content.getAbstract(SHORT_ABSTRACT_LENGTH)}"
+            } else {
+                "$labelType: ${content.getAbstract(CONTEXT_MENU_ABSTRACT_LENGTH)}"
+            }
+            view?.copyToClipboard(label, content)
+        }
+
+    }
+
     override fun onEditCuePicked(cueId: Long) {
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
         if (selectedCue != null) {
@@ -439,6 +462,7 @@ class ScenePresenter(
     // endregion
 
     companion object {
+        private const val SHORT_ABSTRACT_LENGTH = 16
         private const val CONTEXT_MENU_ABSTRACT_LENGTH = 24
         private const val BOOKMARK_ABSTRACT_LENGHT = 32
     }

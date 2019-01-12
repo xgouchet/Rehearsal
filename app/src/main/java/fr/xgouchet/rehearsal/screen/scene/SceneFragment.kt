@@ -1,5 +1,7 @@
 package fr.xgouchet.rehearsal.screen.scene
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +10,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.textfield.TextInputEditText
@@ -118,6 +121,10 @@ class SceneFragment
                 }
                 R.id.action_add_lyrics -> {
                     (presenter as? SceneContract.Presenter)?.onAddLyrics(context.cueId)
+                    true
+                }
+                R.id.action_copy_cue -> {
+                    (presenter as? SceneContract.Presenter)?.onCopyCue(context.cueId)
                     true
                 }
 
@@ -269,6 +276,15 @@ class SceneFragment
 
     override fun showError(throwable: Throwable) {
         showSnackbarError(throwable)
+    }
+
+    override fun copyToClipboard(label: String, content: String) {
+        val currentActivity = activity ?: return
+        val clipboard = currentActivity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+        val clip = ClipData.newPlainText(label, content)
+        clipboard.primaryClip = clip
+        Toast.makeText(currentActivity, "‘$label’ has been copied to your clipboard", Toast.LENGTH_LONG).show()
     }
 
     // endregion
