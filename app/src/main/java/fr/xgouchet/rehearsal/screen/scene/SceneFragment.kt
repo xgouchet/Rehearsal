@@ -13,6 +13,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import fr.xgouchet.rehearsal.R
@@ -177,7 +178,16 @@ class SceneFragment
     }
 
     override fun scrollToRow(index: Int) {
-        recyclerView?.smoothScrollToPosition(index)
+        val llmgr = recyclerView?.layoutManager as? LinearLayoutManager ?: return
+
+        val topPosition = llmgr?.findFirstCompletelyVisibleItemPosition()
+        val lastPosition = llmgr?.findLastCompletelyVisibleItemPosition()
+
+        if (index >= topPosition - SCROLL_OFFSET && index <= lastPosition + SCROLL_OFFSET) {
+            recyclerView?.smoothScrollToPosition(index)
+        } else {
+            recyclerView?.scrollToPosition(index)
+        }
     }
 
     override fun showContextMenu(context: CueInfo) {
@@ -369,4 +379,8 @@ class SceneFragment
     }
 
     // endregion
+
+    companion object {
+        const val SCROLL_OFFSET = 64
+    }
 }
