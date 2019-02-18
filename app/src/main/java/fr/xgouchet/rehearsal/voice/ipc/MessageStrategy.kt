@@ -31,6 +31,8 @@ class Connected(private val outMessenger: Messenger,
             Timber.e(e, "#error #sending #ipc @message:$message")
         } catch (e: IllegalStateException) {
             Timber.e(e, "#error #sending #ipc @message:$message")
+        } catch (e : IllegalStateException){
+            Timber.e(e, "#error #sending #ipc @message:$message")
         }
     }
 }

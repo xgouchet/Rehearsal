@@ -16,7 +16,7 @@ import fr.xgouchet.rehearsal.voice.service.VoiceService
 import timber.log.Timber
 import java.util.concurrent.ConcurrentLinkedQueue
 
-class VoiceConnection(listener : VoiceServiceListener)
+class VoiceConnection(listener: VoiceServiceListener)
     : ServiceConnection {
 
     private var outMessenger: Messenger? = null
@@ -62,7 +62,8 @@ class VoiceConnection(listener : VoiceServiceListener)
         messageStrategy = Connected(Messenger(binder), inMessenger)
 
         outMessageQueue.forEach {
-            messageStrategy.send(it)
+            val newMessage = Message.obtain(it)
+            messageStrategy.send(newMessage)
         }
     }
 
@@ -71,11 +72,6 @@ class VoiceConnection(listener : VoiceServiceListener)
         messageStrategy = Unconnected(outMessageQueue)
         outMessenger = null
     }
-
-    fun readingCue(cueId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
 
     // endregion
 }
