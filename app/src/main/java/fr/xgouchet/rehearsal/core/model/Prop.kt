@@ -8,7 +8,8 @@ import kotlinx.android.parcel.Parcelize
 data class Prop(
         val propId: Long,
         val scriptId: Long,
-        val name: String
+        val name: String,
+        val scenes : List<Scene>
 ) : Parcelable {
     override fun toString(): String {
         return name

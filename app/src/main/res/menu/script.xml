@@ -9,6 +9,12 @@
             app:showAsAction="ifRoom"/>
 
     <item
+            android:id="@+id/action_props"
+            android:icon="@drawable/ic_scene_props"
+            android:title="@string/menu_props"
+            app:showAsAction="ifRoom"/>
+
+    <item
             android:id="@+id/action_cast"
             android:icon="@drawable/ic_cast"
             android:title="@string/menu_cast"
@@ -26,7 +32,7 @@
     <item
             android:id="@+id/action_export_script"
             android:title="@string/menu_exportScript"
-        />
+            />
 
     <item
             android:id="@+id/action_delete"

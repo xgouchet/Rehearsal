@@ -64,6 +64,10 @@ class ScriptPresenter(
         view?.navigateToCastSettings(script)
     }
 
+    override fun onPropsActionSelected() {
+        view?.navigateToProps(script)
+    }
+
     override fun onDeleteActionSelected() {
         deletingDisposable?.dispose()
         deletingDisposable = scriptDataSink.deleteData(script)

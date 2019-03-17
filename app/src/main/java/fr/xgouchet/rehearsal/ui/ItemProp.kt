@@ -9,27 +9,20 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import fr.xgouchet.rehearsal.R
 
-class ItemRehearsal {
+class ItemProp {
 
     // region VM
 
     class ViewModel(
             val id: Long,
             val title: String = "",
-            val time: Time = Time.FUTURE,
             val data: Any? = null
     ) : Item.ViewModel() {
-        override fun getItemType() = Item.Type.REHEARSAL
+        override fun getItemType() = Item.Type.PROP
 
         override fun getItemStableId() = id
 
         override fun getItemData(): Any? = data
-
-        enum class Time {
-            PAST,
-            PRESENT,
-            FUTURE
-        }
     }
 
     // endregion
@@ -41,7 +34,6 @@ class ItemRehearsal {
             listener: ItemListener
     ) : Item.ViewHolder<ViewModel>(itemView) {
 
-        private val iconView: ImageView = itemView.findViewById(R.id.icon)
         private val titleView: TextView = itemView.findViewById(R.id.title)
 
         init {
@@ -50,23 +42,7 @@ class ItemRehearsal {
 
         @SuppressLint("SetTextI18n")
         override fun onBind(item: ViewModel) {
-
             titleView.text = item.title
-
-            when (item.time) {
-                ViewModel.Time.PAST -> {
-                    titleView.setTextColor(ContextCompat.getColor(titleView.context, R.color.secondary_text))
-                    iconView.setImageResource(R.drawable.ic_event_past)
-                }
-                ViewModel.Time.FUTURE -> {
-                    titleView.setTextColor(ContextCompat.getColor(titleView.context, R.color.primary_text))
-                    iconView.setImageResource(R.drawable.ic_event_future)
-                }
-                ViewModel.Time.PRESENT -> {
-                    titleView.setTextColor(ContextCompat.getColor(titleView.context, R.color.accent))
-                    iconView.setImageResource(R.drawable.ic_event_today)
-                }
-            }
         }
 
     }
@@ -79,7 +55,7 @@ class ItemRehearsal {
                                   parent: ViewGroup,
                                   listener: ItemListener)
                 : ViewHolder {
-            val view = inflater.inflate(R.layout.item_rehearsal, parent, false)
+            val view = inflater.inflate(R.layout.item_prop, parent, false)
             return ViewHolder(view, listener)
         }
     }

@@ -25,6 +25,10 @@
                 android:id="@+id/icon"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                android:layout_margin="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 tools:src="@drawable/ic_event_past"/>
 
         <androidx.appcompat.widget.AppCompatTextView

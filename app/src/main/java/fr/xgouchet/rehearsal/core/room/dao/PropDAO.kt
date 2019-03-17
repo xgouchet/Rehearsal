@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import fr.xgouchet.rehearsal.core.room.model.CueDbModel
 import fr.xgouchet.rehearsal.core.room.model.PropCueDbModel
 import fr.xgouchet.rehearsal.core.room.model.PropDbModel
 import io.reactivex.Flowable
@@ -17,6 +18,9 @@ interface PropDAO {
 
     @Query("SELECT * FROM propcue JOIN prop ON propcue.propId = prop.propId WHERE cueId = :cueId ")
     fun getAllFromCue(cueId: Long): List<PropDbModel>
+
+    @Query("SELECT * FROM propcue JOIN cue ON propcue.cueId = cue.cueId WHERE propId = :propId")
+    abstract fun getCuesUsingProp(propId: Long): List<CueDbModel>
 
     @Query("SELECT * FROM prop WHERE scriptId = :scriptId ORDER BY name ASC ")
     fun getAllFromScript(scriptId: Long): Flowable<List<PropDbModel>>

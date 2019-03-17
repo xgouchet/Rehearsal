@@ -11,6 +11,7 @@ import fr.xgouchet.rehearsal.R
 import fr.xgouchet.rehearsal.core.model.Scene
 import fr.xgouchet.rehearsal.core.model.Script
 import fr.xgouchet.rehearsal.screen.cast.CastActivity
+import fr.xgouchet.rehearsal.screen.props.PropsActivity
 import fr.xgouchet.rehearsal.screen.scene.SceneActivity
 import fr.xgouchet.rehearsal.screen.schedule.ScheduleActivity
 import fr.xgouchet.rehearsal.ui.Item
@@ -42,6 +43,7 @@ class ScriptFragment
         when (item?.itemId) {
             R.id.action_schedule -> (presenter as? ScriptContract.Presenter)?.onScheduleActionSelected()
             R.id.action_cast -> (presenter as? ScriptContract.Presenter)?.onCastActionSelected()
+            R.id.action_props -> (presenter as? ScriptContract.Presenter)?.onPropsActionSelected()
             R.id.action_delete -> confirmDelete()
             R.id.action_hide_empty_scenes -> (presenter as? ScriptContract.Presenter)?.onHideEmptyScenes()
             R.id.action_show_empty_scenes -> (presenter as? ScriptContract.Presenter)?.onShowEmptyScenes()
@@ -100,6 +102,12 @@ class ScriptFragment
     override fun navigateToCastSettings(script: Script) {
         val currentActivity = activity ?: return
         val intent = CastActivity.createIntent(currentActivity, script)
+        startActivity(intent)
+    }
+
+    override fun navigateToProps(script: Script) {
+        val currentActivity = activity ?: return
+        val intent = PropsActivity.createIntent(currentActivity, script)
         startActivity(intent)
     }
 

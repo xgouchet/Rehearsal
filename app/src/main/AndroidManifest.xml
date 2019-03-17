@@ -13,7 +13,7 @@
             tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-                android:name="fr.xgouchet.rehearsal.screen.home.HomeActivity"
+                android:name=".screen.home.HomeActivity"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -21,22 +21,20 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="fr.xgouchet.rehearsal.screen.script.ScriptActivity"/>
+        <activity android:name=".screen.script.ScriptActivity"/>
 
-        <activity android:name="fr.xgouchet.rehearsal.screen.scene.SceneActivity"/>
+        <activity android:name=".screen.scene.SceneActivity"/>
 
         <activity
-                android:name="fr.xgouchet.rehearsal.screen.cast.CastActivity"
+                android:name=".screen.cast.CastActivity"
                 android:label="@string/cast_title"/>
+
+        <activity android:name=".screen.props.PropsActivity"/>
 
         <activity android:name=".screen.schedule.ScheduleActivity"/>
 
         <activity
-                android:name=".schedule.create.CreateScheduleActivity"
-                android:label="@string/schedule_title_create"/>
-
-        <activity
-                android:name="fr.xgouchet.rehearsal.screen.range.RangePickerActivity"
+                android:name=".screen.range.RangePickerActivity"
                 android:label="@string/rangePicker_title"/>
 
         <activity android:name=".screen.rehearsal.RehearsalActivity"/>

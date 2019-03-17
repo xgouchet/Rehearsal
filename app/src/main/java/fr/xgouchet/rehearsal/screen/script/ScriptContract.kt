@@ -16,6 +16,7 @@ interface ScriptContract {
 
         fun onScheduleActionSelected()
         fun onCastActionSelected()
+        fun onPropsActionSelected()
         fun onDeleteActionSelected()
         fun onHideEmptyScenes()
         fun onShowEmptyScenes()
@@ -26,6 +27,7 @@ interface ScriptContract {
     interface View : ArchXView<List<Item.ViewModel>> {
         fun navigateToScene(scene: Scene)
         fun navigateToCastSettings(script: Script)
+        fun navigateToProps(script: Script)
         fun navigateBack()
         fun navigateToSchedule(script: Script)
         fun showError(throwable: Throwable)

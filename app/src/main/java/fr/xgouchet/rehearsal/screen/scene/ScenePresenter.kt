@@ -384,7 +384,7 @@ class ScenePresenter(
             val updatedCue = selectedCue.copy(props = selectedCue.props.union(listOf(selectedProp)).toList())
             updateCue(updatedCue)
         } else if (selectedCue != null) {
-            val disposable = propDataSink.createData(Prop(propId = 0L, name = prop, scriptId = scene.scriptId))
+            val disposable = propDataSink.createData(Prop(propId = 0L, name = prop, scriptId = scene.scriptId, scenes = emptyList()))
                     .schedule(schedulerProvider)
                     .subscribe(
                             {
