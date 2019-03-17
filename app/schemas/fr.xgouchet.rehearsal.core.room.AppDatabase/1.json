@@ -1,0 +1,476 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "8e18f24531efca955436cd4ebc75d7e2",
+    "entities": [
+      {
+        "tableName": "script",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`scriptId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `author` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "scriptId",
+            "columnName": "scriptId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "author",
+            "columnName": "author",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "scriptId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "scene",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sceneId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `scriptId` INTEGER NOT NULL, `position` INTEGER NOT NULL, `description` TEXT NOT NULL, `numbering` TEXT NOT NULL, FOREIGN KEY(`scriptId`) REFERENCES `script`(`scriptId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "sceneId",
+            "columnName": "sceneId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scriptId",
+            "columnName": "scriptId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "numbering",
+            "columnName": "numbering",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "sceneId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_scene_scriptId",
+            "unique": false,
+            "columnNames": [
+              "scriptId"
+            ],
+            "createSql": "CREATE  INDEX `index_scene_scriptId` ON `${TABLE_NAME}` (`scriptId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "script",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "scriptId"
+            ],
+            "referencedColumns": [
+              "scriptId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "character",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`characterId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `scriptId` INTEGER NOT NULL, `name` TEXT NOT NULL, `isHidden` INTEGER NOT NULL, `color` INTEGER NOT NULL, `ttsEngine` TEXT, `ttsPitch` REAL NOT NULL, `ttsRate` REAL NOT NULL, FOREIGN KEY(`scriptId`) REFERENCES `script`(`scriptId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "characterId",
+            "columnName": "characterId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scriptId",
+            "columnName": "scriptId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isHidden",
+            "columnName": "isHidden",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ttsEngine",
+            "columnName": "ttsEngine",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ttsPitch",
+            "columnName": "ttsPitch",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ttsRate",
+            "columnName": "ttsRate",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "characterId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_character_scriptId",
+            "unique": false,
+            "columnNames": [
+              "scriptId"
+            ],
+            "createSql": "CREATE  INDEX `index_character_scriptId` ON `${TABLE_NAME}` (`scriptId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "script",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "scriptId"
+            ],
+            "referencedColumns": [
+              "scriptId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "cue",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`cueId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sceneId` INTEGER NOT NULL, `characterId` INTEGER, `position` INTEGER NOT NULL, `type` INTEGER NOT NULL, `characterExtension` TEXT, `content` TEXT NOT NULL, `isBookmarked` INTEGER NOT NULL, `note` TEXT, FOREIGN KEY(`sceneId`) REFERENCES `scene`(`sceneId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`characterId`) REFERENCES `character`(`characterId`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "cueId",
+            "columnName": "cueId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sceneId",
+            "columnName": "sceneId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "characterId",
+            "columnName": "characterId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "position",
+            "columnName": "position",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "characterExtension",
+            "columnName": "characterExtension",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "content",
+            "columnName": "content",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isBookmarked",
+            "columnName": "isBookmarked",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "note",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "cueId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_cue_sceneId",
+            "unique": false,
+            "columnNames": [
+              "sceneId"
+            ],
+            "createSql": "CREATE  INDEX `index_cue_sceneId` ON `${TABLE_NAME}` (`sceneId`)"
+          },
+          {
+            "name": "index_cue_characterId",
+            "unique": false,
+            "columnNames": [
+              "characterId"
+            ],
+            "createSql": "CREATE  INDEX `index_cue_characterId` ON `${TABLE_NAME}` (`characterId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "scene",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sceneId"
+            ],
+            "referencedColumns": [
+              "sceneId"
+            ]
+          },
+          {
+            "table": "character",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "characterId"
+            ],
+            "referencedColumns": [
+              "characterId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "rehearsal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rehearsalId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `scriptId` INTEGER NOT NULL, `dueDate` INTEGER NOT NULL, FOREIGN KEY(`scriptId`) REFERENCES `script`(`scriptId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "rehearsalId",
+            "columnName": "rehearsalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "scriptId",
+            "columnName": "scriptId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dueDate",
+            "columnName": "dueDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "rehearsalId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_rehearsal_scriptId",
+            "unique": false,
+            "columnNames": [
+              "scriptId"
+            ],
+            "createSql": "CREATE  INDEX `index_rehearsal_scriptId` ON `${TABLE_NAME}` (`scriptId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "script",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "scriptId"
+            ],
+            "referencedColumns": [
+              "scriptId"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "range",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`rangeId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sceneId` INTEGER NOT NULL, `startCueId` INTEGER NOT NULL, `endCueId` INTEGER NOT NULL, `rehearsalId` INTEGER NOT NULL, FOREIGN KEY(`rehearsalId`) REFERENCES `rehearsal`(`rehearsalId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`sceneId`) REFERENCES `scene`(`sceneId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`startCueId`) REFERENCES `cue`(`cueId`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`endCueId`) REFERENCES `cue`(`cueId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "rangeId",
+            "columnName": "rangeId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sceneId",
+            "columnName": "sceneId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startCueId",
+            "columnName": "startCueId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endCueId",
+            "columnName": "endCueId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rehearsalId",
+            "columnName": "rehearsalId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "rangeId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_range_sceneId",
+            "unique": false,
+            "columnNames": [
+              "sceneId"
+            ],
+            "createSql": "CREATE  INDEX `index_range_sceneId` ON `${TABLE_NAME}` (`sceneId`)"
+          },
+          {
+            "name": "index_range_startCueId",
+            "unique": false,
+            "columnNames": [
+              "startCueId"
+            ],
+            "createSql": "CREATE  INDEX `index_range_startCueId` ON `${TABLE_NAME}` (`startCueId`)"
+          },
+          {
+            "name": "index_range_endCueId",
+            "unique": false,
+            "columnNames": [
+              "endCueId"
+            ],
+            "createSql": "CREATE  INDEX `index_range_endCueId` ON `${TABLE_NAME}` (`endCueId`)"
+          },
+          {
+            "name": "index_range_rehearsalId",
+            "unique": false,
+            "columnNames": [
+              "rehearsalId"
+            ],
+            "createSql": "CREATE  INDEX `index_range_rehearsalId` ON `${TABLE_NAME}` (`rehearsalId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "rehearsal",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "rehearsalId"
+            ],
+            "referencedColumns": [
+              "rehearsalId"
+            ]
+          },
+          {
+            "table": "scene",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sceneId"
+            ],
+            "referencedColumns": [
+              "sceneId"
+            ]
+          },
+          {
+            "table": "cue",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "startCueId"
+            ],
+            "referencedColumns": [
+              "cueId"
+            ]
+          },
+          {
+            "table": "cue",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "endCueId"
+            ],
+            "referencedColumns": [
+              "cueId"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"8e18f24531efca955436cd4ebc75d7e2\")"
+    ]
+  }
+}

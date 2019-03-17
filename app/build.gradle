@@ -27,9 +27,17 @@ android {
         versionName "0.1"
 
         multiDexEnabled true
+
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    /** The build types */
     buildTypes {
         debug {
             debuggable true
@@ -40,11 +48,19 @@ android {
         }
     }
 
+    // Used for testing Room migration
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
 
     testOptions {
         unitTests.returnDefaultValues = true
     }
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 androidExtensions {
@@ -73,6 +89,10 @@ dependencies {
     implementation Dependencies.Libraries.Stetho
 
     kapt Dependencies.Processors.AnrdoidXArch
+
+    testImplementation Dependencies.Libraries.Testing
+    androidTestImplementation Dependencies.Libraries.Testing
+    androidTestImplementation Dependencies.Libraries.AndroidTesting
 }
 
 configurations {

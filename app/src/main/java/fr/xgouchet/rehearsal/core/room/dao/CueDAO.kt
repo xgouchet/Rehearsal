@@ -27,9 +27,8 @@ interface CueDAO {
     @Insert(onConflict = REPLACE)
     fun insert(cue: CueDbModel): Long
 
-
     @Update
-    fun updateAll(cue: CueDbModel): Int
+    fun update(cue: CueDbModel): Int
 
     @Update
     fun updateAll(cues: List<CueDbModel>): Int

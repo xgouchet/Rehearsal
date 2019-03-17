@@ -15,15 +15,16 @@ import kotlinx.android.parcel.Parcelize
 )
 @Parcelize
 data class CueDbModel(
-        @PrimaryKey(autoGenerate = true) var cueId : Long = 0,
-        @ColumnInfo(index = true) var sceneId : Long,
-        @ColumnInfo(index = true) var characterId : Long? = null,
+        @PrimaryKey(autoGenerate = true) var cueId: Long = 0,
+        @ColumnInfo(index = true) var sceneId: Long,
+        @ColumnInfo(index = true) var characterId: Long? = null,
         var position: Int,
         var type: Int,
         var characterExtension: String?,
         var content: String,
         var isBookmarked: Boolean,
-        var note: String? = null
+        var note: String? = null,
+        var props:Int = 0
 ) : Parcelable {
 
     companion object {

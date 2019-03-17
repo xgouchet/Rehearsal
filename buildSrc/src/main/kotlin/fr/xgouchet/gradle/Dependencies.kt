@@ -11,6 +11,7 @@ object Dependencies {
         const val AndroidX = "1.0.0"
         const val AndroidXArch = "2.0.0"
         const val AndroidMaven = "2.1"
+        const val AndroidXTest = "1.1.0"
         const val MultiDex = "2.0.0"
         const val ConstraintLayout = "1.1.2"
         const val MaterialComponents = "1.0.0"
@@ -105,6 +106,14 @@ object Dependencies {
                 "com.nhaarman:mockito-kotlin:${Versions.MockitoKotlin}",
                 "com.github.xgouchet:Elmyr:${Versions.Elmyr}",
                 "org.assertj:assertj-core:${Versions.AssertJ}"
+        )
+
+        @JvmField
+        val AndroidTesting = arrayOf(
+                "androidx.test:runner:${Versions.AndroidXTest}",
+                "androidx.test:rules:${Versions.AndroidXTest}",
+                "androidx.test.ext:junit:${Versions.AndroidXTest}",
+                "androidx.room:room-testing:${Versions.AndroidXArch}"
         )
     }
 
