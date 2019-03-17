@@ -5,6 +5,7 @@ import fr.xgouchet.archx.data.ArchXNoOpDataSink
 import fr.xgouchet.rehearsal.core.converter.CueDbConverter
 import fr.xgouchet.rehearsal.core.model.Cue
 import fr.xgouchet.rehearsal.core.room.AppDatabase
+import fr.xgouchet.rehearsal.core.room.model.PropCueDbModel
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -15,22 +16,38 @@ class CuesSink(context: Context) : ArchXNoOpDataSink<List<Cue>>() {
 
     override fun createData(data: List<Cue>): Single<List<Cue>> {
         return Observable.fromIterable(data)
-                .map {
-                    val dbModel = cueDbConverter.write(it)
+                .map { cue ->
+                    val dbModel = cueDbConverter.write(cue)
                     val id = appDatabase.cueDao().insert(dbModel)
-                    it.copy(cueId = id)
+                    cue.props.forEach { prop ->
+                        appDatabase.propDao().insert(PropCueDbModel(propId = prop.propId, cueId = cue.cueId))
+                    }
+                    cue.copy(cueId = id)
                 }
                 .toList()
     }
 
     override fun updateData(data: List<Cue>): Single<List<Cue>> {
         return Observable.fromIterable(data)
-                .map { cueDbConverter.write(it) }
-                .toList()
-                .map {
-                    appDatabase.cueDao().updateAll(it)
-                    data
+                .map { cue ->
+                    val dbModel = cueDbConverter.write(cue)
+                    cue.props.forEach { prop ->
+                        val existingLink = appDatabase.propDao().getLink(propId = prop.propId, cueId = cue.cueId)
+                        if (existingLink == null) {
+                            appDatabase.propDao().insert(PropCueDbModel(propId = prop.propId, cueId = cue.cueId))
+                        }
+                    }
+                    val remainingLinks = appDatabase.propDao().getAllLinksFromCue(cueId = cue.cueId)
+                    remainingLinks.forEach { propLink ->
+                        if (cue.props.firstOrNull { it.propId == propLink.propId } == null) {
+                            appDatabase.propDao().delete(propLink)
+                        }
+                    }
+                    appDatabase.cueDao().update(dbModel)
+                    cue
                 }
+                .toList()
+
     }
 
     override fun deleteData(data: List<Cue>): Single<List<Cue>> {
