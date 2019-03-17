@@ -73,6 +73,7 @@ class SceneViewModelTransformer
                     highlightColor = highlightColor,
                     hasBookmark = item.isBookmarked,
                     hasNote = !item.note.isNullOrBlank(),
+                    hasProps = item.props.isNotEmpty(),
                     data = item
             )
 
@@ -83,6 +84,7 @@ class SceneViewModelTransformer
                     color = color,
                     hasBookmark = item.isBookmarked,
                     hasNote = !item.note.isNullOrBlank(),
+                    hasProps = item.props.isNotEmpty(),
                     data = item
             )
 
@@ -94,6 +96,7 @@ class SceneViewModelTransformer
                     highlightColor = highlightColor,
                     hasBookmark = item.isBookmarked,
                     hasNote = !item.note.isNullOrBlank(),
+                    hasProps = item.props.isNotEmpty(),
                     data = item
             )
             else -> null

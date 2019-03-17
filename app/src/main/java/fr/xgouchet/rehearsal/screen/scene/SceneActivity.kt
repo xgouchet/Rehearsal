@@ -8,8 +8,10 @@ import fr.xgouchet.rehearsal.R
 import fr.xgouchet.rehearsal.core.RuntimeSchedulerProvider
 import fr.xgouchet.rehearsal.core.model.Scene
 import fr.xgouchet.rehearsal.core.sink.CuesSink
+import fr.xgouchet.rehearsal.core.sink.PropSink
 import fr.xgouchet.rehearsal.core.source.AllCharactersInSceneSource
 import fr.xgouchet.rehearsal.core.source.AllCuesInSceneSource
+import fr.xgouchet.rehearsal.core.source.AllPropsInScriptSource
 import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.voice.app.VoiceController
 
@@ -72,10 +74,23 @@ class SceneActivity
     override fun instantiatePresenter(): SceneContract.Presenter {
         val dataSource = AllCuesInSceneSource(applicationContext, scene.sceneId)
         val characterSource = AllCharactersInSceneSource(applicationContext, scene.sceneId)
+        val propsSource = AllPropsInScriptSource(applicationContext, scene.scriptId)
         val dataSink = CuesSink(applicationContext)
+        val propSink = PropSink(applicationContext)
         val transformer = SceneViewModelTransformer()
 
-        return ScenePresenter(scene, range, voiceController, dataSource, characterSource, dataSink, transformer, RuntimeSchedulerProvider)
+        return ScenePresenter(
+                scene,
+                range,
+                voiceController,
+                dataSource,
+                characterSource,
+                propsSource,
+                dataSink,
+                propSink,
+                transformer,
+                RuntimeSchedulerProvider
+        )
     }
 
     // endregion

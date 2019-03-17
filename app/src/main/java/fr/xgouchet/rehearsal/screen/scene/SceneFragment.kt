@@ -13,16 +13,20 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import fr.xgouchet.rehearsal.R
 import fr.xgouchet.rehearsal.core.model.Cue
+import fr.xgouchet.rehearsal.core.model.Prop
 import fr.xgouchet.rehearsal.ui.ACTION_DEFAULT
 import fr.xgouchet.rehearsal.ui.ACTION_LONG_CLICK
 import fr.xgouchet.rehearsal.ui.ACTION_NOTE
+import fr.xgouchet.rehearsal.ui.ACTION_PROP
 import fr.xgouchet.rehearsal.ui.Item
 import fr.xgouchet.rehearsal.ui.ItemListFragment
+
 
 class SceneFragment
     : ItemListFragment(),
@@ -108,6 +112,22 @@ class SceneFragment
                     true
                 }
 
+                R.id.action_add_prop,
+                R.id.action_add_another_prop -> {
+                    (presenter as? SceneContract.Presenter)?.onAddPropPicked(context.cueId)
+                    true
+                }
+
+                R.id.action_show_props -> {
+                    (presenter as? SceneContract.Presenter)?.onShowPropsPicked(context.cueId)
+                    true
+                }
+
+                R.id.action_delete_prop -> {
+                    (presenter as? SceneContract.Presenter)?.onDeletePropsPicked(context.cueId)
+                    true
+                }
+
                 R.id.action_delete_cue -> {
                     (presenter as? SceneContract.Presenter)?.onDeleteCue(context.cueId)
                     true
@@ -157,6 +177,12 @@ class SceneFragment
                     (presenter as? SceneContract.Presenter)?.onShowNotePicked(cue.cueId)
                 }
             }
+            ACTION_PROP -> {
+                val cue = item.getItemData() as? Cue
+                if (cue != null) {
+                    (presenter as? SceneContract.Presenter)?.onShowPropsPicked(cue.cueId)
+                }
+            }
 
             else -> consumed = false
         }
@@ -180,8 +206,8 @@ class SceneFragment
     override fun scrollToRow(index: Int) {
         val llmgr = recyclerView?.layoutManager as? LinearLayoutManager ?: return
 
-        val topPosition = llmgr?.findFirstCompletelyVisibleItemPosition()
-        val lastPosition = llmgr?.findLastCompletelyVisibleItemPosition()
+        val topPosition = llmgr.findFirstCompletelyVisibleItemPosition()
+        val lastPosition = llmgr.findLastCompletelyVisibleItemPosition()
 
         if (index >= topPosition - SCROLL_OFFSET && index <= lastPosition + SCROLL_OFFSET) {
             recyclerView?.smoothScrollToPosition(index)
@@ -222,6 +248,33 @@ class SceneFragment
                 value = note,
                 icon = R.drawable.ic_edit_note,
                 onEdited = { onNoteEdited(cueId, it) }
+        )
+    }
+
+    override fun showAddPropPrompt(cueId: Long, title: String, availableProps: List<Prop>) {
+        showInputWithAutocompletePrompt(
+                title = title,
+                icon = R.drawable.ic_edit_prop,
+                availableProps = availableProps,
+                onEdited = { onPropAdded(cueId, it) }
+        )
+    }
+
+    override fun showProps(title: String, props: List<Prop>) {
+        showPropsPrompt(
+                title = title,
+                icon = R.drawable.ic_props,
+                props = props,
+                onSelected = {}
+        )
+    }
+
+    override fun showwDeleteProps(cueId: Long, props: List<Prop>) {
+        showPropsPrompt(
+                title = getString(R.string.menu_deleteProp),
+                icon = R.drawable.ic_delete,
+                props = props,
+                onSelected = { onPropDeleted(cueId, it) }
         )
     }
 
@@ -377,6 +430,57 @@ class SceneFragment
                 .create()
                 .show()
     }
+
+    private fun showInputWithAutocompletePrompt(title: String,
+                                                @DrawableRes icon: Int,
+                                                availableProps: List<Prop>,
+                                                onEdited: SceneContract.Presenter.(String) -> Unit) {
+        val currentActivity = activity ?: return
+
+        val inputLayout = LayoutInflater.from(activity).inflate(R.layout.dialog_prompt_with_autocomplete, null, false) as TextInputLayout
+        val inputText = inputLayout.findViewById<AppCompatAutoCompleteTextView>(R.id.input)
+        inputText.setText("")
+        inputText.requestFocus()
+
+        val adapter = ArrayAdapter<String>(currentActivity, R.layout.spinner_item_prop, availableProps.map { it.name })
+        adapter.setDropDownViewResource(R.layout.spinner_item_dropdown_prop)
+        inputText.setAdapter(adapter)
+
+        AlertDialog.Builder(currentActivity)
+                .setTitle(title)
+                .setIcon(icon)
+                .setView(inputLayout)
+                .setNeutralButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                    (presenter as? SceneContract.Presenter)?.onEdited(inputText.text.toString())
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
+    }
+
+
+    private fun showPropsPrompt(
+            title: String,
+            @DrawableRes icon: Int,
+            props: List<Prop>,
+            onSelected: SceneContract.Presenter.(Prop) -> Unit
+    ) {
+        val currentActivity = activity ?: return
+
+        val arrayAdapter = ArrayAdapter<Prop>(currentActivity, R.layout.spinner_item_prop, props)
+
+        AlertDialog.Builder(currentActivity)
+                .setTitle(title)
+                .setIcon(icon)
+                .setAdapter(arrayAdapter) { dialog, w ->
+                    (presenter as? SceneContract.Presenter)?.onSelected(props[w])
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
+    }
+
 
     // endregion
 

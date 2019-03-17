@@ -4,5 +4,6 @@ data class CueInfo(
         val cueId : Long,
         val abstract : String,
         val isBookmarked: Boolean,
-        val hasNote : Boolean
+        val hasNote : Boolean,
+        val hasProps:  Boolean
 )

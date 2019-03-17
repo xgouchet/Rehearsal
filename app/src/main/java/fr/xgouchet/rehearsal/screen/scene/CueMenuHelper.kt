@@ -20,6 +20,9 @@ class CueMenuHelper(data: CueInfo) : ContextMenuHelper<CueInfo>(data) {
         menu.findItem(R.id.action_add_note).isVisible = !data.hasNote
         menu.findItem(R.id.action_note).isVisible = data.hasNote
 
+        menu.findItem(R.id.action_add_prop).isVisible = !data.hasProps
+        menu.findItem(R.id.action_props).isVisible = data.hasProps
+
         menu.setHeaderTitle(data.abstract)
         menu.setHeaderIcon(R.drawable.ic_cue_dialog)
     }

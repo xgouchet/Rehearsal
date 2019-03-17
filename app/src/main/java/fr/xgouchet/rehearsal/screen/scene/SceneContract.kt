@@ -4,6 +4,7 @@ import fr.xgouchet.archx.ArchXPresenter
 import fr.xgouchet.archx.ArchXView
 import fr.xgouchet.archx.transformer.ArchXViewModelTransformer
 import fr.xgouchet.rehearsal.core.model.Cue
+import fr.xgouchet.rehearsal.core.model.Prop
 import fr.xgouchet.rehearsal.ui.Item
 
 interface SceneContract {
@@ -25,6 +26,12 @@ interface SceneContract {
         fun onEditNotePicked(cueId: Long)
         fun onRemoveNotesPicked(cueId: Long)
         fun onNoteEdited(cueId: Long, note: String)
+
+        fun onAddPropPicked(cueId: Long)
+        fun onShowPropsPicked(cueId: Long)
+        fun onDeletePropsPicked(cueId: Long)
+        fun onPropAdded(cueId: Long, prop: String)
+        fun onPropDeleted(cueId: Long, prop: Prop)
 
         fun onEditCuePicked(cueId: Long)
         fun onCueEdited(cueId: Long, content: String, c: CharacterInfo)
@@ -53,6 +60,10 @@ interface SceneContract {
         fun showNotePrompt(cueId: Long, title: String, note: String)
         fun showNote(note: String)
 
+        fun showAddPropPrompt(cueId: Long, title: String, availableProps: List<Prop>)
+        fun showProps(title: String,props: List<Prop>)
+        fun showwDeleteProps(cueId: Long, props: List<Prop>)
+
         fun showEditCuePrompt(cueId: Long, content: String, characters: List<CharacterInfo>, selected: CharacterInfo?)
         fun showDeleteConfirm(cueId: Long, title: String)
         fun showAddActionPrompt(afterCueId: Long, characters: List<CharacterInfo>, selected: CharacterInfo?)
@@ -61,6 +72,7 @@ interface SceneContract {
 
         fun showError(throwable: Throwable)
         fun copyToClipboard(label: String, content: String)
+
     }
 
 

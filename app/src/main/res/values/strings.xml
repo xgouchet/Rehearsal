@@ -18,6 +18,10 @@
     <string name="menu_showNote">Show note</string>
     <string name="menu_editNote">Edit note</string>
     <string name="menu_removeNote">Remove note</string>
+    <string name="menu_addProp">Add prop</string>
+    <string name="menu_deleteProp">Delete prop</string>
+    <string name="menu_props">Props…</string>
+    <string name="menu_showProps">Show props</string>
     <string name="menu_scene">Scene…</string>
     <string name="menu_addDialog">Add a dialog</string>
     <string name="menu_addAction">Add an action</string>

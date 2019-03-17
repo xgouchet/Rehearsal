@@ -21,6 +21,7 @@ class ItemLyrics {
             @ColorInt val highlightColor: Int? = null,
             val hasBookmark: Boolean = false,
             val hasNote: Boolean = false,
+            val hasProps: Boolean = false,
             val data: Any? = null
     ) : Item.ViewModel() {
         override fun getItemType() = Item.Type.LYRICS
@@ -45,11 +46,13 @@ class ItemLyrics {
         private val bookmarkView: ImageView = itemView.findViewById(R.id.bookmark)
         private val highlightView: View = itemView.findViewById(R.id.highlight)
         private val noteView: ImageView = itemView.findViewById(R.id.note)
+        private val propView: ImageView = itemView.findViewById(R.id.prop)
 
         init {
             itemView.setOnLongClickListener { listener(boundItem, ACTION_LONG_CLICK, null) }
             itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
             noteView.setOnClickListener { listener(boundItem, ACTION_NOTE, null) }
+            propView.setOnClickListener { listener(boundItem, ACTION_PROP, null) }
         }
 
         override fun onBind(item: ViewModel) {
@@ -83,6 +86,13 @@ class ItemLyrics {
                 noteView.visibility = View.VISIBLE
             } else {
                 noteView.visibility = View.GONE
+            }
+
+            if (item.hasProps) {
+                propView.imageTintList = ColorStateList.valueOf(item.color)
+                propView.visibility = View.VISIBLE
+            } else {
+                propView.visibility = View.GONE
             }
         }
 

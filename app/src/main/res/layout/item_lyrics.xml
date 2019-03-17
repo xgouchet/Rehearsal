@@ -30,8 +30,8 @@
             android:paddingBottom="8dp"
             app:srcCompat="@drawable/ic_bookmark_hollow"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:tint="@color/character_fg_2"/>
+            app:layout_constraintStart_toEndOf="@+id/prop"
+            tools:tint="@color/character_fg_3"/>
 
     <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/note"
@@ -42,7 +42,19 @@
             app:srcCompat="@drawable/ic_note"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:tint="@color/character_fg_2"/>
+            tools:tint="@color/character_fg_3"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/prop"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="4dp"
+            android:background="?android:attr/selectableItemBackground"
+            app:srcCompat="@drawable/ic_props"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible"
+            tools:tint="@color/character_fg_3"/>
 
     <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/lyrics"
@@ -61,7 +73,7 @@
             android:fontFamily="@font/serif"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/note"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/prop"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/lorem"/>
 
@@ -79,6 +91,6 @@
             app:layout_constraintStart_toStartOf="@+id/lyrics"
             app:layout_constraintTop_toTopOf="@+id/lyrics"
             tools:visibility="visible"
-            tools:backgroundTint="@color/character_fg_2"/>
+            tools:backgroundTint="@color/character_fg_3"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

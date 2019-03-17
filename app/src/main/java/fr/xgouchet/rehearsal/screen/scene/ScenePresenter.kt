@@ -8,6 +8,7 @@ import fr.xgouchet.archx.rx.SchedulerProvider
 import fr.xgouchet.archx.rx.schedule
 import fr.xgouchet.rehearsal.core.model.Character
 import fr.xgouchet.rehearsal.core.model.Cue
+import fr.xgouchet.rehearsal.core.model.Prop
 import fr.xgouchet.rehearsal.core.model.Scene
 import fr.xgouchet.rehearsal.core.room.model.CueDbModel
 import fr.xgouchet.rehearsal.ext.getAbstract
@@ -24,7 +25,9 @@ class ScenePresenter(
         private val voiceController: VoiceController,
         dataSource: ArchXDataSource<List<Cue>>,
         private val characterDataSource: ArchXDataSource<List<Character>>,
+        private val propDataSource: ArchXDataSource<List<Prop>>,
         private val dataSink: ArchXDataSink<List<Cue>>,
+        private val propDataSink: ArchXDataSink<Prop>,
         transformer: SceneContract.Transformer,
         schedulerProvider: SchedulerProvider
 ) : ArchXDataPresenter<List<Cue>, SceneContract.View, List<Item.ViewModel>>(dataSource, transformer, schedulerProvider),
@@ -36,10 +39,11 @@ class ScenePresenter(
     private var bookmarkedCues: List<Cue> = emptyList()
     private var viewModelData: List<Item.ViewModel> = emptyList()
     private var characters: List<Character> = emptyList()
-
+    private var props: List<Prop> = emptyList()
 
     private val editingCompositeDisposable = CompositeDisposable()
     private var listeningCharactersDisposable: Disposable? = null
+    private var listeningPropsDisposable: Disposable? = null
 
     private var activeCueId: Long = -1
     private var isReading: Boolean = false
@@ -59,6 +63,12 @@ class ScenePresenter(
                         { characters = it },
                         { Timber.e(it, "#error listening to characters @scene:$scene") }
                 )
+        listeningPropsDisposable = propDataSource.listenData()
+                .schedule(schedulerProvider)
+                .subscribe(
+                        { props = it },
+                        { Timber.e(it, "#error listening to props @scene:$scene") }
+                )
     }
 
     override fun onViewDetached() {
@@ -66,6 +76,8 @@ class ScenePresenter(
 
         listeningCharactersDisposable?.dispose()
         listeningCharactersDisposable = null
+        listeningPropsDisposable?.dispose()
+        listeningPropsDisposable = null
 
         editingCompositeDisposable.clear()
     }
@@ -100,7 +112,8 @@ class ScenePresenter(
                     cueId = selectedCue.cueId,
                     abstract = selectedCue.content.getAbstract(CONTEXT_MENU_ABSTRACT_LENGTH),
                     isBookmarked = selectedCue.isBookmarked,
-                    hasNote = !selectedCue.note.isNullOrBlank()
+                    hasNote = !selectedCue.note.isNullOrBlank(),
+                    hasProps = selectedCue.props.isNotEmpty()
             ))
         }
     }
@@ -131,7 +144,7 @@ class ScenePresenter(
         val selectedCue = rawData.firstOrNull { it.cueId == cueId }
 
         if (selectedCue != null) {
-            val character = selectedCue?.character
+            val character = selectedCue.character
             val labelType = when (selectedCue.type) {
                 CueDbModel.TYPE_DIALOG -> "line"
                 CueDbModel.TYPE_ACTION -> "action"
@@ -162,7 +175,6 @@ class ScenePresenter(
     private fun getCharacterInfoList(withNull: Boolean): List<CharacterInfo> {
 
         val knownCharacters = characters.map { CharacterInfo(it.characterId, it.name) }
-
 
         return if (withNull) {
             arrayOf(CharacterInfo(0, " — "))
@@ -340,6 +352,61 @@ class ScenePresenter(
 
     // endregion
 
+    // region SceneContract.Presenter / Props
+
+    override fun onAddPropPicked(cueId: Long) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        if (selectedCue != null) {
+            view?.showAddPropPrompt(cueId, selectedCue.content.getAbstract(CONTEXT_MENU_ABSTRACT_LENGTH), props)
+        }
+    }
+
+    override fun onShowPropsPicked(cueId: Long) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        val props = selectedCue?.props.orEmpty()
+        if (props.isNotEmpty() && selectedCue != null) {
+            view?.showProps(selectedCue.content.getAbstract(CONTEXT_MENU_ABSTRACT_LENGTH), props)
+        }
+    }
+
+    override fun onDeletePropsPicked(cueId: Long) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        val props = selectedCue?.props.orEmpty()
+        if (props.isNotEmpty()) {
+            view?.showwDeleteProps(cueId, props)
+        }
+    }
+
+    override fun onPropAdded(cueId: Long, prop: String) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId }
+        val selectedProp = props.firstOrNull { it.name.equals(prop, ignoreCase = true) }
+        if (selectedCue != null && selectedProp != null) {
+            val updatedCue = selectedCue.copy(props = selectedCue.props.union(listOf(selectedProp)).toList())
+            updateCue(updatedCue)
+        } else if (selectedCue != null) {
+            val disposable = propDataSink.createData(Prop(propId = 0L, name = prop, scriptId = scene.scriptId))
+                    .schedule(schedulerProvider)
+                    .subscribe(
+                            {
+                                Timber.i("#created @prop:$it")
+                                val updatedCue = selectedCue.copy(props = selectedCue.props.union(listOf(it)).toList())
+                                updateCue(updatedCue)
+                            },
+                            { view?.showError(it) }
+                    )
+            editingCompositeDisposable.add(disposable)
+        }
+    }
+
+    override fun onPropDeleted(cueId: Long, prop: Prop) {
+        val selectedCue = rawData.firstOrNull { it.cueId == cueId } ?: return
+        val updatedProps = selectedCue.props.filter { it.propId != prop.propId }
+        val updatedCue = selectedCue.copy(props = updatedProps)
+        updateCue(updatedCue)
+    }
+
+    // endregion
+
     // region VoiceServiceListener
 
     override fun readingCue(cueId: Long) {
@@ -366,7 +433,6 @@ class ScenePresenter(
 
     // region Internal
 
-
     private fun addCueAfter(cueId: Long,
                             content: String,
                             type: Int,
@@ -385,6 +451,7 @@ class ScenePresenter(
                     cueId = 0,
                     position = selectedCue.position + 1,
                     character = character,
+                    props = emptyList(),
                     isBookmarked = false,
                     note = null,
                     sceneId = scene.sceneId,
