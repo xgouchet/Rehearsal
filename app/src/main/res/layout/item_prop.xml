@@ -10,42 +10,24 @@
         android:layout_marginEnd="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="2dp"
-        app:cardBackgroundColor="@color/paper_grey"
-        app:cardCornerRadius="4dp">
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/paper_yellow"
+        app:cardCornerRadius="2dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/primary_text"
             android:padding="8dp"
-            >
-
-        <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_margin="4dp"
-                app:srcCompat="@drawable/ic_prop"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/primary_text"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:padding="4dp"
-                android:fontFamily="@font/architects_daughter_regular"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="@tools:sample/cities"/>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/architects_daughter_regular"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="@tools:sample/cities"/>
 </androidx.cardview.widget.CardView>

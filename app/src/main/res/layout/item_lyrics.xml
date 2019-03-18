@@ -6,8 +6,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
+        android:animateLayoutChanges="true"
         android:foreground="?android:attr/selectableItemBackground"
-        android:animateLayoutChanges="true">
+        >
 
     <View
             android:id="@+id/highlight"
@@ -24,20 +25,21 @@
             android:id="@+id/bookmark"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_marginStart="24dp"
             android:paddingTop="0dp"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:paddingBottom="8dp"
             app:srcCompat="@drawable/ic_bookmark_hollow"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/prop"
+            app:layout_constraintStart_toStartOf="parent"
             tools:tint="@color/character_fg_3"/>
 
     <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/note"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="4dp"
+            android:padding="8dp"
             android:background="?android:attr/selectableItemBackground"
             app:srcCompat="@drawable/ic_note"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +50,7 @@
             android:id="@+id/prop"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:padding="4dp"
+            android:padding="8dp"
             android:background="?android:attr/selectableItemBackground"
             app:srcCompat="@drawable/ic_props"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,20 +62,19 @@
             android:id="@+id/lyrics"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginEnd="48dp"
             android:textSize="14sp"
-            android:textColor="@color/primary_text"
             android:textStyle="italic"
+            android:textColor="@color/primary_text"
             android:paddingTop="4dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingBottom="8dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:foreground="?android:attr/selectableItemBackground"
             android:fontFamily="@font/serif"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/note"
-            app:layout_constraintStart_toEndOf="@+id/prop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@tools:sample/lorem"/>
 
@@ -90,7 +91,6 @@
             app:layout_constraintEnd_toEndOf="@+id/lyrics"
             app:layout_constraintStart_toStartOf="@+id/lyrics"
             app:layout_constraintTop_toTopOf="@+id/lyrics"
-            tools:visibility="visible"
             tools:backgroundTint="@color/character_fg_3"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

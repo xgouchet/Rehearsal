@@ -1,0 +1,27 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                    android:angle="90"
+                    android:centerColor="@color/book_yellow_light"
+                    android:centerY="0.9"
+                    android:endColor="@color/book_yellow_dark"
+                    android:startColor="@color/book_yellow_light"
+                    />
+            <corners android:radius="4dp"/>
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                    android:angle="90"
+                    android:centerColor="@color/book_yellow_dark"
+                    android:centerY="0.05"
+                    android:endColor="@color/book_yellow_light_transparent"
+                    android:startColor="@color/book_black"
+                    />
+            <corners android:radius="4dp"/>
+        </shape>
+    </item>
+</layer-list>

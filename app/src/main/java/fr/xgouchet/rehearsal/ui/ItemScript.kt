@@ -35,11 +35,10 @@ class ItemScript {
 
         private val titleView: TextView = itemView.findViewById(R.id.title)
         private val authorView: TextView = itemView.findViewById(R.id.author)
+        private val bookView: View = itemView.findViewById(R.id.book)
 
         init {
-            if (listener != null) {
-                itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
-            }
+            itemView.setOnClickListener { listener(boundItem, ACTION_DEFAULT, null) }
         }
 
         @SuppressLint("SetTextI18n")
@@ -47,6 +46,12 @@ class ItemScript {
 
             titleView.text = MarkdownConverter.parse(item.title)
             authorView.text = MarkdownConverter.parse(item.author)
+
+            val hashCode = item.author.hashCode()
+            val modulo = hashCode % covers.size
+            val coverIndex = if (modulo < 0) covers.size + modulo else modulo
+
+            bookView.setBackgroundResource(covers[coverIndex])
         }
 
     }
@@ -62,5 +67,14 @@ class ItemScript {
             val view = inflater.inflate(R.layout.item_script, parent, false)
             return ViewHolder(view, listener)
         }
+
+        val covers = listOf(
+                R.drawable.bg_book_gradient_red,
+                R.drawable.bg_book_gradient_green,
+                R.drawable.bg_book_gradient_blue,
+                R.drawable.bg_book_gradient_yellow,
+                R.drawable.bg_book_gradient_purple,
+                R.drawable.bg_book_gradient_grey
+        )
     }
 }

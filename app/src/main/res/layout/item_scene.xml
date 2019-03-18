@@ -1,58 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="2dp"
-        app:cardBackgroundColor="@color/paper_grey"
-        app:cardCornerRadius="4dp"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:layout_height="48dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            >
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="18sp"
+            android:textColor="@color/primary_text"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:gravity="center|start"
+            android:fontFamily="@font/daisy_wheel"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/cues_count"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="@tools:sample/lorem"/>
 
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/primary_text"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:padding="4dp"
-                android:fontFamily="@font/daisy_wheel"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/cues_count"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="@tools:sample/lorem/random"/>
-
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/cues_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@color/secondary_text"
-                android:singleLine="true"
-                android:ellipsize="end"
-                android:padding="4dp"
-                android:fontFamily="@font/daisy_wheel"
-                app:layout_constraintStart_toEndOf="@+id/title"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="@tools:sample/date/hhmm"/>
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/cues_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:textSize="16sp"
+            android:textColor="@color/secondary_text"
+            android:singleLine="true"
+            android:gravity="center|end"
+            android:fontFamily="@font/daisy_wheel"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@+id/title"
+            tools:text="@tools:sample/date/hhmm"/>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

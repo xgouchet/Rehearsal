@@ -9,7 +9,38 @@
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
 
+    <!--region Book Covers-->
+
+    <color name="book_red_dark">#b71c1c</color>
+    <color name="book_red_light">#ef5350</color>
+    <color name="book_red_light_transparent">#00ef5350</color>
+
+    <color name="book_green_dark">#1b5e20</color>
+    <color name="book_green_light">#81c784</color>
+    <color name="book_green_light_transparent">#0081c784</color>
+
+    <color name="book_blue_dark">#0d47a1</color>
+    <color name="book_blue_light">#42a5f5</color>
+    <color name="book_blue_light_transparent">#0042a5f5</color>
+
+    <color name="book_yellow_dark">#f57f17</color>
+    <color name="book_yellow_light">#ffee58</color>
+    <color name="book_yellow_light_transparent">#00ffee58</color>
+
+    <color name="book_purple_dark">#880e4f</color>
+    <color name="book_purple_light">#ec407a</color>
+    <color name="book_purple_light_transparent">#00ec407a</color>
+
+    <color name="book_grey_dark">#757575</color>
+    <color name="book_grey_light">#eeeeee</color>
+    <color name="book_grey_light_transparent">#00eeeeee</color>
+
+    <color name="book_black">#000000</color>
+
+    <!-- endregion-->
+
     <color name="paper_grey">#eeeeee</color>
+    <color name="paper_yellow">#ffee58</color>
 
     <color name="divider_color">#B6B6B6</color>
 
